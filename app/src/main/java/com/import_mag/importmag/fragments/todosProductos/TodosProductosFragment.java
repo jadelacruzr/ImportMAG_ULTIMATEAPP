@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.import_mag.importmag.adapter.TodosProductosAdapter;
+import com.import_mag.importmag.adapter.ProductosAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +23,9 @@ public class TodosProductosFragment extends Fragment {
 
     private FragmentTodosProductosBinding binding;
 
-    //VARIABLES DEL CARRUSEL PRODUCTOS DESCUENTO
+    //VARIABLES DEL CARRUSEL PRODUCTOS
     RecyclerView recyclerViewTodosProductos;
-    TodosProductosAdapter todosProductosAdapter;
+    ProductosAdapter productosAdapter;
     List<Productos> prodsList;
 
 
@@ -104,8 +104,8 @@ public class TodosProductosFragment extends Fragment {
         prodsList.add(new Productos(7, "Ejemplo", "10,25$", "8,34$", null, null, "¡En Oferta!", "https://import-mag.com/48-large_default/dosificador-de-alcohol-personal-bh2019.jpg"));
         RecyclerView.LayoutManager layoutManager2 = new GridLayoutManager(getActivity(), 2);
         recyclerViewTodosProductos.setLayoutManager(layoutManager2);
-        todosProductosAdapter = new TodosProductosAdapter(getActivity(), prodsList);
-        recyclerViewTodosProductos.setAdapter(todosProductosAdapter);
+        productosAdapter = new ProductosAdapter(getActivity(), prodsList);
+        recyclerViewTodosProductos.setAdapter(productosAdapter);
 
 
     }

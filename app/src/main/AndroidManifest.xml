@@ -12,8 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImportMAG">
         <activity
-            android:name=".SplashActivity"
-            >
+            android:name=".buscarprods.BuscarProds"
+            android:exported="false" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,16 +24,9 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ImportMAG.NoActionBar">
-
-        </activity>
-
-        <activity android:name=".login.Registrarse"
-            >
-        </activity>
-        <activity android:name=".login.Login"
-          >
-            </activity>
+            android:theme="@style/Theme.ImportMAG.NoActionBar"></activity>
+        <activity android:name=".login.Registrarse"></activity>
+        <activity android:name=".login.Login"></activity>
     </application>
 
 </manifest>

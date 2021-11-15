@@ -1,10 +1,16 @@
 package com.import_mag.importmag.fragments.inicio;
 
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
+
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -53,18 +59,87 @@ public class InicioFragment extends Fragment {
         binding = FragmentInicioBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-
-
         //IMPLEMENTACIÓN DEL SLIDER
         ImageSlider slider = binding.imageSlider;
         SliderView(slider);
 
-        //IMPLEMENTACIÓN CARRUSEL PRODUCTOS EN DESCUENTO
+        //IMPLEMENTACIÓN CARRUSEL PRODUCTOS DESTACADOS
         recyclerViewcprodDestacados = binding.recyclerProdDescuentos;
-
         setProductosDestacadosRecycler(recyclerViewcprodDestacados);
 
+
+      //IMPLEMENTACION BOTONES REDES SOCIALES
+        ImageView ins,wpp,fb;
+        ins= binding.imgINSicono;
+        wpp=binding.imgWPPicono;
+        fb=binding.imgFBicono;
+
+
+        ins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String insId = "https://instagram.com/_u/importmagecuador/";
+                String urlPage = "https://www.instagram.com/importmagecuador/";
+
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(insId )));
+                } catch (Exception e) {
+                    Log.e(TAG, "Aplicación no Encontrada.");
+                    //Abre url de pagina.
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPage)));
+                }
+
+            }
+        });
+
+        wpp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean instalado = appInstalledOrNot ("com.whatsapp");
+                if(instalado){
+                    Intent intent = new Intent (Intent.ACTION_VIEW);
+
+                    intent.setData(Uri.parse("https://wa.me/593994013402?text="));
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(), "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+
+        fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String facebookId = "fb://page/102219398958150";
+                String urlPage = "https://www.facebook.com/PruebaImport-102219398958150";
+
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(facebookId )));
+                } catch (Exception e) {
+                    Log.e(TAG, "Aplicación no Encontrada.");
+                    //Abre url de pagina.
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPage)));
+                }
+
+            }
+        });
+
+
+
         return view;
+    }
+    //MÉTODO QUE VERIFICA SI ESTÁ O NO INSTALADA UNA APLICACIÓN
+    private boolean appInstalledOrNot(String url) {
+        PackageManager packageManager = getActivity().getPackageManager();
+        boolean app_instaled;
+        try {
+            packageManager.getPackageInfo(url, PackageManager.GET_ACTIVITIES);
+            app_instaled = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            app_instaled = false;
+        }
+        return app_instaled;
     }
 
     /**
@@ -167,4 +242,5 @@ public class InicioFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }

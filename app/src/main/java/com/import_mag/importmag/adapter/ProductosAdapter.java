@@ -1,8 +1,6 @@
 package com.import_mag.importmag.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.import_mag.importmag.R;
-import com.import_mag.importmag.fragments.detallesprods.ProductoDetallesFragment;
-import com.import_mag.importmag.models.DetallesProds;
 import com.import_mag.importmag.models.Productos;
 import com.squareup.picasso.Picasso;
 
@@ -24,11 +20,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class TodosProductosAdapter extends RecyclerView.Adapter<TodosProductosAdapter.ProductosViewHolder> {
+public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductosViewHolder> {
     Context context;
     List<Productos> ProductsList;
 
-    public TodosProductosAdapter(Context context, List<Productos> ProductsList) {
+    public ProductosAdapter(Context context, List<Productos> ProductsList) {
         this.context = context;
         this.ProductsList = ProductsList;
     }

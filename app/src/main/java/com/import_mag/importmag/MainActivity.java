@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.core.view.MenuItemCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,6 +20,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.import_mag.importmag.buscarprods.BuscarProds;
 import com.import_mag.importmag.databinding.ActivityMainBinding;
 import com.import_mag.importmag.login.Login;
 
@@ -25,10 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-
+    private String keybusqueda;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -70,17 +74,33 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
+        final MenuItem searchItem = menu.findItem(R.id.itm_buscar);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                keybusqueda=query;
+                startActivity(new Intent(MainActivity.this, BuscarProds.class));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newtext) {
+                return false;
+            }
+        });
 
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.action_login:
+            case R.id.itm_opciones:
                 startActivity(new Intent(this, Login.class));
                 return true;
-            /*case R.id.help:
-                startActivity(new Intent(this, Help.class));
+            /*case R.id.itm_buscar:
+                startActivity(new Intent(this, BuscarProds.class));
                 return true;*/
             default:
                 return super.onOptionsItemSelected(item);
@@ -97,14 +117,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     //MÉTODO QUE VERIFICA SI ESTÁ O NO INSTALADA UNA APLICACIÓN
-    private boolean appInstalledOrNot (String url){
+    private boolean appInstalledOrNot(String url) {
         PackageManager packageManager = getPackageManager();
         boolean app_instaled;
-        try{
-            packageManager.getPackageInfo(url,PackageManager.GET_ACTIVITIES);
-            app_instaled=true;
-        }catch (PackageManager.NameNotFoundException e){
-            app_instaled=false;
+        try {
+            packageManager.getPackageInfo(url, PackageManager.GET_ACTIVITIES);
+            app_instaled = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            app_instaled = false;
         }
         return app_instaled;
     }
