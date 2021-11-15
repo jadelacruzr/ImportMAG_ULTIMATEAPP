@@ -1,6 +1,9 @@
 package com.import_mag.importmag.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.import_mag.importmag.R;
+import com.import_mag.importmag.fragments.detallesprods.ProductoDetallesFragment;
+import com.import_mag.importmag.models.DetallesProds;
 import com.import_mag.importmag.models.Productos;
 import com.squareup.picasso.Picasso;
 
@@ -19,11 +24,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductosViewHolder> {
+public class TodosProductosAdapter extends RecyclerView.Adapter<TodosProductosAdapter.ProductosViewHolder> {
     Context context;
     List<Productos> ProductsList;
 
-    public ProductosAdapter(Context context, List<Productos> ProductsList) {
+    public TodosProductosAdapter(Context context, List<Productos> ProductsList) {
         this.context = context;
         this.ProductsList = ProductsList;
     }
@@ -75,6 +80,17 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             holder.txtPrecioVenta_T.setText("  "+var_PrecioVenta);
             holder.lieaTachar_T.setVisibility(View.VISIBLE);
         }*/
+       /*   holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+          public void onClick(View view) {
+                Bundle i = new Bundle();
+                i.putString("name",ProductsList.get(position).getName_product());
+                i.putString("imageDefault",ProductsList.get(position).getImages());
+                i.putInt("id_product",ProductsList.get(position).getId_product());
+                getParentFragmentManager().setFragmentResult("key",i)
+
+            }
+        });*/
     }
 
     @Override

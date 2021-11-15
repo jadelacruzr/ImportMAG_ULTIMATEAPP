@@ -25,7 +25,7 @@
         android:layout_height="99dp"
         android:layout_marginTop="125dp"
         android:contentDescription="@string/no_name"
-        android:src="@drawable/iconopartido2"
+        android:src="@drawable/iconopartido1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         android:layout_height="31dp"
         android:layout_marginTop="24dp"
         android:contentDescription="@string/no_name"
-        android:src="@drawable/iconopartido1"
+        android:src="@drawable/iconoletras"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />

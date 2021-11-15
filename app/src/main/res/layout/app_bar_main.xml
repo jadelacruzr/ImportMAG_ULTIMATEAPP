@@ -7,29 +7,23 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.ImportMAG.AppBarOverlay">
-
+       >
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white"
-            app:titleTextColor="@color/black"
-            app:popupTheme="@style/Theme.ImportMAG.PopupOverlay" />
+            android:touchscreenBlocksFocus="false"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="bottom|center"
+            app:popupTheme="@style/Theme.ImportMAG.PopupOverlay"
+            app:titleTextColor="#595959"></androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_main" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_enviar"
-        android:backgroundTint="@color/fui_bgGoogle"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+   </androidx.coordinatorlayout.widget.CoordinatorLayout>

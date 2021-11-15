@@ -30,4 +30,6 @@
     <string name="strfecha">Fecha de nacimiento</string>
     <string name="stredad">Edad</string>
     <string name="strolvidarcontraseña">¿Ha olvidado su contraseña?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

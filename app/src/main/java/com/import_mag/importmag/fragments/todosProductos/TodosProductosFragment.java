@@ -1,43 +1,23 @@
 package com.import_mag.importmag.fragments.todosProductos;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.import_mag.importmag.adapter.ProductosAdapter;
-import com.import_mag.importmag.adapter.ProductosDestacadosAdapter;
-import com.import_mag.importmag.databinding.FragmentInicioBinding;
+import com.import_mag.importmag.adapter.TodosProductosAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //IMPORTACIONES DE SLIDER
-import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.models.SlideModel;
 import com.import_mag.importmag.databinding.FragmentTodosProductosBinding;
-import com.import_mag.importmag.interfaces.GetServiceClient;
-import com.import_mag.importmag.interfaces.GetServiceSlider;
-import com.import_mag.importmag.models.Bootstrap;
 import com.import_mag.importmag.models.Productos;
-import com.import_mag.importmag.models.ProductosDestacados;
-import com.import_mag.importmag.models.Slider;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TodosProductosFragment extends Fragment {
 
@@ -45,7 +25,7 @@ public class TodosProductosFragment extends Fragment {
 
     //VARIABLES DEL CARRUSEL PRODUCTOS DESCUENTO
     RecyclerView recyclerViewTodosProductos;
-    ProductosAdapter productosAdapter;
+    TodosProductosAdapter todosProductosAdapter;
     List<Productos> prodsList;
 
 
@@ -124,8 +104,8 @@ public class TodosProductosFragment extends Fragment {
         prodsList.add(new Productos(7, "Ejemplo", "10,25$", "8,34$", null, null, "¡En Oferta!", "https://import-mag.com/48-large_default/dosificador-de-alcohol-personal-bh2019.jpg"));
         RecyclerView.LayoutManager layoutManager2 = new GridLayoutManager(getActivity(), 2);
         recyclerViewTodosProductos.setLayoutManager(layoutManager2);
-        productosAdapter = new ProductosAdapter(getActivity(), prodsList);
-        recyclerViewTodosProductos.setAdapter(productosAdapter);
+        todosProductosAdapter = new TodosProductosAdapter(getActivity(), prodsList);
+        recyclerViewTodosProductos.setAdapter(todosProductosAdapter);
 
 
     }

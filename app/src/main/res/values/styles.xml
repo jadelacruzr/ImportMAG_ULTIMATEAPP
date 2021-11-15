@@ -1,24 +1,7 @@
 <resources>
-
-    <style name="Widget.Theme.ImportMAG.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
-
-    <style name="Widget.Theme.ImportMAG.ButtonBar.Fullscreen" parent="">
-        <item name="android:background">@color/black_overlay</item>
-        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
-    </style>
-
-
     <style name="SinActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
     </style>
 
-
-    <style name="DatePickerDialogTheme" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/azul_import</item>
-        <item name="android:text">@color/azul_import</item>
-
-    </style>
     <style name="MyAppTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
 
         <item name="colorAccent">@color/azul_import</item>
