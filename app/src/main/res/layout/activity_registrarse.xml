@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondologs"
+    tools:context=".login.Registrarse">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/imagenTextURL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="19dp"
+                    android:layout_marginTop="45dp"
+                    android:text="¿Ya tiene una cuenta?"
+                    app:layout_constraintStart_toStartOf="@+id/nameText"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/enlace_IniciarSesion"
+                    android:layout_width="116dp"
+                    android:layout_height="21dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="45dp"
+                    android:contentDescription="@string/sinnombre"
+                    android:fontFamily="sans-serif-black"
+                    android:scaleType="fitCenter"
+                    android:text=" ¡Inicie sesión!"
+                    android:textColor="@color/azul_import"
+                    app:layout_constraintStart_toEndOf="@+id/imagenTextURL"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/nickText"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/login_nick"
+                    android:ems="10"
+                    android:hint="@string/strApellido"
+                    android:inputType="textPersonName"
+                    android:paddingStart="60dp"
+                    android:paddingEnd="10dp"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.495"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <EditText
+                    android:id="@+id/emailText"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/login_mail"
+                    android:ems="10"
+                    android:hint="@string/strmail"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="60dp"
+                    android:paddingEnd="10dp"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.495"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                <EditText
+                    android:id="@+id/passwordText"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/login_password"
+                    android:ems="10"
+                    android:hint="@string/strpass"
+                    android:inputType="textPassword"
+                    android:paddingStart="60dp"
+                    android:paddingEnd="10dp"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.504"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emailText"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <EditText
+                    android:id="@+id/passwordConfirmText"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/login_password"
+                    android:ems="10"
+                    android:hint="@string/strconfirmpass"
+                    android:inputType="textPassword"
+                    android:paddingStart="60dp"
+                    android:paddingEnd="10dp"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.504"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/passwordText"
+                    app:layout_constraintVertical_bias="0.0"></EditText>
+
+                <CheckBox
+                    android:id="@+id/checkRegisterConfirmViewPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:buttonTint="#7B7E80"
+                    android:shadowColor="#686868"
+                    android:textColor="#323232"
+                    app:layout_constraintBottom_toBottomOf="@+id/passwordConfirmText"
+                    app:layout_constraintEnd_toEndOf="@+id/passwordConfirmText"
+                    app:layout_constraintTop_toTopOf="@+id/passwordConfirmText" />
+
+                <CheckBox
+                    android:id="@+id/checkRegisterViewPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:buttonTint="#7B7E80"
+                    android:shadowColor="#686868"
+                    android:textColor="#323232"
+                    app:layout_constraintBottom_toBottomOf="@+id/passwordText"
+                    app:layout_constraintEnd_toEndOf="@+id/passwordText"
+                    app:layout_constraintTop_toTopOf="@+id/passwordText" />
+
+                <Button
+                    android:id="@+id/btnRegistrar"
+                    android:layout_width="176dp"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="32dp"
+                    android:backgroundTint="@color/azul_import"
+                    android:scaleType="fitCenter"
+                    android:text="Registrarse"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/passwordConfirmText"
+                    app:srcCompat="@drawable/btn_registrarse" />
+
+                <EditText
+                    android:id="@+id/nameText"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/login_name"
+                    android:ems="10"
+                    android:hint="@string/strnombre"
+                    android:inputType="textPersonName"
+                    android:paddingStart="60dp"
+                    android:paddingEnd="10dp"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.504"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rdGrupo" />
+
+                <ImageView
+                    android:id="@+id/salirRegistro"
+                    android:layout_width="38dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_close_24" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="268dp"
+                    android:layout_height="62dp"
+                    android:text="@string/infRegistro"
+                    app:layout_constraintEnd_toEndOf="@+id/nameText"
+                    app:layout_constraintStart_toStartOf="@+id/nameText"
+                    app:layout_constraintTop_toBottomOf="@+id/nameText" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="268dp"
+                    android:layout_height="62dp"
+                    android:text="@string/infRegistro"
+                    app:layout_constraintEnd_toEndOf="@+id/nickText"
+                    app:layout_constraintStart_toStartOf="@+id/nickText"
+                    app:layout_constraintTop_toBottomOf="@+id/nickText" />
+
+                <RadioGroup
+                    android:id="@+id/rdGrupo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@id/rbtnSenor"
+
+                    app:layout_constraintStart_toStartOf="@+id/textView3"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+                    <RadioButton
+                        android:id="@+id/rbtnSenor"
+                        style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/azul_import"
+                        android:text="Sr." />
+
+                    <RadioButton
+                        android:id="@+id/rbtnSenora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/azul_import"
+                        android:text="Sra." />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:fontFamily="sans-serif"
+                    android:text="Tratamiento:"
+                    android:textColor="#3E3E3E"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/imagenTextURL"
+                    app:layout_constraintTop_toBottomOf="@+id/imagenTextURL" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
