@@ -11,16 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.import_mag.importmag.adapter.ProductosDestacadosAdapter;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.import_mag.importmag.adapter.ProductosAdapter;
 import com.import_mag.importmag.databinding.FragmentInicioBinding;
 
 import java.util.ArrayList;
@@ -30,16 +33,16 @@ import java.util.List;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.import_mag.importmag.interfaces.GetServiceClient;
 import com.import_mag.importmag.interfaces.GetServiceSlider;
-import com.import_mag.importmag.models.Bootstrap;
-import com.import_mag.importmag.models.Productos;
-import com.import_mag.importmag.models.ProductosDestacados;
+import com.import_mag.importmag.models.ProdsDestacados;
 import com.import_mag.importmag.models.Slider;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -48,10 +51,9 @@ public class InicioFragment extends Fragment {
     private FragmentInicioBinding binding;
 
     //VARIABLES DEL CARRUSEL PRODUCTOS DESCUENTO
-    RecyclerView recyclerViewcprodDestacados ,recyclerViewcprodDestacados2;
-    ProductosDestacadosAdapter productosDestacadosAdapter;
-    List<ProductosDestacados> prodDescuntoList;
-
+    RecyclerView recyclerViewcprodDestacados;
+    ProductosAdapter productosDestacadosAdapter;
+    List<ProdsDestacados> featured_products;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,11 +70,11 @@ public class InicioFragment extends Fragment {
         setProductosDestacadosRecycler(recyclerViewcprodDestacados);
 
 
-      //IMPLEMENTACION BOTONES REDES SOCIALES
-        ImageView ins,wpp,fb;
-        ins= binding.imgINSicono;
-        wpp=binding.imgWPPicono;
-        fb=binding.imgFBicono;
+        //IMPLEMENTACION BOTONES REDES SOCIALES
+        ImageView ins, wpp, fb;
+        ins = binding.imgINSicono;
+        wpp = binding.imgWPPicono;
+        fb = binding.imgFBicono;
 
 
         ins.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +84,7 @@ public class InicioFragment extends Fragment {
                 String urlPage = "https://www.instagram.com/importmagecuador/";
 
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(insId )));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(insId)));
                 } catch (Exception e) {
                     Log.e(TAG, "Aplicación no Encontrada.");
                     //Abre url de pagina.
@@ -95,13 +97,13 @@ public class InicioFragment extends Fragment {
         wpp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean instalado = appInstalledOrNot ("com.whatsapp");
-                if(instalado){
-                    Intent intent = new Intent (Intent.ACTION_VIEW);
+                boolean instalado = appInstalledOrNot("com.whatsapp");
+                if (instalado) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
 
                     intent.setData(Uri.parse("https://wa.me/593994013402?text="));
                     startActivity(intent);
-                }else{
+                } else {
                     Toast.makeText(getActivity(), "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -115,7 +117,7 @@ public class InicioFragment extends Fragment {
                 String urlPage = "https://www.facebook.com/PruebaImport-102219398958150";
 
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(facebookId )));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(facebookId)));
                 } catch (Exception e) {
                     Log.e(TAG, "Aplicación no Encontrada.");
                     //Abre url de pagina.
@@ -126,9 +128,9 @@ public class InicioFragment extends Fragment {
         });
 
 
-
         return view;
     }
+
     //MÉTODO QUE VERIFICA SI ESTÁ O NO INSTALADA UNA APLICACIÓN
     private boolean appInstalledOrNot(String url) {
         PackageManager packageManager = getActivity().getPackageManager();
@@ -149,8 +151,8 @@ public class InicioFragment extends Fragment {
      */
     private void SliderView(ImageSlider slider) {
         //ARRAY QUE ALMACENARÁ LAS IMÁGENES DEL SLIDER
-        ArrayList<SlideModel> remoteimages = new ArrayList();
 
+        ArrayList<SlideModel> remoteimages = new ArrayList();
         //CONSUMO DE LA API SLIDER//
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.import-mag.com/getSlider/revSlider.php/")
@@ -159,6 +161,7 @@ public class InicioFragment extends Fragment {
         GetServiceSlider getServiceSlider = retrofit.create(GetServiceSlider.class);
         Call<List<Slider>> call = getServiceSlider.find();
         call.enqueue(new Callback<List<Slider>>() {
+
             @Override
             public void onResponse(Call<List<Slider>> call, retrofit2.Response<List<Slider>> response) {
                 List<Slider> sliderList = response.body();
@@ -172,68 +175,55 @@ public class InicioFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Slider>> call, Throwable t) {
+
                 Toast.makeText(getActivity(), "Error al consumir api", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+
     /**
-     * Método que genera un carrusel de Productos Destacados
+     * Método que genera un carrusel de ProdsDestacados Destacados
      */
     private void setProductosDestacadosRecycler(RecyclerView recyclerViewcprodDestacados) {
-        /*
-        //CONSUMO DE LA API Bootstrap > featuredProductsList (Lista de productos destacados)//
-        String TAG = "";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.import-mag.com/rest/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        GetServiceClient getServiceProductos = retrofit.create(GetServiceClient.class);
-        Call<List<ProductosDestacados>> call = getServiceProductos.find();
-        call.enqueue(new Callback<List<ProductosDestacados>>() {
+        String url = "https://import-mag.com/rest/featuredproducts";
+
+        StringRequest postRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(Call<List<ProductosDestacados>> call, retrofit2.Response<List<ProductosDestacados>> response) {
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jasonArray = jsonObject.getJSONArray("psdata"); //encabezado de WS
+                    int tam = jasonArray.length();
 
-                List<ProductosDestacados> prodsList = response.body();
+                    featured_products = new ArrayList<>();
+                    for (int i = 0; i < tam; i++) {
+                        JSONObject psdata = jasonArray.getJSONObject(i);
+                        Integer id_product = psdata.getInt("id_product");
+                        //String description = psdata.getString("description");
+                        String name = psdata.getString("name");
 
-                prodDescuntoList = new ArrayList<>();
-                //Recorrido de los datos extraidos de la api e inserción en el View Slider
-                for (ProductosDestacados p : prodsList) {
-                    Log.println(Log.INFO, TAG, "ID:PRODUCTO" + p.getId_product());
+                        JSONObject imgs = psdata.getJSONObject("default_image");
+                        String url_image = imgs.getString("url");
 
-                    //prodDescuntoList.add(new ProductosDestacados(p.getId_product(), p.getName(), p.getPrice(), p.getRegular_price(), p.getF_discount(), p.getF_new(), p.getF_on_sale(), p.getUrlImage()));
+                        featured_products.add(new ProdsDestacados(id_product, name, url_image));
 
+                    }
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                    recyclerViewcprodDestacados.setLayoutManager(layoutManager);
+                    productosDestacadosAdapter = new ProductosAdapter(getActivity(), featured_products);
+                    recyclerViewcprodDestacados.setAdapter(productosDestacadosAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                /*RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                recyclerViewcprodDestacados.setLayoutManager(layoutManager);
-                productosDestacadosAdapter = new ProductosDestacadosAdapter(getActivity(), prodDescuntoList);
-                recyclerViewcprodDestacados.setAdapter(productosDestacadosAdapter);
             }
-
+        }, new Response.ErrorListener() {
             @Override
-            public void onFailure(Call<List<ProductosDestacados>> call, Throwable t) {
-
-                Log.println(Log.INFO, TAG, "ERROR CONSUMIENDO LA API");
-                Toast.makeText(getActivity(), "Error al consumir api", Toast.LENGTH_SHORT).show();
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error: ", error.getMessage());
             }
         });
-*/
-
-        prodDescuntoList = new ArrayList<>();
-        prodDescuntoList.add(new ProductosDestacados(1, "Dispensador de alcohol", "8,34$", "8,34$", "-23%", null, null, "https://import-mag.com/46-large_default/dispensador-personal-bh414-.jpg"));
-        prodDescuntoList.add(new ProductosDestacados(2, "Dispensador de alcohol personal BH414", "10,25$", "10,34$", null, "Nuevo", "¡En Oferta!", "https://import-mag.com/44-large_default/dispensador-personal-de-alcohol.jpg"));
-        prodDescuntoList.add(new ProductosDestacados(4, "Dispensador de Alcohol BH406", "100,25$", "8,34$", "-23%", null, "¡En Oferta!", "https://import-mag.com/48-large_default/dosificador-de-alcohol-personal-bh2019.jpg"));
-        prodDescuntoList.add(new ProductosDestacados(5, "Dispensador de alcohol personal BH2019", "10,25$", "100,34$", null, "Nuevo", "¡En Oferta!", "https://import-mag.com/49-large_default/dosificador-de-alcohol-personal-bh413.jpg"));
-        prodDescuntoList.add(new ProductosDestacados(7, "Dispensador de alcohol personal BH413", "10,25$", "8,34$", null, null, "¡En Oferta!", "https://import-mag.com/50-large_default/collar-de-desinfeccion-.jpg"));
-        prodDescuntoList.add(new ProductosDestacados(1, "Collar de desinfección", "8,34$", "8,34$", "-23%", null, null, "https://import-mag.com/51-large_default/purificador-de-ambientes-dual-modelo-t100.jpg"));
-        prodDescuntoList.add(new ProductosDestacados(2, "Purificador de ambientes dual MODELO T100", "10,25$", "10,34$", null, "Nuevo", "¡En Oferta!", "https://import-mag.com/52-large_default/ozonificador-100.jpg"));
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-
-        recyclerViewcprodDestacados.setLayoutManager(layoutManager);
-
-        productosDestacadosAdapter = new ProductosDestacadosAdapter(getActivity(),prodDescuntoList);
-        recyclerViewcprodDestacados.setAdapter(productosDestacadosAdapter);
-
+        Volley.newRequestQueue(getActivity()).add(postRequest);
 
     }
 

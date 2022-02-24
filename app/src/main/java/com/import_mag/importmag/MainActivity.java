@@ -1,5 +1,6 @@
 package com.import_mag.importmag;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -29,16 +30,17 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private String keybusqueda;
+
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        /*/BOTÓN FLOTANTE
+        /*/BOTÓN FLOTANTE WPP
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,14 +61,12 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_inicio, R.id.nav_gallery, R.id.nav_todos_productos)
+                R.id.nav_inicio, R.id.nav_sobrenos, R.id.nav_todos_productos)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
     }
 
     @Override
@@ -80,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 keybusqueda=query;
-                startActivity(new Intent(MainActivity.this, BuscarProds.class));
+                Intent i = new Intent(MainActivity.this, BuscarProds.class);
+                i.putExtra("stringBusqueda",keybusqueda);
+                context=MainActivity.this;
+                context.startActivity(i);
                 return true;
             }
 
@@ -99,9 +102,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.itm_opciones:
                 startActivity(new Intent(this, Login.class));
                 return true;
-            /*case R.id.itm_buscar:
-                startActivity(new Intent(this, BuscarProds.class));
-                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -128,4 +128,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return app_instaled;
     }
+
 }

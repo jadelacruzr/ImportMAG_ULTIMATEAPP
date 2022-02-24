@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_inicio" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.import_mag.importmag.fragments.detallesprods.DetallesProdsFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_sobrenos"
+        android:name="com.import_mag.importmag.fragments.sobrenos.SobreNosFragment"
+        android:label="@string/menu_sobreNos"
+        tools:layout="@layout/fragment_sobrenos" />
 
     <fragment
         android:id="@+id/nav_todos_productos"
         android:name="com.import_mag.importmag.fragments.todosProductos.TodosProductosFragment"
         android:label="@string/menu_todoProductos"
-        tools:layout="@layout/fragment_todos_productos" />
+        tools:layout="@layout/fragment_recyclerProductos" />
 </navigation>

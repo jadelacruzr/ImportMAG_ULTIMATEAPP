@@ -5,6 +5,10 @@ public class Slider {
     String image;
     String legend;
 
+    public Slider(String image) {
+        this.image = image;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -21,7 +25,7 @@ public class Slider {
         this.image = image;
     }
 
-    public String getLegend() {
+    public String   getLegend() {
         return legend;
     }
 

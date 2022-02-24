@@ -12,7 +12,8 @@
 
     <string name="menu_home">Inicio</string>
     <string name="menu_todoProductos">Todos los productos</string>
-    <string name="menu_gallery">Slideshow</string>
+    <string name="menu_detProductos">Detalles del Producto</string>
+    <string name="menu_sobreNos">Sobre Nosotros</string>
 
     <string name="title_activity_splash">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
