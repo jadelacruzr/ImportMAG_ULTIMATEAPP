@@ -1,10 +1,4 @@
-package com.import_mag.importmag.models;
-
-import android.content.Context;
-
-import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
+package com.import_mag.importmag.Models;
 
 public class ProdsDestacados {
 

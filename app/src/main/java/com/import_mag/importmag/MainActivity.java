@@ -3,13 +3,10 @@ package com.import_mag.importmag;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -21,9 +18,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.import_mag.importmag.buscarprods.BuscarProds;
+import com.import_mag.importmag.Activities.BuscarProdsActivity;
 import com.import_mag.importmag.databinding.ActivityMainBinding;
-import com.import_mag.importmag.login.Login;
+import com.import_mag.importmag.Activities.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -80,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 keybusqueda=query;
-                Intent i = new Intent(MainActivity.this, BuscarProds.class);
+                Intent i = new Intent(MainActivity.this, BuscarProdsActivity.class);
                 i.putExtra("stringBusqueda",keybusqueda);
                 context=MainActivity.this;
                 context.startActivity(i);
@@ -100,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.itm_opciones:
-                startActivity(new Intent(this, Login.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,11 +1,9 @@
-package com.import_mag.importmag.buscarprods;
+package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +16,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.import_mag.importmag.R;
-import com.import_mag.importmag.adapter.ProductosAdapter;
-import com.import_mag.importmag.models.ProdsDestacados;
+import com.import_mag.importmag.Adapters.ProductosAdapter;
+import com.import_mag.importmag.Models.ProdsDestacados;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuscarProds extends AppCompatActivity {
+public class BuscarProdsActivity extends AppCompatActivity {
 
 
     //VARIABLES DEL RECYCLERVIEW
@@ -93,9 +91,9 @@ public class BuscarProds extends AppCompatActivity {
                         prodsEnconList.add(new ProdsDestacados(id_product, name, url_image));
 
                     }
-                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(BuscarProds.this, 2);
+                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(BuscarProdsActivity.this, 2);
                     rvSearchProducts.setLayoutManager(layoutManager);
-                    productosDestacadosAdapter = new ProductosAdapter(BuscarProds.this, prodsEnconList);
+                    productosDestacadosAdapter = new ProductosAdapter(BuscarProdsActivity.this, prodsEnconList);
                     rvSearchProducts.setAdapter(productosDestacadosAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -107,7 +105,7 @@ public class BuscarProds extends AppCompatActivity {
                 Log.e("error: ", error.getMessage());
             }
         });
-        Volley.newRequestQueue(BuscarProds.this).add(postRequest);
+        Volley.newRequestQueue(BuscarProdsActivity.this).add(postRequest);
     }
 
 }

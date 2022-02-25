@@ -1,4 +1,4 @@
-package com.import_mag.importmag.models;
+package com.import_mag.importmag.Models;
 
 public class Slider {
     String url;

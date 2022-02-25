@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
-    tools:context=".fragments.inicio.InicioFragment">
+    tools:context=".Fragments.inicio.InicioFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -35,48 +35,29 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <EditText
-                    android:id="@+id/txtBuscar"
+                </com.denzcoskun.imageslider.ImageSlider>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerCategorias"
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/buscar_drawa"
-                    android:drawableLeft="@drawable/ic_buscar"
-                    android:drawablePadding="12dp"
-                    android:ems="10"
-                    android:fontFamily="monospace"
-                    android:hint="Buscar"
-                    android:inputType="textPersonName"
-                    android:paddingStart="12dp"
-                    android:textSize="14sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/image_slider" />
-                <!--><!-->
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerProdDescuentos"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txt_Ofertas" />
-
-                <TextView
-                    android:id="@+id/txt_Ofertas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:paddingStart="16dp"
-                    android:text="Productos Destacados"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtBuscar" />
 
                 <TextView
                     android:id="@+id/txt_Ofertas2"
@@ -139,6 +120,19 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgFBicono" />
+
+                <TextView
+                    android:id="@+id/txt_Ofertas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:paddingStart="16dp"
+                    android:text="Productos Destacados"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerCategorias" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

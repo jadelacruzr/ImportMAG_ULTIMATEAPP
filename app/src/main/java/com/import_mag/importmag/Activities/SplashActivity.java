@@ -1,4 +1,4 @@
-package com.import_mag.importmag;
+package com.import_mag.importmag.Activities;
 
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,8 @@ import android.widget.ProgressBar;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
+import com.import_mag.importmag.MainActivity;
+import com.import_mag.importmag.R;
 
 public class SplashActivity extends AppCompatActivity {
     @Override
@@ -26,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this,MainActivity.class );
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class );
                 startActivity(intent);
                 finish();
             }

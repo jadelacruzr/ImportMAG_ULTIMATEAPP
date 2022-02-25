@@ -1,9 +1,6 @@
-package com.import_mag.importmag.fragments.todosProductos;
-
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
+package com.import_mag.importmag.Fragments.todosProductos;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +11,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.import_mag.importmag.adapter.ProductosAdapter;
+import com.import_mag.importmag.Adapters.ProductosAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //IMPORTACIONES DE SLIDER
-import com.import_mag.importmag.databinding.FragmentRecyclerproductosBinding;
+import com.import_mag.importmag.databinding.FragmentTodosproductosBinding;
 
-import com.import_mag.importmag.interfaces.GetServiceProds;
-import com.import_mag.importmag.models.AllProds;
-import com.import_mag.importmag.models.ProdsDestacados;
+import com.import_mag.importmag.Interfaces.GetServiceProds;
+import com.import_mag.importmag.Models.AllProds;
+import com.import_mag.importmag.Models.ProdsDestacados;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TodosProductosFragment extends Fragment {
 
-    private FragmentRecyclerproductosBinding binding;
+    private FragmentTodosproductosBinding binding;
 
     //VARIABLES DEL RECYCLERVIEW
     ProductosAdapter productosAdapter;
@@ -44,7 +41,7 @@ public class TodosProductosFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentRecyclerproductosBinding.inflate(inflater, container, false);
+        binding = FragmentTodosproductosBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         //IMPLEMENTACIÓN Y LLAMADO AL RECYCLERVIEW

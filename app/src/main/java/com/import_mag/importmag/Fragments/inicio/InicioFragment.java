@@ -1,4 +1,4 @@
-package com.import_mag.importmag.fragments.inicio;
+package com.import_mag.importmag.Fragments.inicio;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
@@ -23,7 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.import_mag.importmag.adapter.ProductosAdapter;
+import com.import_mag.importmag.Adapters.ProductosAdapter;
 import com.import_mag.importmag.databinding.FragmentInicioBinding;
 
 import java.util.ArrayList;
@@ -33,9 +33,9 @@ import java.util.List;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.import_mag.importmag.interfaces.GetServiceSlider;
-import com.import_mag.importmag.models.ProdsDestacados;
-import com.import_mag.importmag.models.Slider;
+import com.import_mag.importmag.Interfaces.GetServiceSlider;
+import com.import_mag.importmag.Models.ProdsDestacados;
+import com.import_mag.importmag.Models.Slider;
 
 import org.json.JSONArray;
 import org.json.JSONException;

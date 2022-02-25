@@ -1,11 +1,4 @@
-package com.import_mag.importmag.models;
-
-import android.content.Context;
-import android.net.Uri;
-
-import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
+package com.import_mag.importmag.Models;
 
 public class AllProds {
     Integer id_product;

@@ -1,6 +1,5 @@
-package com.import_mag.importmag.fragments.sobrenos;
+package com.import_mag.importmag.Fragments.sobrenos;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.import_mag.importmag.R;
-import com.import_mag.importmag.databinding.FragmentRecyclerproductosBinding;
 import com.import_mag.importmag.databinding.FragmentSobrenosBinding;
-import com.squareup.picasso.Picasso;
+
 
 public class SobreNosFragment extends Fragment {
     private FragmentSobrenosBinding binding;

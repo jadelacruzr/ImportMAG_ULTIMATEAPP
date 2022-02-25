@@ -1,13 +1,8 @@
-package com.import_mag.importmag.login;
+package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -16,9 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,7 +21,6 @@ import android.widget.Toast;
 import com.import_mag.importmag.R;
 
 import java.io.IOException;
-import java.util.Calendar;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,7 +30,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Registrarse extends AppCompatActivity {
+public class RegistrarseActivity extends AppCompatActivity {
 
 
     /**
@@ -101,7 +93,7 @@ public class Registrarse extends AppCompatActivity {
                  int year = calendar.get(Calendar.YEAR);
                  int month = calendar.get(Calendar.MONTH);
                  int day = calendar.get(Calendar.DAY_OF_MONTH);
-                 DatePickerDialog datePickerDialog = new DatePickerDialog(Registrarse.this, AlertDialog.THEME_HOLO_DARK,new DatePickerDialog.OnDateSetListener() {
+                 DatePickerDialog datePickerDialog = new DatePickerDialog(RegistrarseActivity.this, AlertDialog.THEME_HOLO_DARK,new DatePickerDialog.OnDateSetListener() {
 
                      @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -133,7 +125,7 @@ public class Registrarse extends AppCompatActivity {
         enlace_IniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Registrarse.this, Login.class));
+                startActivity(new Intent(RegistrarseActivity.this, LoginActivity.class));
                 finish();
 
             }
@@ -194,24 +186,24 @@ public class Registrarse extends AppCompatActivity {
                         if (passwordConfirm.equals(password)) {
                             apiRequest(email,password,name,last_name,genderE);
                         } else {
-                            Toast.makeText(Registrarse.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrarseActivity.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
-                        Toast.makeText(Registrarse.this, "La contraseña debe tener al menos 9 caracteres.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrarseActivity.this, "La contraseña debe tener al menos 9 caracteres.", Toast.LENGTH_SHORT).show();
                     }
                 } else if (email.isEmpty()) {
-                    Toast.makeText(Registrarse.this, "Debe ingresar el email.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrarseActivity.this, "Debe ingresar el email.", Toast.LENGTH_SHORT).show();
                 } else if (password.isEmpty()) {
-                    Toast.makeText(Registrarse.this, "Debe ingresar una contraseña.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrarseActivity.this, "Debe ingresar una contraseña.", Toast.LENGTH_SHORT).show();
                 } else if (passwordConfirm.isEmpty()) {
-                    Toast.makeText(Registrarse.this, "Confirme su contraseña.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrarseActivity.this, "Confirme su contraseña.", Toast.LENGTH_SHORT).show();
                 } else if (name.isEmpty()) {
-                    Toast.makeText(Registrarse.this, "Debe ingresar un Nombre.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrarseActivity.this, "Debe ingresar un Nombre.", Toast.LENGTH_SHORT).show();
                 } else if (last_name.isEmpty()) {
-                    Toast.makeText(Registrarse.this, "Debe ingresar su Apellido.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrarseActivity.this, "Debe ingresar su Apellido.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Registrarse.this, "Debe completar los campos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrarseActivity.this, "Debe completar los campos.", Toast.LENGTH_SHORT).show();
                 }
 
             }

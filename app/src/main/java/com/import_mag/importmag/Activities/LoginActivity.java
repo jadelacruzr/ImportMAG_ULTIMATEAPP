@@ -1,4 +1,4 @@
-package com.import_mag.importmag.login;
+package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,14 +11,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.import_mag.importmag.R;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     Button btnLogin;
     EditText emailLogText, passwordLogText;
@@ -60,19 +59,19 @@ public class Login extends AppCompatActivity {
                         {
                             if (nick.equals(emailTxt) && password.equals(passTxt)) {
 
-                                //startActivity(new Intent(Login.this, MainActivity.class));
-                                Toast.makeText(Login.this, "Ha accedido correctamente", Toast.LENGTH_SHORT).show();
+                                //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                Toast.makeText(LoginActivity.this, "Ha accedido correctamente", Toast.LENGTH_SHORT).show();
 
                             } else {
-                                Toast.makeText(Login.this, "No se ha podido iniciar sesión correctamente.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "No se ha podido iniciar sesión correctamente.", Toast.LENGTH_SHORT).show();
 
                             }
                         }
                     } else {
-                        Toast.makeText(Login.this, "La contraseña contiene menos de 8 caracteres.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "La contraseña contiene menos de 8 caracteres.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(Login.this, "Ingrese todos los campos requeridos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Ingrese todos los campos requeridos.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -93,7 +92,7 @@ public class Login extends AppCompatActivity {
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this, Registrarse.class));
+                startActivity(new Intent(LoginActivity.this, RegistrarseActivity.class));
                 finish();
             }
         });
@@ -101,8 +100,8 @@ public class Login extends AppCompatActivity {
         olvidarContraseña.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Login.this, "Aun no funciona", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(Login.this, ResetPassword.class));
+                Toast.makeText(LoginActivity.this, "Aun no funciona", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(LoginActivity.this, ResetPassword.class));
             }
         });
 

@@ -1,7 +1,6 @@
-package com.import_mag.importmag;
+package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,10 +21,8 @@ import com.android.volley.toolbox.Volley;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.import_mag.importmag.buscarprods.BuscarProds;
-import com.import_mag.importmag.models.DetalleProds;
-import com.import_mag.importmag.models.Slider;
-import com.squareup.picasso.Picasso;
+import com.import_mag.importmag.R;
+import com.import_mag.importmag.Models.Slider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +32,7 @@ import org.jsoup.Jsoup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetallesProductos extends AppCompatActivity {
+public class DetallesProductosActivity extends AppCompatActivity {
     ImageView img, btnregresar;
     TextView nomb, subnombre, desc;
 
@@ -139,7 +135,7 @@ public class DetallesProductos extends AppCompatActivity {
                 Log.e("error: ", error.getMessage());
             }
         });
-        Volley.newRequestQueue(DetallesProductos.this).add(postRequest);
+        Volley.newRequestQueue(DetallesProductosActivity.this).add(postRequest);
     }
 
     public static String html2text(String html) {

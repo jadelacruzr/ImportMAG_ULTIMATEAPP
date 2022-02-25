@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo_cajaprods"
-    tools:context=".SplashActivity">
+    tools:context=".Activities.SplashActivity">
 
 
     <com.github.ybq.android.spinkit.SpinKitView

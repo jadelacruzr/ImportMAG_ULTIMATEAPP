@@ -1,5 +1,5 @@
-package com.import_mag.importmag.interfaces;
-import com.import_mag.importmag.models.AllProds;
+package com.import_mag.importmag.Interfaces;
+import com.import_mag.importmag.Models.AllProds;
 
 import java.util.List;
 

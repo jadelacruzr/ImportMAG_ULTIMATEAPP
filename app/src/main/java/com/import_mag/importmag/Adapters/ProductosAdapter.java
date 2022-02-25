@@ -1,9 +1,8 @@
-package com.import_mag.importmag.adapter;
+package com.import_mag.importmag.Adapters;
 
 import android.content.Context;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.import_mag.importmag.DetallesProductos;
+import com.import_mag.importmag.Activities.DetallesProductosActivity;
 import com.import_mag.importmag.R;
-import com.import_mag.importmag.models.ProdsDestacados;
+import com.import_mag.importmag.Models.ProdsDestacados;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +34,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
     @NotNull
     @Override
     public ProductosViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.todos_productos, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recycler_todosproductos, parent, false);
         return new ProductosViewHolder(view);
     }
 
@@ -47,7 +46,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, DetallesProductos.class);
+                Intent i = new Intent(context, DetallesProductosActivity.class);
                 i.putExtra("id_product",ProductsList.get(position).getId_product());
 
                 context.startActivity(i);
