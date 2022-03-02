@@ -21,5 +21,5 @@
         android:id="@+id/nav_todos_productos"
         android:name="com.import_mag.importmag.Fragments.todosProductos.TodosProductosFragment"
         android:label="@string/menu_todoProductos"
-        tools:layout="@layout/fragment_recyclerProductos" />
+        tools:layout="@layout/fragment_todosproductos" />
 </navigation>

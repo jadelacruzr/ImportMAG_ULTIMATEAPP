@@ -23,7 +23,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.import_mag.importmag.Adapters.CategoriasAdapter;
 import com.import_mag.importmag.Adapters.ProductosAdapter;
+import com.import_mag.importmag.Interfaces.GetServiceCategorias;
+import com.import_mag.importmag.Models.Categoria;
+import com.import_mag.importmag.Models.ProdsDestacado;
 import com.import_mag.importmag.databinding.FragmentInicioBinding;
 
 import java.util.ArrayList;
@@ -34,12 +38,12 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.import_mag.importmag.Interfaces.GetServiceSlider;
-import com.import_mag.importmag.Models.ProdsDestacados;
 import com.import_mag.importmag.Models.Slider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,10 +54,14 @@ public class InicioFragment extends Fragment {
 
     private FragmentInicioBinding binding;
 
-    //VARIABLES DEL CARRUSEL PRODUCTOS DESCUENTO
-    RecyclerView recyclerViewcprodDestacados;
+    //VARIABLES DEL RECYCLER VIEW
+    RecyclerView recyclerViewProds,recyclerViewCat;
+    //RECYCLER PARA PRODCUTOS DESTACADOS
     ProductosAdapter productosDestacadosAdapter;
-    List<ProdsDestacados> featured_products;
+    List<ProdsDestacado> featured_products;
+    //RECYCLER PARA CATEGORIAS DE PRODUCTOS
+    CategoriasAdapter CatAdapter;
+    List<Categoria> listCategoria=new ArrayList<>();
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,70 +74,55 @@ public class InicioFragment extends Fragment {
         SliderView(slider);
 
         //IMPLEMENTACIÓN CARRUSEL PRODUCTOS DESTACADOS
-        recyclerViewcprodDestacados = binding.recyclerProdDescuentos;
-        setProductosDestacadosRecycler(recyclerViewcprodDestacados);
+        recyclerViewProds = binding.recyclerProdDescuentos;
+        setProductosDestacadosRecycler(recyclerViewProds);
 
-
-        //IMPLEMENTACION BOTONES REDES SOCIALES
-        ImageView ins, wpp, fb;
-        ins = binding.imgINSicono;
-        wpp = binding.imgWPPicono;
-        fb = binding.imgFBicono;
-
-
-        ins.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String insId = "https://instagram.com/_u/importmagecuador/";
-                String urlPage = "https://www.instagram.com/importmagecuador/";
-
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(insId)));
-                } catch (Exception e) {
-                    Log.e(TAG, "Aplicación no Encontrada.");
-                    //Abre url de pagina.
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPage)));
-                }
-
-            }
-        });
-
-        wpp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean instalado = appInstalledOrNot("com.whatsapp");
-                if (instalado) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-
-                    intent.setData(Uri.parse("https://wa.me/593994013402?text="));
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getActivity(), "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-        });
-
-        fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String facebookId = "fb://page/102219398958150";
-                String urlPage = "https://www.facebook.com/PruebaImport-102219398958150";
-
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(facebookId)));
-                } catch (Exception e) {
-                    Log.e(TAG, "Aplicación no Encontrada.");
-                    //Abre url de pagina.
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPage)));
-                }
-
-            }
-        });
-
-
+        //IMPLEMENTACIÓN CARRUSEL CATEGORIAS
+        recyclerViewCat = binding.recyclerCategorias;
+        setCategoriasRecycler(recyclerViewCat);
         return view;
     }
+
+    /**
+     * MÉTODO QUE GENERA UN RECYCLER VIEW DE CATEGORIA DE PRODUCTOS
+     */
+    private void setCategoriasRecycler(RecyclerView recyclerViewcategorias) {
+
+//CONSUMO DE LA API SLIDER//
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://import-mag.com/getSlider/cat.php/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        GetServiceCategorias getServiceCategorias = retrofit.create(GetServiceCategorias.class);
+        Call<List<Categoria>> call = getServiceCategorias.find();
+        call.enqueue(new Callback<List<Categoria>>() {
+
+            @Override
+            public void onResponse(Call<List<Categoria>> call, retrofit2.Response<List<Categoria>> response) {
+                List<Categoria> categoriaList = response.body();
+                //Recorrido de los datos extraidos de la api e inserción en el View Slider
+                for (Categoria s : categoriaList) {
+                    String descr = html2text(s.getName().toString());
+                    listCategoria.add(new Categoria(s.getId_category(),descr));
+                }
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                recyclerViewcategorias.setLayoutManager(layoutManager);
+                CatAdapter = new CategoriasAdapter(listCategoria,getActivity());
+                recyclerViewcategorias.setAdapter(CatAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Categoria>> call, Throwable t) {
+
+                Toast.makeText(getActivity(), "Error al consumir api", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public static String html2text(String html) {
+        return Jsoup.parse(html).wholeText();
+    }
+
 
     //MÉTODO QUE VERIFICA SI ESTÁ O NO INSTALADA UNA APLICACIÓN
     private boolean appInstalledOrNot(String url) {
@@ -183,7 +176,7 @@ public class InicioFragment extends Fragment {
 
 
     /**
-     * Método que genera un carrusel de ProdsDestacados Destacados
+     * Método que genera un carrusel de ProdsDestacado Destacados
      */
     private void setProductosDestacadosRecycler(RecyclerView recyclerViewcprodDestacados) {
         String url = "https://import-mag.com/rest/featuredproducts";
@@ -206,7 +199,7 @@ public class InicioFragment extends Fragment {
                         JSONObject imgs = psdata.getJSONObject("default_image");
                         String url_image = imgs.getString("url");
 
-                        featured_products.add(new ProdsDestacados(id_product, name, url_image));
+                        featured_products.add(new ProdsDestacado(id_product, name, url_image));
 
                     }
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);

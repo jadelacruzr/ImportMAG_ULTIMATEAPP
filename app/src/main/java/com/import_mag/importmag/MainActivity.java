@@ -1,12 +1,19 @@
 package com.import_mag.importmag;
 
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -36,6 +43,61 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
+
+        //IMPLEMENTACION BOTONES REDES SOCIALES
+        ImageView ins, wpp, fb;
+        ins = binding.imgINSicono;
+        wpp = binding.imgWPPicono;
+        fb = binding.imgFBicono;
+        ins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String insId = "https://instagram.com/_u/importmagecuador/";
+                String urlPage = "https://www.instagram.com/importmagecuador/";
+
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(insId)));
+                } catch (Exception e) {
+                    Log.e(TAG, "Aplicación no Encontrada.");
+                    //Abre url de pagina.
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPage)));
+                }
+
+            }
+        });
+
+        wpp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean instalado = appInstalledOrNot("com.whatsapp");
+                if (instalado) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+
+                    intent.setData(Uri.parse("https://wa.me/593994013402?text="));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+
+        fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String facebookId = "fb://page/102219398958150";
+                String urlPage = "https://www.facebook.com/PruebaImport-102219398958150";
+
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(facebookId)));
+                } catch (Exception e) {
+                    Log.e(TAG, "Aplicación no Encontrada.");
+                    //Abre url de pagina.
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPage)));
+                }
+
+            }
+        });
 
         /*/BOTÓN FLOTANTE WPP
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {

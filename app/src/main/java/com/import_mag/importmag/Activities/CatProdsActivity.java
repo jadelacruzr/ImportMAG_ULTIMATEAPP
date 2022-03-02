@@ -16,9 +16,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.import_mag.importmag.R;
 import com.import_mag.importmag.Adapters.ProductosAdapter;
 import com.import_mag.importmag.Models.ProdsDestacado;
+import com.import_mag.importmag.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,51 +27,48 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuscarProdsActivity extends AppCompatActivity {
+public class CatProdsActivity extends AppCompatActivity {
 
-
-    //VARIABLES DEL RECYCLERVIEW
-    //VARIABLES DEL CARRUSEL PRODUCTOS
-    private RecyclerView rvSearchProducts;
+    private RecyclerView recyclerProds;
     private ProductosAdapter productosAdapter;
     private List<ProdsDestacado> prodsEnconList;
-    private ImageView cerrar3;
-    private String strBusqueda;
-    private TextView txtBusqueda;
+    private ImageView cerrar;
+    private String nameCat;
+    private TextView txtName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buscar_prods);
-
-        //IMPLEMENTACIÓN CARRUSEL PRODUCTOS EN DESCUENTO
-        rvSearchProducts = findViewById(R.id.recyclerBusProductos);
-        setProductosRecycler(rvSearchProducts);
-        cerrar3 = findViewById(R.id.salirBusqueda);
-        txtBusqueda=findViewById(R.id.txtBusqueda);
-        txtBusqueda.setText("Resultados para "+strBusqueda+":");
+        setContentView(R.layout.activity_cat_prods);
 
 
-        /**
-         * Método que cierra la actividad de Registro
-         */
-        cerrar3.setOnClickListener(new View.OnClickListener() {
+        //IMPLEMENTACIÓN CARRUSEL PRODUCTOS DE UNA CATEGORIA
+        recyclerProds = findViewById(R.id.recyclerProductosCat);
+        setProductosRecycler(recyclerProds);
+        txtName=findViewById(R.id.txtCategoria);
+        txtName.setText(nameCat);
+
+        cerrar = findViewById(R.id.salirCat);
+
+        cerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
 
             }
         });
+
     }
 
     /**
-     * Método que genera un carrusel de ProdsDestacado Encontrados
+     * Método que genera un recycler view para mostrar los productos encontrados en la categoria elegida
      */
     private void setProductosRecycler(RecyclerView recyclerViewTodosProductos) {
         Intent i = getIntent();
-        strBusqueda =i.getStringExtra("stringBusqueda");
+        String id_categoria =i.getStringExtra("id_categoria");
+        nameCat =i.getStringExtra("name_cat");
 
-        String url = "https://import-mag.com/rest/productSearch?s="+strBusqueda+"&resultsPerPage=1000";
+        String url = "https://import-mag.com/rest/categoryProducts?id_category="+id_categoria+"&resultsPerPage=1000";
         StringRequest postRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -89,17 +86,16 @@ public class BuscarProdsActivity extends AppCompatActivity {
                         //String description = psdata.getString("description");
                         String name = aux.getString("name");
 
-
                         JSONObject imgs = aux.getJSONObject("default_image");
                         String url_image = imgs.getString("url");
 
-                        prodsEnconList.add(new ProdsDestacado(id_product, name, url_image));
+                        prodsEnconList.add(new ProdsDestacado(id_product,name,url_image));
 
                     }
-                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(BuscarProdsActivity.this, 2);
-                    rvSearchProducts.setLayoutManager(layoutManager);
-                    productosAdapter = new ProductosAdapter(BuscarProdsActivity.this, prodsEnconList);
-                    rvSearchProducts.setAdapter(productosAdapter);
+                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(CatProdsActivity.this, 2);
+                    recyclerProds.setLayoutManager(layoutManager);
+                    productosAdapter = new ProductosAdapter(CatProdsActivity.this, prodsEnconList);
+                    recyclerProds.setAdapter(productosAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -110,7 +106,6 @@ public class BuscarProdsActivity extends AppCompatActivity {
                 Log.e("error: ", error.getMessage());
             }
         });
-        Volley.newRequestQueue(BuscarProdsActivity.this).add(postRequest);
+        Volley.newRequestQueue(CatProdsActivity.this).add(postRequest);
     }
-
 }

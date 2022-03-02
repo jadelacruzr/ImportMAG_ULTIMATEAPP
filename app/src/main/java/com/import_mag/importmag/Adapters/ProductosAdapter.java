@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.import_mag.importmag.Activities.DetallesProductosActivity;
+import com.import_mag.importmag.Models.ProdsDestacado;
 import com.import_mag.importmag.R;
-import com.import_mag.importmag.Models.ProdsDestacados;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,16 +24,16 @@ import java.util.List;
 
 public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductosViewHolder> {
     Context context;
-    List<ProdsDestacados> ProductsList;
+    List<ProdsDestacado> ProductsList;
 
-    public ProductosAdapter(Context context, List<ProdsDestacados> ProductsList) {
+    public ProductosAdapter(Context context, List<ProdsDestacado> ProductsList) {
         this.context = context;
         this.ProductsList = ProductsList;
     }
 
     @NotNull
     @Override
-    public ProductosViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+        public ProductosViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.recycler_todosproductos, parent, false);
         return new ProductosViewHolder(view);
     }

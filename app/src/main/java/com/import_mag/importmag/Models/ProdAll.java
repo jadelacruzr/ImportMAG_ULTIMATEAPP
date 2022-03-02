@@ -1,10 +1,10 @@
 package com.import_mag.importmag.Models;
 
-public class AllProds {
+public class ProdAll {
     Integer id_product;
     String name,link_rewrite,id_image;
 
-    public AllProds(Integer id_product, String name, String link_rewrite, String id_image) {
+    public ProdAll(Integer id_product, String name, String link_rewrite, String id_image) {
         this.id_product = id_product;
         this.name = name;
         this.link_rewrite = link_rewrite;

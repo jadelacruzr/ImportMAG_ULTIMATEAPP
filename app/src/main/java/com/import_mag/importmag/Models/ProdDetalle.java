@@ -1,13 +1,13 @@
 package com.import_mag.importmag.Models;
 
-public class DetalleProds {
+public class ProdDetalle {
     private Integer id_product;
     private String name;
     private String description;
     private String description_short;
     private String product_url;
 
-    public DetalleProds(Integer id_product, String name, String description, String description_short, String product_url) {
+    public ProdDetalle(Integer id_product, String name, String description, String description_short, String product_url) {
         this.id_product = id_product;
         this.name = name;
         this.description = description;

@@ -19,8 +19,8 @@
             android:touchscreenBlocksFocus="false"
             app:layout_anchor="@+id/appBarLayout"
             app:layout_anchorGravity="bottom|center"
-            app:popupTheme="@style/Theme.ImportMAG.PopupOverlay"
-            app:titleTextColor="#595959"></androidx.appcompat.widget.Toolbar>
+            app:titleTextColor="#595959">
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.BuscarProdsActivity">
-
+    tools:context=".Activities.CatProdsActivity">
 
     <ImageView
-        android:id="@+id/salirBusqueda"
+        android:id="@+id/salirCat"
         android:layout_width="38dp"
         android:layout_height="33dp"
         android:layout_marginTop="16dp"
@@ -18,26 +17,25 @@
         app:srcCompat="@drawable/ic_baseline_close_24" />
 
     <TextView
-        android:id="@+id/txtBusqueda"
+        android:id="@+id/txtCategoria"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="Cargando....."
+        android:text="Cargando..."
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/salirBusqueda"
+        app:layout_constraintEnd_toStartOf="@+id/salirCat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerBusProductos"
+        android:id="@+id/recyclerProductosCat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@drawable/fondo_cajaprods"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtBusqueda" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCategoria" />
 </androidx.constraintlayout.widget.ConstraintLayout>

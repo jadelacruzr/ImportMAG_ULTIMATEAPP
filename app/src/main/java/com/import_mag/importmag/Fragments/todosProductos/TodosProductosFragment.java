@@ -17,11 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 //IMPORTACIONES DE SLIDER
+import com.import_mag.importmag.Models.ProdsDestacado;
 import com.import_mag.importmag.databinding.FragmentTodosproductosBinding;
 
 import com.import_mag.importmag.Interfaces.GetServiceProds;
-import com.import_mag.importmag.Models.AllProds;
-import com.import_mag.importmag.Models.ProdsDestacados;
+import com.import_mag.importmag.Models.ProdAll;
+
+import org.jsoup.Jsoup;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +39,7 @@ public class TodosProductosFragment extends Fragment {
     RecyclerView recyclerViewcAllProds;
 
     //LISTA DE PRODUCTOS
-    ArrayList<ProdsDestacados> prodsList = new ArrayList();
+    ArrayList<ProdsDestacado> prodsList = new ArrayList();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -62,16 +64,17 @@ public class TodosProductosFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         GetServiceProds getServiceProds = retrofit.create(GetServiceProds.class);
-        Call<List<AllProds>> call = getServiceProds.find();
-        call.enqueue(new Callback<List<AllProds>>() {
+        Call<List<ProdAll>> call = getServiceProds.find();
+        call.enqueue(new Callback<List<ProdAll>>() {
 
             @Override
-            public void onResponse(Call<List<AllProds>> call, retrofit2.Response<List<AllProds>> response) {
-                List<AllProds> Prods = response.body();
+            public void onResponse(Call<List<ProdAll>> call, retrofit2.Response<List<ProdAll>> response) {
+                List<ProdAll> Prods = response.body();
                 //RECORRIDO DE LOS DATOS EXTRAIDOS DE LA API E INSERCIÓN EN EL VIEW SLIDER
-                for (AllProds s : Prods) {
+                for (ProdAll s : Prods) {
 
-                    prodsList.add(new ProdsDestacados(s.getId_product(), s.getName(), "https://import-mag.com/" + s.getId_image() + "-large_default/" + s.getLink_rewrite() + ".jpg"));
+
+                    prodsList.add(new ProdsDestacado(s.getId_product(), s.getName(), "https://import-mag.com/" + s.getId_image() + "-large_default/" + s.getLink_rewrite() + ".jpg"));
                 }
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
                 recyclerViewcAllProds.setLayoutManager(layoutManager);
@@ -80,7 +83,7 @@ public class TodosProductosFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<AllProds>> call, Throwable t) {
+            public void onFailure(Call<List<ProdAll>> call, Throwable t) {
                 Toast.makeText(getActivity(), "Error al consumir api", Toast.LENGTH_SHORT).show();
             }
         });

@@ -108,17 +108,16 @@ public class DetallesProductosActivity extends AppCompatActivity {
                     for (int i =0;i<images.length();i++){
                         JSONObject aux = images.getJSONObject(i);
                         String url = aux.getString("src");
-                        System.out.println(url);
                         sliderList.add(new Slider(url));
                     }
                     ArrayList<SlideModel> remoteimages = new ArrayList();
 
                     for (Slider s : sliderList) {
-                        System.out.println(s.getImage());
-                        remoteimages.add(new SlideModel( s.getImage(),ScaleTypes.FIT));
+                        remoteimages.add(new SlideModel( s.getImage(),ScaleTypes.CENTER_INSIDE));
+
                     }
-                    System.out.println(remoteimages.size());
                     slider.setImageList(remoteimages);
+                    slider.stopSliding();
 
                     nomb.setText(name);
                     subnombre.setText(desc_sho);

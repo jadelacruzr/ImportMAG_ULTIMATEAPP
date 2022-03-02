@@ -1,13 +1,13 @@
 package com.import_mag.importmag.Models;
 
-public class ProdsDestacados {
+public class ProdsDestacado {
 
     Integer id_product;
     String name; // NombreProducto
     String url_image;
 
 
-    public ProdsDestacados(Integer id_product, String name, String url_image) {
+    public ProdsDestacado(Integer id_product, String name, String url_image) {
         this.id_product = id_product;
         this.name = name;
         this.url_image = url_image;

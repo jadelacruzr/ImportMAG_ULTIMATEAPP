@@ -3,16 +3,28 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/activity_buscar_prods.xml" value="0.25" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/activity_cat_prods.xml" value="0.25" />
         <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/activity_detalles_productos.xml" value="0.264" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/activity_registrarse.xml" value="0.25" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/categorias_recycler.xml" value="0.25" />
         <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/content_main.xml" value="0.25" />
         <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/fragment_categorias.xml" value="0.25" />
         <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/fragment_inicio.xml" value="0.2" />
         <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/fragment_recyclerproductos.xml" value="0.25" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/fragment_sobrenos.xml" value="0.25" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/fragment_todosproductos.xml" value="0.25" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/main_app_bar.xml" value="0.25" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/main_content.xml" value="0.25" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/main_nav_header.xml" value="0.25" />
         <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/productos_destacados.xml" value="0.25" />
-        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/recycler_categorias.xml" value="0.4" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/recycler_categorias.xml" value="0.72" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/recycler_productosdestacados.xml" value="0.25" />
         <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/layout/todos_productos.xml" value="0.25" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/menu/activity_main_drawer.xml" value="0.4" />
+        <entry key="..\:/Users/andre/Documents/APP/ImportMAGAPP/app/src/main/res/menu/main.xml" value="0.25" />
         <entry key="..\:/Users/andre/OneDrive - Universidad Tecnica del Norte/IMPORTMAG/APP/ImportMAGAPP/app/src/main/res/drawable/ic_buscar.xml" value="0.2203125" />
         <entry key="..\:/Users/andre/OneDrive - Universidad Tecnica del Norte/IMPORTMAG/APP/ImportMAGAPP/app/src/main/res/layout/activity_buscar_prods.xml" value="0.25" />
         <entry key="..\:/Users/andre/OneDrive - Universidad Tecnica del Norte/IMPORTMAG/APP/ImportMAGAPP/app/src/main/res/layout/activity_detalles_productos.xml" value="0.20416666666666666" />
