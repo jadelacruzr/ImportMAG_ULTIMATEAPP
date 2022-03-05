@@ -30,7 +30,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegistrarseActivity extends AppCompatActivity {
+public class    RegistrarseActivity extends AppCompatActivity {
 
 
     /**
@@ -228,13 +228,17 @@ public class RegistrarseActivity extends AppCompatActivity {
        client.newCall(request).enqueue(new Callback() {
            @Override
            public void onFailure(Call call, IOException e) {
+
                e.printStackTrace();
+               Toast.makeText(RegistrarseActivity.this, "Ha ocurrido un error, registro invalido", Toast.LENGTH_SHORT).show();
+               Log.println(Log.INFO,"","ha ocurrido un error");
            }
+
 
            @Override
            public void onResponse(Call call, Response response) throws IOException {
                 response = client.newCall(request).execute();
-                Log.println(Log.INFO,"",""+response.header("\'psdata\'"));
+               Toast.makeText(RegistrarseActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
 
 
            }

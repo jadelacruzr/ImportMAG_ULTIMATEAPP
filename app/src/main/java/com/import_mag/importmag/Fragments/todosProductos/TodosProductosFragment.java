@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +39,8 @@ public class TodosProductosFragment extends Fragment {
     //VARIABLES DEL RECYCLERVIEW
     ProductosAdapter productosAdapter;
     RecyclerView recyclerViewcAllProds;
+    ImageView caragndo2;
+    LinearLayout lpro;
 
     //LISTA DE PRODUCTOS
     ArrayList<ProdsDestacado> prodsList = new ArrayList();
@@ -48,6 +52,12 @@ public class TodosProductosFragment extends Fragment {
 
         //IMPLEMENTACIÓN Y LLAMADO AL RECYCLERVIEW
         recyclerViewcAllProds = binding.recyclerTodosProductos;
+        caragndo2 = binding.imgCargando2;
+
+        
+        recyclerViewcAllProds.setVisibility(View.INVISIBLE);
+
+
         recyclerAllProducts(recyclerViewcAllProds);
 
         return view;
@@ -80,6 +90,9 @@ public class TodosProductosFragment extends Fragment {
                 recyclerViewcAllProds.setLayoutManager(layoutManager);
                 productosAdapter = new ProductosAdapter(getActivity(), prodsList);
                 recyclerViewcAllProds.setAdapter(productosAdapter);
+
+                recyclerViewcAllProds.setVisibility(View.VISIBLE);
+                caragndo2.setVisibility(View.INVISIBLE);
             }
 
             @Override

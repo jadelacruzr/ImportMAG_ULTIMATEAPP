@@ -35,7 +35,7 @@ public class BuscarProdsActivity extends AppCompatActivity {
     private RecyclerView rvSearchProducts;
     private ProductosAdapter productosAdapter;
     private List<ProdsDestacado> prodsEnconList;
-    private ImageView cerrar3;
+    private ImageView cerrar3,cargando2;
     private String strBusqueda;
     private TextView txtBusqueda;
 
@@ -50,6 +50,8 @@ public class BuscarProdsActivity extends AppCompatActivity {
         cerrar3 = findViewById(R.id.salirBusqueda);
         txtBusqueda=findViewById(R.id.txtBusqueda);
         txtBusqueda.setText("Resultados para "+strBusqueda+":");
+        cargando2=findViewById(R.id.img_cargando2);
+        rvSearchProducts.setVisibility(View.INVISIBLE);
 
 
         /**
@@ -100,6 +102,8 @@ public class BuscarProdsActivity extends AppCompatActivity {
                     rvSearchProducts.setLayoutManager(layoutManager);
                     productosAdapter = new ProductosAdapter(BuscarProdsActivity.this, prodsEnconList);
                     rvSearchProducts.setAdapter(productosAdapter);
+                    rvSearchProducts.setVisibility(View.VISIBLE);
+                    cargando2.setVisibility(View.INVISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

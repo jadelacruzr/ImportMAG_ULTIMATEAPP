@@ -181,7 +181,7 @@ public class InicioFragment extends Fragment {
     private void setProductosDestacadosRecycler(RecyclerView recyclerViewcprodDestacados) {
         String url = "https://import-mag.com/rest/featuredproducts";
 
-        StringRequest postRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest getRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -216,7 +216,7 @@ public class InicioFragment extends Fragment {
                 Log.e("error: ", error.getMessage());
             }
         });
-        Volley.newRequestQueue(getActivity()).add(postRequest);
+        Volley.newRequestQueue(getActivity()).add(getRequest);
 
     }
 

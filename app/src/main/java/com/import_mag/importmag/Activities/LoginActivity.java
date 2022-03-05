@@ -15,13 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import com.import_mag.importmag.R;
 
 public class LoginActivity extends AppCompatActivity {
 
     Button btnLogin;
     EditText emailLogText, passwordLogText;
-    TextView olvidarContraseña,btnRegistrar;
+    TextView olvidarContraseña, btnRegistrar;
     CheckBox checkViewPass;
     private ImageView cerrar2;
 
@@ -45,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         checkViewPass = findViewById(R.id.checkViewPass);
 
         olvidarContraseña = findViewById(R.id.olvidarContraseñaView);
-        cerrar2=findViewById(R.id.salirInicioSesion);
+        cerrar2 = findViewById(R.id.salirInicioSesion);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +123,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
+
 }

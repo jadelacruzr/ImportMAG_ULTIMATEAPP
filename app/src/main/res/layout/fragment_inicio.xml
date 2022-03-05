@@ -30,10 +30,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="25dp"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:paddingStart="16dp"
-                    android:text="CATEGORÍAS"
+                    android:text="Categorías"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/image_slider">
@@ -62,15 +62,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_CATEGORIAS" />
+                    app:layout_constraintTop_toBottomOf="@+id/txt_CATEGORIAS"
+                    android:textAlignment="center"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerProdDescuentos"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -81,13 +80,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="30dp"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:paddingStart="16dp"
-                    android:text="PRODUCTOS DESTACADOS"
+                    android:text="Productos Destacados"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recyclerCategorias" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:text="© Import MAG"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerProdDescuentos" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

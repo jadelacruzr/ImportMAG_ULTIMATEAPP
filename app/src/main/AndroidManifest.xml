@@ -34,6 +34,10 @@
             android:theme="@style/Theme.ImportMAG.NoActionBar" />
         <activity android:name=".Activities.RegistrarseActivity" />
         <activity android:name=".Activities.LoginActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

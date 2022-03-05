@@ -1,6 +1,7 @@
 package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,12 +35,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetallesProductosActivity extends AppCompatActivity {
-    ImageView img, btnregresar;
+    ImageView img, btnregresar, cargando2;
     TextView nomb, subnombre, desc;
 
     Button btnCotizar;
     String url_prod;
 
+    ConstraintLayout crt;
 
 
     @Override
@@ -51,11 +54,21 @@ public class DetallesProductosActivity extends AppCompatActivity {
         consumoDetallesprods(slider);
 
         nomb = findViewById(R.id.txtDetNombre);
-       // img = findViewById(R.id.imgDetProds);
+        // img = findViewById(R.id.imgDetProds);
         desc = findViewById(R.id.txtDetDescripcion);
         subnombre = findViewById(R.id.txtDesc_Short);
         btnCotizar = findViewById(R.id.btnCotizar);
         btnregresar = findViewById(R.id.btnAtras);
+        crt = findViewById(R.id.clblu);
+        cargando2 = findViewById(R.id.img_cargando2);
+
+
+        nomb.setVisibility(View.INVISIBLE);
+        desc.setVisibility(View.INVISIBLE);
+        subnombre.setVisibility(View.INVISIBLE);
+        btnCotizar.setVisibility(View.INVISIBLE);
+        btnregresar.setVisibility(View.INVISIBLE);
+        crt.setVisibility(View.INVISIBLE);
 
 
         btnCotizar.setOnClickListener(new View.OnClickListener() {
@@ -103,9 +116,9 @@ public class DetallesProductosActivity extends AppCompatActivity {
                     String descr = html2text(description);
                     String desc_sho = html2text(descr_short);
 
-                    JSONArray images=psdata.getJSONArray("images");
-                    List<Slider> sliderList=new ArrayList() ;
-                    for (int i =0;i<images.length();i++){
+                    JSONArray images = psdata.getJSONArray("images");
+                    List<Slider> sliderList = new ArrayList();
+                    for (int i = 0; i < images.length(); i++) {
                         JSONObject aux = images.getJSONObject(i);
                         String url = aux.getString("src");
                         sliderList.add(new Slider(url));
@@ -113,7 +126,7 @@ public class DetallesProductosActivity extends AppCompatActivity {
                     ArrayList<SlideModel> remoteimages = new ArrayList();
 
                     for (Slider s : sliderList) {
-                        remoteimages.add(new SlideModel( s.getImage(),ScaleTypes.CENTER_INSIDE));
+                        remoteimages.add(new SlideModel(s.getImage(), ScaleTypes.CENTER_INSIDE));
 
                     }
                     slider.setImageList(remoteimages);
@@ -122,6 +135,13 @@ public class DetallesProductosActivity extends AppCompatActivity {
                     nomb.setText(name);
                     subnombre.setText(desc_sho);
                     desc.setText(descr);
+                    cargando2.setVisibility(View.INVISIBLE);
+                    nomb.setVisibility(View.VISIBLE);
+                    desc.setVisibility(View.VISIBLE);
+                    subnombre.setVisibility(View.VISIBLE);
+                    btnCotizar.setVisibility(View.VISIBLE);
+                    btnregresar.setVisibility(View.VISIBLE);
+                    crt.setVisibility(View.VISIBLE);
 
                 } catch (
                         JSONException e) {

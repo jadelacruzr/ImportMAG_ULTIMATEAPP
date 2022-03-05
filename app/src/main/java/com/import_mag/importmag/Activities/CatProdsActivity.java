@@ -32,7 +32,7 @@ public class CatProdsActivity extends AppCompatActivity {
     private RecyclerView recyclerProds;
     private ProductosAdapter productosAdapter;
     private List<ProdsDestacado> prodsEnconList;
-    private ImageView cerrar;
+    private ImageView cerrar,cargando2;
     private String nameCat;
     private TextView txtName;
 
@@ -45,8 +45,15 @@ public class CatProdsActivity extends AppCompatActivity {
         //IMPLEMENTACIÓN CARRUSEL PRODUCTOS DE UNA CATEGORIA
         recyclerProds = findViewById(R.id.recyclerProductosCat);
         setProductosRecycler(recyclerProds);
+
+        cargando2=findViewById(R.id.img_cargando2);
         txtName=findViewById(R.id.txtCategoria);
         txtName.setText(nameCat);
+
+        recyclerProds.setVisibility(View.INVISIBLE);
+
+
+
 
         cerrar = findViewById(R.id.salirCat);
 
@@ -96,6 +103,8 @@ public class CatProdsActivity extends AppCompatActivity {
                     recyclerProds.setLayoutManager(layoutManager);
                     productosAdapter = new ProductosAdapter(CatProdsActivity.this, prodsEnconList);
                     recyclerProds.setAdapter(productosAdapter);
+                    recyclerProds.setVisibility(View.VISIBLE);
+                    cargando2.setVisibility(View.INVISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
