@@ -8,7 +8,7 @@
     tools:context=".Activities.LoginActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/ll_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -50,7 +50,7 @@
                     android:fontFamily="sans-serif-black"
                     android:scaleType="fitCenter"
                     android:text="¿No tiene una cuenta? Cree una aquí "
-                    android:textColor="@color/azul_import"
+                    android:textColor="@color/azulIntenso"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.496"
                     app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
                     android:layout_height="57dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="20dp"
-                    android:backgroundTint="@color/azul_import"
+                    android:backgroundTint="@color/azulIntenso"
                     android:contentDescription="@string/sinnombre"
                     android:fontFamily="sans-serif-black"
                     android:textColor="@color/white"
@@ -108,7 +108,7 @@
                     android:layout_marginTop="25dp"
                     android:fontFamily="sans-serif-black"
                     android:text="Olvido su contraseña?"
-                    android:textColor="@color/azul_import"
+                    android:textColor="@color/azulIntenso"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.49"
                     app:layout_constraintStart_toStartOf="parent"

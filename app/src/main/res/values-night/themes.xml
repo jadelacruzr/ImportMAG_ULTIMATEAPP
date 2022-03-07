@@ -5,6 +5,7 @@
         <item name="colorPrimary">#323232</item>
         <!-- Color de la barra de estados.. -->
         <item name="android:statusBarColor">@color/white</item>
+
         <!-- Color de la barra de navegación. -->
         <item name="android:navigationBarColor">#FFFFFF</item>
         <item name="windowNoTitle">true</item>
@@ -16,6 +17,7 @@
         <item name="windowNoTitle">true</item>
         <!-- Color de la barra de estados.. -->
         <item name="android:statusBarColor">@color/white</item>
+
         <!-- Color de la barra de navegación. -->
         <item name="android:navigationBarColor">#FFFFFF</item>
     </style>

@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.import_mag.importmag.Adapters.CategoriasAdapter;
 import com.import_mag.importmag.Adapters.ProductosAdapter;
+import com.import_mag.importmag.Adapters.ProductosDestacadosAdapter;
 import com.import_mag.importmag.Interfaces.GetServiceCategorias;
 import com.import_mag.importmag.Models.Categoria;
 import com.import_mag.importmag.Models.ProdsDestacado;
@@ -56,12 +59,17 @@ public class InicioFragment extends Fragment {
 
     //VARIABLES DEL RECYCLER VIEW
     RecyclerView recyclerViewProds,recyclerViewCat;
+
     //RECYCLER PARA PRODCUTOS DESTACADOS
-    ProductosAdapter productosDestacadosAdapter;
+    ProductosDestacadosAdapter productosDestacadosAdapter;
     List<ProdsDestacado> featured_products;
+
     //RECYCLER PARA CATEGORIAS DE PRODUCTOS
     CategoriasAdapter CatAdapter;
     List<Categoria> listCategoria=new ArrayList<>();
+
+    LinearLayout ll_home;
+    ImageView img;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,12 +82,16 @@ public class InicioFragment extends Fragment {
         SliderView(slider);
 
         //IMPLEMENTACIÓN CARRUSEL PRODUCTOS DESTACADOS
-        recyclerViewProds = binding.recyclerProdDescuentos;
+        recyclerViewProds = binding.recyclerProdDestacados;
         setProductosDestacadosRecycler(recyclerViewProds);
 
         //IMPLEMENTACIÓN CARRUSEL CATEGORIAS
         recyclerViewCat = binding.recyclerCategorias;
         setCategoriasRecycler(recyclerViewCat);
+
+        ll_home= binding.llHome;
+        img= binding.imgCargando2;
+        ll_home.setVisibility(View.INVISIBLE);
         return view;
     }
 
@@ -119,22 +131,13 @@ public class InicioFragment extends Fragment {
             }
         });
     }
+    /**
+     * Método que formatea un string en formato html a texto plano
+     *
+     * @param html
+     */
     public static String html2text(String html) {
         return Jsoup.parse(html).wholeText();
-    }
-
-
-    //MÉTODO QUE VERIFICA SI ESTÁ O NO INSTALADA UNA APLICACIÓN
-    private boolean appInstalledOrNot(String url) {
-        PackageManager packageManager = getActivity().getPackageManager();
-        boolean app_instaled;
-        try {
-            packageManager.getPackageInfo(url, PackageManager.GET_ACTIVITIES);
-            app_instaled = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            app_instaled = false;
-        }
-        return app_instaled;
     }
 
     /**
@@ -204,8 +207,10 @@ public class InicioFragment extends Fragment {
                     }
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
                     recyclerViewcprodDestacados.setLayoutManager(layoutManager);
-                    productosDestacadosAdapter = new ProductosAdapter(getActivity(), featured_products);
+                    productosDestacadosAdapter = new ProductosDestacadosAdapter(getActivity(), featured_products);
                     recyclerViewcprodDestacados.setAdapter(productosDestacadosAdapter);
+                    ll_home.setVisibility(View.VISIBLE);
+                    img.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

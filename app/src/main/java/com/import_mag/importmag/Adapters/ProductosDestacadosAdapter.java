@@ -1,7 +1,6 @@
 package com.import_mag.importmag.Adapters;
 
 import android.content.Context;
-
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,32 +18,28 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
-
 import java.util.List;
 
-public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductosViewHolder> {
+public class ProductosDestacadosAdapter extends RecyclerView.Adapter<ProductosDestacadosAdapter.ProductosDestacadosViewHolder> {
     Context context;
     List<ProdsDestacado> ProductsList;
 
-    public ProductosAdapter(Context context, List<ProdsDestacado> ProductsList) {
+    public ProductosDestacadosAdapter(Context context, List<ProdsDestacado> ProductsList) {
         this.context = context;
         this.ProductsList = ProductsList;
     }
 
     @NotNull
     @Override
-        public ProductosViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recycler_productos, parent, false);
-        return new ProductosViewHolder(view);
+        public ProductosDestacadosViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.recycler_productos_destacados, parent, false);
+        return new ProductosDestacadosViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ProductosViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull ProductosDestacadosViewHolder holder, int position) {
         Picasso.get().load(ProductsList.get(position).getUrl_image()).resize(220,220).into(holder.imageProds);
-        String name =ProductsList.get(position).getName();
-
-
-        holder.txtNombre_T.setText(name);
+        holder.txtNombre_T.setText(ProductsList.get(position).getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,11 +58,11 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
 
         return ProductsList.size();
     }
-    public static class ProductosViewHolder extends RecyclerView.ViewHolder {
+    public static class ProductosDestacadosViewHolder extends RecyclerView.ViewHolder {
         ImageView imageProds;
         TextView txtNombre_T;
 
-        public ProductosViewHolder(@NonNull @NotNull View itemView) {
+        public ProductosDestacadosViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             imageProds = itemView.findViewById(R.id.imgProdsTodos);
             txtNombre_T = itemView.findViewById(R.id.txt_NombreProducto);

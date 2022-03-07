@@ -1,5 +1,6 @@
 package com.import_mag.importmag.Activities;
 
+import android.os.AsyncTask;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -20,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
 
-// HANDLER QUE PERMITE UN TIEMPO DE EJECUCION EN DETERMINADA ACTIVIDAD
+       // HANDLER QUE PERMITE UN TIEMPO DE EJECUCION EN DETERMINADA ACTIVIDAD
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -30,5 +31,4 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, 1000);
     }
-
 }

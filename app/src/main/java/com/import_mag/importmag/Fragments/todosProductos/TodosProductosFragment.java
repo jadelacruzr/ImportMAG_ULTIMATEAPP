@@ -1,6 +1,7 @@
 package com.import_mag.importmag.Fragments.todosProductos;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,6 @@ public class TodosProductosFragment extends Fragment {
     ProductosAdapter productosAdapter;
     RecyclerView recyclerViewcAllProds;
     ImageView caragndo2;
-    LinearLayout lpro;
 
     //LISTA DE PRODUCTOS
     ArrayList<ProdsDestacado> prodsList = new ArrayList();
@@ -54,7 +54,7 @@ public class TodosProductosFragment extends Fragment {
         recyclerViewcAllProds = binding.recyclerTodosProductos;
         caragndo2 = binding.imgCargando2;
 
-        
+
         recyclerViewcAllProds.setVisibility(View.INVISIBLE);
 
 
@@ -82,9 +82,16 @@ public class TodosProductosFragment extends Fragment {
                 List<ProdAll> Prods = response.body();
                 //RECORRIDO DE LOS DATOS EXTRAIDOS DE LA API E INSERCIÓN EN EL VIEW SLIDER
                 for (ProdAll s : Prods) {
+                    String nuevapalabra = "";
+                    System.out.println("PRODUCTO ESTÚTIPO: " + s.getName());
+                    String name = s.getName();
+                    if (name.contains("Ã¡") || name.contains("Ã©") || name.contains("Ã\u00AD") || name.contains("Ã³") || name.contains("Ãº")) {
+                        nuevapalabra = name.replaceAll("Ã¡", "á").replaceAll("Ã©", "é").replaceAll
+                                ("Ã\u00AD", "í").replaceAll("Ã³", "ó").replaceAll
+                                ("Ãº", "ú");
 
-
-                    prodsList.add(new ProdsDestacado(s.getId_product(), s.getName(), "https://import-mag.com/" + s.getId_image() + "-large_default/" + s.getLink_rewrite() + ".jpg"));
+                    } else nuevapalabra=s.getName();
+                        prodsList.add(new ProdsDestacado(s.getId_product(), nuevapalabra, "https://import-mag.com/" + s.getId_image() + "-large_default/" + s.getLink_rewrite() + ".jpg"));
                 }
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
                 recyclerViewcAllProds.setLayoutManager(layoutManager);

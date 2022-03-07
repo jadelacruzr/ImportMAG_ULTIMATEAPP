@@ -8,7 +8,7 @@
     tools:context=".Activities.RegistrarseActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/ll_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -44,7 +44,7 @@
                     android:fontFamily="sans-serif-black"
                     android:scaleType="fitCenter"
                     android:text=" ¡Inicie sesión!"
-                    android:textColor="@color/azul_import"
+                    android:textColor="@color/azulIntenso"
                     app:layout_constraintStart_toEndOf="@+id/imagenTextURL"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -150,7 +150,7 @@
                     android:layout_height="54dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="32dp"
-                    android:backgroundTint="@color/azul_import"
+                    android:backgroundTint="@color/azulIntenso"
                     android:scaleType="fitCenter"
                     android:text="Registrarse"
                     android:textColor="@color/white"
@@ -220,14 +220,14 @@
                         style="@style/Widget.AppCompat.CompoundButton.RadioButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:buttonTint="@color/azul_import"
+                        android:buttonTint="@color/azulIntenso"
                         android:text="Sr." />
 
                     <RadioButton
                         android:id="@+id/rbtnSenora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:buttonTint="@color/azul_import"
+                        android:buttonTint="@color/azulIntenso"
                         android:text="Sra." />
                 </RadioGroup>
 

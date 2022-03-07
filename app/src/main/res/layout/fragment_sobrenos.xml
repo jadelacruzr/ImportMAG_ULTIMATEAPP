@@ -38,11 +38,11 @@
                     app:layout_constraintTop_toTopOf="parent"></ImageView>
 
                 <LinearLayout
-                    android:id="@+id/linearLayout"
+                    android:id="@+id/ll_home"
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/grisobscuro"
+                    android:background="@color/gris"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -59,14 +59,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.495"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"></ImageView>
+                    app:layout_constraintTop_toBottomOf="@+id/ll_home"></ImageView>
 
                 <LinearLayout
                     android:id="@+id/linearLayout2"
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/grisobscuro"                    android:orientation="horizontal"
+                    android:background="@color/gris"                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgSobrenos2" />
@@ -89,7 +89,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/grisobscuro"
+                    android:background="@color/gris"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

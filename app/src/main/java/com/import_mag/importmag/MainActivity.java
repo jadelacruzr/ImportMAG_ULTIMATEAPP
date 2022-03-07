@@ -2,6 +2,7 @@ package com.import_mag.importmag;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
+import android.app.StatusBarManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,9 +15,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.MenuItemCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -36,10 +39,12 @@ public class MainActivity extends AppCompatActivity {
     private String keybusqueda;
 
     Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -69,15 +74,11 @@ public class MainActivity extends AppCompatActivity {
         wpp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean instalado = appInstalledOrNot("com.whatsapp");
-                if (instalado) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
 
-                    intent.setData(Uri.parse("https://wa.me/593994013402?text="));
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(MainActivity.this, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
-                }
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://wa.me/593994013402?text="));
+                startActivity(intent);
+
             }
 
         });
@@ -138,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                keybusqueda=query;
+                keybusqueda = query;
                 Intent i = new Intent(MainActivity.this, BuscarProdsActivity.class);
-                i.putExtra("stringBusqueda",keybusqueda);
-                context=MainActivity.this;
+                i.putExtra("stringBusqueda", keybusqueda);
+                context = MainActivity.this;
                 context.startActivity(i);
                 return true;
             }

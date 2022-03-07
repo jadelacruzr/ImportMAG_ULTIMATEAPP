@@ -7,8 +7,19 @@
     android:background="#FAFAFA"
     tools:context=".Fragments.inicio.InicioFragment">
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/img_cargando2"
+        android:layout_width="199dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="150dp"
+        android:contentDescription="@string/no_name"
+        android:src="@drawable/cargando2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/ll_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -66,7 +77,7 @@
                     android:textAlignment="center"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerProdDescuentos"
+                    android:id="@+id/recyclerProdDestacados"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -89,18 +100,31 @@
                     app:layout_constraintTop_toBottomOf="@+id/recyclerCategorias" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/txtCopyright"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:text="© Import MAG"
-                    android:textSize="20sp"
+                    android:shadowColor="#818080"
+                    android:text="© Todos los derechos reservados"
+                    android:textColor="#414557"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerProdDescuentos" />
+                    app:layout_constraintTop_toBottomOf="@+id/imageView6"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="115dp"
+                    android:layout_height="95dp"
+                    android:layout_marginTop="35dp"
+                    android:src="@drawable/log2sinfondo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.501"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerProdDestacados" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
