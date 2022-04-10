@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:title="@string/menu_home"
         android:id="@+id/nav_inicio"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="@string/menu_home" />
+        android:icon="@drawable/casa"
+       />
     <item
+        android:title="@string/menu_todoProductos"
         android:id="@+id/nav_todos_productos"
-        android:icon="@drawable/ic_baseline_storefront_24"
-        android:title="@string/menu_todoProductos" />
+        android:icon="@drawable/products"
+        />
     <item
-        android:id="@+id/nav_sobrenos"
-        android:icon="@drawable/ic_people"
-        android:title="@string/menu_sobreNos" />
-
+        android:title="@string/menu_categorias"
+        android:id="@+id/nav_categorias"
+        android:icon="@drawable/ic_categorias"
+        />
+    <item
+        android:title="Favoritos"
+        android:id="@+id/nav_prueba"
+        android:icon="@drawable/ic_iconcorazon"
+        />
 
 </menu>

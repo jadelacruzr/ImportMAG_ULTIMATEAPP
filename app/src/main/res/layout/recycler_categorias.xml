@@ -2,34 +2,64 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="120dp"
-    android:layout_height="60dp"
-    android:paddingStart="5dp">
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:paddingBottom="12dp"
+    android:paddingTop="8dp">
 
-
-    <ImageView
-        android:id="@+id/imgCategoria"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/err" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/txtCategorias"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="TextView"
-        android:textColor="@color/white"
-        android:textAlignment="center"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imgCategoria"
-        app:layout_constraintTop_toTopOf="@+id/imgCategoria" />
+        <TextView
+            android:id="@+id/txtAux2"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/tarjet_categorias"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:background="@drawable/tarjetform_categorias"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:paddingStart="20dp"
+            android:id="@+id/imageCategorys"
+            android:layout_width="70dp"
+            android:layout_height="90dp"
+            app:srcCompat="@drawable/about_us" />
+
+        <TextView
+            android:id="@+id/txtCategorias"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="sans-serif-smallcaps"
+            android:gravity="center"
+            android:text="TextView"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:textColor="@color/grisclaro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtAux2"
+            app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

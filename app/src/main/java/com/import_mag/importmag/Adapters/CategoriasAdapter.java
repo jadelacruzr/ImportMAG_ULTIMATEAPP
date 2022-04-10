@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.import_mag.importmag.Activities.CatProdsActivity;
 import com.import_mag.importmag.Models.Categoria;
 import com.import_mag.importmag.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
 
     private List<Categoria> listCategoria;
     private Context context;
+
 
     public CategoriasAdapter(List<Categoria> listCategoria, Context context) {
         this.listCategoria = listCategoria;
@@ -40,6 +42,13 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolderCat holder, int position) {
 
         holder.txtNameCat.setText(listCategoria.get(position).getName());
+        String id =listCategoria.get(position).getId_category();
+        String lnkf= listCategoria.get(position).getLink_rewwrite();
+
+
+        Picasso.get().load("https://import-mag.com/c/"+id+"-category_default/"+lnkf+".jpg")
+                .resize(140,180).into(holder.imageCat);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,14 +68,16 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
     }
 
     public static class ViewHolderCat extends RecyclerView.ViewHolder {
-        private ImageView imageCat;
+
         private TextView txtNameCat;
+        private ImageView imageCat;
 
 
         public ViewHolderCat(@NonNull View itemView) {
             super(itemView);
-            imageCat = itemView.findViewById(R.id.imgCategoria);
+
             txtNameCat = itemView.findViewById(R.id.txtCategorias);
+            imageCat= itemView.findViewById(R.id.imageCategorys);
 
         }
     }

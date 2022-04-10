@@ -2,7 +2,6 @@ package com.import_mag.importmag;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
-import android.app.StatusBarManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,9 +13,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -54,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         ins = binding.imgINSicono;
         wpp = binding.imgWPPicono;
         fb = binding.imgFBicono;
+
         ins.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,15 +117,17 @@ public class MainActivity extends AppCompatActivity {
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+        BottomNavigationView navView = findViewById(R.id.nav_view2);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_inicio, R.id.nav_sobrenos, R.id.nav_todos_productos)
+                R.id.nav_inicio, R.id.nav_categorias, R.id.nav_todos_productos)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupWithNavController(navView, navController);
     }
 
     @Override

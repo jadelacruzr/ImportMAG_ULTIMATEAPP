@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_inicio" />
 
     <fragment
-        android:id="@+id/nav_sobrenos"
-        android:name="com.import_mag.importmag.Fragments.sobrenos.SobreNosFragment"
-        android:label="@string/menu_sobreNos"
-        tools:layout="@layout/fragment_sobrenos" />
+        android:id="@+id/nav_categorias"
+        android:name="com.import_mag.importmag.Fragments.categorias.CategoriasFragment"
+        android:label="@string/menu_categorias"
+        tools:layout="@layout/fragment_categorias" />
 
     <fragment
         android:id="@+id/nav_todos_productos"

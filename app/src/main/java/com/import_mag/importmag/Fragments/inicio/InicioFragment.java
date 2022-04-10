@@ -28,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.import_mag.importmag.Adapters.CategoriasAdapter;
 import com.import_mag.importmag.Adapters.ProductosAdapter;
 import com.import_mag.importmag.Adapters.ProductosDestacadosAdapter;
+import com.import_mag.importmag.Fragments.FavoritosFragment;
 import com.import_mag.importmag.Interfaces.GetServiceCategorias;
 import com.import_mag.importmag.Models.Categoria;
 import com.import_mag.importmag.Models.ProdsDestacado;
@@ -58,86 +59,40 @@ public class InicioFragment extends Fragment {
     private FragmentInicioBinding binding;
 
     //VARIABLES DEL RECYCLER VIEW
-    RecyclerView recyclerViewProds,recyclerViewCat;
+    RecyclerView recyclerViewProds;
 
     //RECYCLER PARA PRODCUTOS DESTACADOS
     ProductosDestacadosAdapter productosDestacadosAdapter;
     List<ProdsDestacado> featured_products;
-
-    //RECYCLER PARA CATEGORIAS DE PRODUCTOS
-    CategoriasAdapter CatAdapter;
-    List<Categoria> listCategoria=new ArrayList<>();
-
+    //VARIABLE DEL SLIDER
+    ImageSlider slider;
     LinearLayout ll_home;
     ImageView img;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        try {
+            binding = FragmentInicioBinding.inflate(inflater, container, false);
+            View view = binding.getRoot();
 
-        binding = FragmentInicioBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
+            //IMPLEMENTACIÓN DEL SLIDER
+            slider = binding.imageSlider;
+            SliderView(slider);
 
-        //IMPLEMENTACIÓN DEL SLIDER
-        ImageSlider slider = binding.imageSlider;
-        SliderView(slider);
+            //IMPLEMENTACIÓN CARRUSEL PRODUCTOS DESTACADOS
+            recyclerViewProds = binding.recyclerProdDestacados;
+            setProductosDestacadosRecycler(recyclerViewProds);
 
-        //IMPLEMENTACIÓN CARRUSEL PRODUCTOS DESTACADOS
-        recyclerViewProds = binding.recyclerProdDestacados;
-        setProductosDestacadosRecycler(recyclerViewProds);
 
-        //IMPLEMENTACIÓN CARRUSEL CATEGORIAS
-        recyclerViewCat = binding.recyclerCategorias;
-        setCategoriasRecycler(recyclerViewCat);
+            ll_home = binding.llHome;
+            img = binding.imgCargando2;
+            ll_home.setVisibility(View.INVISIBLE);
+            return view;
 
-        ll_home= binding.llHome;
-        img= binding.imgCargando2;
-        ll_home.setVisibility(View.INVISIBLE);
-        return view;
-    }
-
-    /**
-     * MÉTODO QUE GENERA UN RECYCLER VIEW DE CATEGORIA DE PRODUCTOS
-     */
-    private void setCategoriasRecycler(RecyclerView recyclerViewcategorias) {
-
-//CONSUMO DE LA API SLIDER//
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://import-mag.com/getSlider/cat.php/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        GetServiceCategorias getServiceCategorias = retrofit.create(GetServiceCategorias.class);
-        Call<List<Categoria>> call = getServiceCategorias.find();
-        call.enqueue(new Callback<List<Categoria>>() {
-
-            @Override
-            public void onResponse(Call<List<Categoria>> call, retrofit2.Response<List<Categoria>> response) {
-                List<Categoria> categoriaList = response.body();
-                //Recorrido de los datos extraidos de la api e inserción en el View Slider
-                for (Categoria s : categoriaList) {
-                    String descr = html2text(s.getName().toString());
-                    listCategoria.add(new Categoria(s.getId_category(),descr));
-                }
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                recyclerViewcategorias.setLayoutManager(layoutManager);
-                CatAdapter = new CategoriasAdapter(listCategoria,getActivity());
-                recyclerViewcategorias.setAdapter(CatAdapter);
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Categoria>> call, Throwable t) {
-
-                Toast.makeText(getActivity(), "Error al consumir api", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    /**
-     * Método que formatea un string en formato html a texto plano
-     *
-     * @param html
-     */
-    public static String html2text(String html) {
-        return Jsoup.parse(html).wholeText();
+        } catch (Exception e) {
+            Log.e(TAG, "onCreateView", e);
+            throw e;
+        }
     }
 
     /**
@@ -196,19 +151,20 @@ public class InicioFragment extends Fragment {
                     for (int i = 0; i < tam; i++) {
                         JSONObject psdata = jasonArray.getJSONObject(i);
                         Integer id_product = psdata.getInt("id_product");
-                        //String description = psdata.getString("description");
                         String name = psdata.getString("name");
-
                         JSONObject imgs = psdata.getJSONObject("default_image");
                         String url_image = imgs.getString("url");
 
                         featured_products.add(new ProdsDestacado(id_product, name, url_image));
 
                     }
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                    recyclerViewcprodDestacados.setLayoutManager(layoutManager);
+
                     productosDestacadosAdapter = new ProductosDestacadosAdapter(getActivity(), featured_products);
                     recyclerViewcprodDestacados.setAdapter(productosDestacadosAdapter);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                    recyclerViewcprodDestacados.setLayoutManager(layoutManager);
+
+
                     ll_home.setVisibility(View.VISIBLE);
                     img.setVisibility(View.GONE);
                 } catch (JSONException e) {
@@ -231,4 +187,10 @@ public class InicioFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
+    }
 }

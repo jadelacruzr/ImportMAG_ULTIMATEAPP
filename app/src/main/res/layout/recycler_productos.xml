@@ -17,37 +17,77 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.1">
 
-        <ImageView
-            android:id="@+id/imgProdsTodos"
+        <TextView
+            android:id="@+id/txtGuia"
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="180dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/shadowimages"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+        <ImageView
+            android:id="@+id/imgProdsTodos"
+            android:layout_width="148dp"
+            android:layout_height="148dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="12dp"
+
+            android:layout_marginEnd="2dp"
+            app:layout_constraintEnd_toEndOf="@+id/txtGuia"
+            app:layout_constraintStart_toStartOf="@+id/txtGuia"
+            app:layout_constraintTop_toTopOf="@+id/txtGuia" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/circulo_forma"
+            app:layout_constraintEnd_toEndOf="@+id/imgProdsTodos"
+            app:layout_constraintTop_toTopOf="@+id/imgProdsTodos" />
+
+        <com.like.LikeButton
+            android:id="@+id/star_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon_size="30dp"
+            app:circle_end_color="@color/grisoscuro"
+            app:circle_start_color="@color/grey_font"
+            app:dots_primary_color="@color/grisoscuro"
+            app:dots_secondary_color="@color/grey_font"
+            app:like_drawable="@drawable/ic_favorito_off"
+            app:unlike_drawable="@drawable/ic_favorito_on"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+            app:layout_constraintEnd_toEndOf="@+id/imageView7"
+            app:layout_constraintLeft_toLeftOf="@id/imageView7"
+            app:layout_constraintRight_toRightOf="@id/imageView7"
+            app:layout_constraintStart_toStartOf="@+id/imageView7"
+            app:layout_constraintTop_toTopOf="@+id/imgProdsTodos">
+        </com.like.LikeButton>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-            android:id="@+id/txt_NombreProducto"
-            android:layout_width="150dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/shadow"
-            android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="11dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/clpr"
-            app:layout_constraintStart_toStartOf="@+id/clpr"
-            app:layout_constraintTop_toBottomOf="@+id/clpr"
-            app:layout_constraintVertical_bias="0.0" />
-
-
+        android:id="@+id/txt_NombreProducto"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/shadow"
+        android:fontFamily="sans-serif-smallcaps"
+        android:gravity="center"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/clpr"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/clpr"
+        app:layout_constraintTop_toBottomOf="@+id/clpr"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

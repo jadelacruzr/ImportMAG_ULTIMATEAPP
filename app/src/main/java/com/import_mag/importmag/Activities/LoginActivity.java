@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,16 +16,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
+
+import com.android.volley.NetworkResponse;
+
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+
+
+import com.android.volley.toolbox.JsonObjectRequest;
+
 import com.android.volley.toolbox.Volley;
 
-import java.util.HashMap;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.Map;
 
+import com.import_mag.importmag.PersistentCookieStore;
 import com.import_mag.importmag.R;
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,14 +47,13 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox checkViewPass;
     private ImageView cerrar2;
 
-    private String correo = "";
-
-    String nick = "Ron";
-    String password = "12345678";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //cookies store
+        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(LoginActivity.this), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+        CookieHandler.setDefault(cookieManager);
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -61,29 +73,64 @@ public class LoginActivity extends AppCompatActivity {
 
                 String emailTxt = emailLogText.getText().toString();
                 String passTxt = passwordLogText.getText().toString();
-                //String id = mfiFirebaseAuth.getUid();
-                //nick = mDatabaseReference.child("Users").child(id).child("email").getKey().toString();
-                if (!nick.isEmpty() && !password.isEmpty()) {
-                    if (password.length() >= 8) {
-                        {
-                            if (nick.equals(emailTxt) && password.equals(passTxt)) {
 
-                                //startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                Toast.makeText(LoginActivity.this, "Ha accedido correctamente", Toast.LENGTH_SHORT).show();
+                if (!emailTxt.isEmpty() && !passTxt.isEmpty()) {
+                    try {
+                        final String url = "https://import-mag.com/rest/login";
+                        JSONObject jsonBody = new JSONObject();
+                        jsonBody.put("email", emailTxt);
+                        jsonBody.put("password", passTxt);
 
-                            } else {
-                                Toast.makeText(LoginActivity.this, "No se ha podido iniciar sesión correctamente.", Toast.LENGTH_SHORT).show();
+                        final com.android.volley.Response.Listener<JSONObject> responseListener = new com.android.volley.Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                System.out.println(response.toString());
 
+                                startActivity(new Intent(LoginActivity.this, PerfilCliente.class));
                             }
-                        }
-                    } else {
-                        Toast.makeText(LoginActivity.this, "La contraseña contiene menos de 8 caracteres.", Toast.LENGTH_SHORT).show();
+                        };
+                        final com.android.volley.Response.ErrorListener errorListener = new com.android.volley.Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //Handle your errors
+                            }
+                        };
+
+                        JsonObjectRequest request2 = new JsonObjectRequest(com.android.volley.Request.Method.POST, url, jsonBody,
+                                responseListener, errorListener) {
+
+
+                            @Override
+                            protected com.android.volley.Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                                // since we don't know which of the two underlying network vehicles
+                                // will Volley use, we have to handle and store session cookies manually
+                                Log.i("response", response.headers.toString());
+                                Map<String, String> responseHeaders = response.headers;
+                                String rawCookies = responseHeaders.get("Set-Cookie");
+                                Log.i("cookies", rawCookies);
+
+
+                                return super.parseNetworkResponse(response);
+                            }
+
+                        };
+
+
+                        Volley.newRequestQueue(LoginActivity.this).add(request2);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+
+
                 } else {
                     Toast.makeText(LoginActivity.this, "Ingrese todos los campos requeridos.", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
+
 
         /**
          * Método que cierra la actividad de Registro

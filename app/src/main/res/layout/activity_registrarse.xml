@@ -52,7 +52,7 @@
                     android:id="@+id/nickText"
                     android:layout_width="300dp"
                     android:layout_height="60dp"
-
+                    android:text="Carrion"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/login_nick"
                     android:ems="10"
@@ -77,6 +77,7 @@
                     android:inputType="textEmailAddress"
                     android:paddingStart="60dp"
                     android:paddingEnd="10dp"
+                    android:text="alksldjaddka@ldsld.com"
                     android:textColorHint="@android:color/darker_gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.495"
@@ -91,6 +92,7 @@
                     android:background="@drawable/login_password"
                     android:ems="10"
                     android:hint="@string/strpass"
+                    android:text="123456789"
                     android:inputType="textPassword"
                     android:paddingStart="60dp"
                     android:paddingEnd="10dp"
@@ -111,6 +113,7 @@
                     android:ems="10"
                     android:hint="@string/strconfirmpass"
                     android:inputType="textPassword"
+                    android:text="123456789"
                     android:paddingStart="60dp"
                     android:paddingEnd="10dp"
                     android:textColorHint="@android:color/darker_gray"
@@ -172,6 +175,7 @@
                     android:inputType="textPersonName"
                     android:paddingStart="60dp"
                     android:paddingEnd="10dp"
+                    android:text="Prueba"
                     android:textColorHint="@android:color/darker_gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.504"
@@ -186,7 +190,7 @@
                     android:layout_marginEnd="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_close_24" />
+                    app:srcCompat="@drawable/ic_cerrar" />
 
                 <TextView
                     android:id="@+id/textView"

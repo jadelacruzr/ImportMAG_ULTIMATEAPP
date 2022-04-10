@@ -30,6 +30,7 @@
                     android:layout_width="290dp"
                     android:layout_height="45dp"
                     android:layout_marginTop="80dp"
+                    android:text="andrewsacm1pt@gmail.com"
                     android:background="@drawable/login_mail"
                     android:ems="10"
                     android:hint="@string/strmail"
@@ -79,6 +80,7 @@
                     android:layout_width="282dp"
                     android:layout_height="45dp"
                     android:layout_marginTop="20dp"
+                    android:text="123456789"
                     android:background="@drawable/login_password"
                     android:ems="10"
                     android:hint="@string/strpass"
@@ -99,7 +101,7 @@
                     android:layout_marginEnd="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_close_24" />
+                    app:srcCompat="@drawable/ic_cerrar" />
 
                 <TextView
                     android:id="@+id/olvidarContraseñaView"

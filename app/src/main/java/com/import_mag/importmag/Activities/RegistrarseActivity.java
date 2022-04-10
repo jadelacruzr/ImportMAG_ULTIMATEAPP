@@ -1,9 +1,14 @@
 package com.import_mag.importmag.Activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -18,19 +23,45 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
+import com.import_mag.importmag.Adapters.ProductosDestacadosAdapter;
+import com.import_mag.importmag.Models.ProdsDestacado;
+import com.import_mag.importmag.Models.Slider;
 import com.import_mag.importmag.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
+import retrofit2.http.POST;
 
-public class    RegistrarseActivity extends AppCompatActivity {
+public class RegistrarseActivity extends AppCompatActivity {
 
 
     /**
@@ -48,15 +79,15 @@ public class    RegistrarseActivity extends AppCompatActivity {
     /**
      * Variables que encapsularán los componentes de la aplicación y su contenido.
      */
-    String email = "";
-    String password = "";
-    String passwordConfirm = "";
-    String name = "";
-    String last_name = "";
+    String email;
+    String password;
+    String passwordConfirm;
+    String name;
+    String last_name;
     String gender;
     String genderE;
 
-    //Llamada al validador de credenciales de Firebase
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,36 +105,9 @@ public class    RegistrarseActivity extends AppCompatActivity {
         checkRegisterConfirmViewPass = findViewById(R.id.checkRegisterConfirmViewPass);
         nameText = findViewById(R.id.nameText);
         apellidosText = findViewById(R.id.nickText);
-        enlace_IniciarSesion=findViewById(R.id.enlace_IniciarSesion);
-        cerrar=findViewById(R.id.salirRegistro);
-        radiogroup=findViewById(R.id.rdGrupo);
-
-
-        /**
-         * Manejo del formato de la fecha
-         */
-
-        /**
-         * Desplegamiento del calendario, y asignación de datos al campo de fecha.
-         */
-        /*efecha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                 int year = calendar.get(Calendar.YEAR);
-                 int month = calendar.get(Calendar.MONTH);
-                 int day = calendar.get(Calendar.DAY_OF_MONTH);
-                 DatePickerDialog datePickerDialog = new DatePickerDialog(RegistrarseActivity.this, AlertDialog.THEME_HOLO_DARK,new DatePickerDialog.OnDateSetListener() {
-
-                     @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        efecha.setText(twoDigits(dayOfMonth)+"/"+twoDigits(month+1)+"/"+twoDigits(year));
-
-                    }
-                },day,month,year);
-                datePickerDialog.show();
-            }
-        });*/
+        enlace_IniciarSesion = findViewById(R.id.enlace_IniciarSesion);
+        cerrar = findViewById(R.id.salirRegistro);
+        radiogroup = findViewById(R.id.rdGrupo);
 
 
         /**
@@ -168,13 +172,13 @@ public class    RegistrarseActivity extends AppCompatActivity {
                 passwordConfirm = passwordconfirmText.getText().toString();
                 name = nameText.getText().toString();
                 last_name = apellidosText.getText().toString();
-                int radioID=radiogroup.getCheckedRadioButtonId();
-                radioButton=findViewById(radioID);
-                gender=radioButton.getText().toString();
-                if (gender.equals("Sr.")){
-                    genderE="1";
-                }else if (gender.equals("Sra.")){
-                    genderE="2";
+                int radioID = radiogroup.getCheckedRadioButtonId();
+                radioButton = findViewById(radioID);
+                gender = radioButton.getText().toString();
+                if (gender.equals("Sr.")) {
+                    genderE = "1";
+                } else if (gender.equals("Sra.")) {
+                    genderE = "2";
                 }
                 //Verifica si todos los campos están llenos, de no ser así verifica qué campo falta llenar
                 //Si todos los campos están llenos pregunta si la contraseña tiene más de 9 dígitos y si
@@ -184,64 +188,66 @@ public class    RegistrarseActivity extends AppCompatActivity {
                         && !passwordConfirm.isEmpty()) {
                     if (password.length() >= 9) {
                         if (passwordConfirm.equals(password)) {
-                            apiRequest(email,password,name,last_name,genderE);
+                            consumoApi(email, password, name, last_name, genderE);
                         } else {
                             Toast.makeText(RegistrarseActivity.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
                         }
-
                     } else {
                         Toast.makeText(RegistrarseActivity.this, "La contraseña debe tener al menos 9 caracteres.", Toast.LENGTH_SHORT).show();
                     }
-                } else if (email.isEmpty()) {
-                    Toast.makeText(RegistrarseActivity.this, "Debe ingresar el email.", Toast.LENGTH_SHORT).show();
-                } else if (password.isEmpty()) {
-                    Toast.makeText(RegistrarseActivity.this, "Debe ingresar una contraseña.", Toast.LENGTH_SHORT).show();
-                } else if (passwordConfirm.isEmpty()) {
-                    Toast.makeText(RegistrarseActivity.this, "Confirme su contraseña.", Toast.LENGTH_SHORT).show();
-                } else if (name.isEmpty()) {
-                    Toast.makeText(RegistrarseActivity.this, "Debe ingresar un Nombre.", Toast.LENGTH_SHORT).show();
-                } else if (last_name.isEmpty()) {
-                    Toast.makeText(RegistrarseActivity.this, "Debe ingresar su Apellido.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(RegistrarseActivity.this, "Debe completar los campos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrarseActivity.this, "Debe completar todos los campos.", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
     }    //Finaliza OnCreate
 
-    private String twoDigits(int n) {
-        return (n<=9) ? ("0"+n) : String.valueOf(n);
+
+    private void consumoApi(String email2, String password2, String name2, String last_name2, String gender2) {
+
+        try {
+
+            final String url = "https://import-mag.com/rest/register";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("email", email2);
+            jsonBody.put("password", password2);
+            jsonBody.put("firstName", name2);
+            jsonBody.put("lastName", last_name2);
+            jsonBody.put("gender", gender2);
+            final String mRequestBody = jsonBody.toString();
+
+
+            final Response.Listener<JSONObject> responseListener = new com.android.volley.Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    System.out.println(response.toString());
+
+
+                }
+            };
+
+            final Response.ErrorListener errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    //Handle your errors
+                }
+            };
+
+            JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                    responseListener,errorListener) {
+            };
+            Volley.newRequestQueue(RegistrarseActivity.this).add(request2);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void apiRequest(String email,String password,String name,String last_name,String gender){
-        ////ENVIANDO REGISTRO A LA API
 
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        MediaType mediaType = MediaType.parse("text/plain");
-        RequestBody body = RequestBody.create(mediaType, "{\n    \"email\": \""+email+"\",\n    \"password\": \""+password+"\",\n    \"firstName\": \""+name+"\",\n    \"lastName\": \""+last_name+"\",\n    \"gender\": "+gender+"\n}");
-        Request request = new Request.Builder()
-                .url("https://www.import-mag.com/rest/register")
-                .method("POST", body)
-                .build();
-       client.newCall(request).enqueue(new Callback() {
-           @Override
-           public void onFailure(Call call, IOException e) {
-
-               e.printStackTrace();
-               Toast.makeText(RegistrarseActivity.this, "Ha ocurrido un error, registro invalido", Toast.LENGTH_SHORT).show();
-               Log.println(Log.INFO,"","ha ocurrido un error");
-           }
+    private void apiRequest2(String email2, String password2, String name2, String last_name2, String gender2) {
 
 
-           @Override
-           public void onResponse(Call call, Response response) throws IOException {
-                response = client.newCall(request).execute();
-               Toast.makeText(RegistrarseActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-
-
-           }
-       });
     }
 }

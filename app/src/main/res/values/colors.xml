@@ -3,9 +3,13 @@
 
 
     <color name="white">#FFFFFF</color>
-    <color name="gris">#272626</color>
-    <color name="azulIntenso">#FF0095FF</color>
+    <color name="grisoscuro">#272626</color>
+    <color name="griscsliders">#A2A2A2</color>
+    <color name="grisclaro">#575757</color>
+    <color name="reacoff">#D5D5D5</color>
+    <color name="azulIntenso">#0187FD</color>
     <color name="colorPrimaryDark">#272626</color>
-    <color name="Rojo">#AF2222</color>
+    <color name="negro">#000000</color>
+    <color name="rojo">#C2185B</color>
 
 </resources>

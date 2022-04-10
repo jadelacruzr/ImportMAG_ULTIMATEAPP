@@ -99,9 +99,12 @@ public class BuscarProdsActivity extends AppCompatActivity {
 
                     }
                     RecyclerView.LayoutManager layoutManager = new GridLayoutManager(BuscarProdsActivity.this, 2);
-                    rvSearchProducts.setLayoutManager(layoutManager);
+
+
                     productosAdapter = new ProductosAdapter(BuscarProdsActivity.this, prodsEnconList);
+                    rvSearchProducts.setLayoutManager(layoutManager);
                     rvSearchProducts.setAdapter(productosAdapter);
+
                     rvSearchProducts.setVisibility(View.VISIBLE);
                     cargando2.setVisibility(View.INVISIBLE);
                 } catch (JSONException e) {

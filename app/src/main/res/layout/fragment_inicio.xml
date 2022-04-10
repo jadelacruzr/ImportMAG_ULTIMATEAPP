@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
+    android:background="@drawable/fondo_cajaprods"
     tools:context=".Fragments.inicio.InicioFragment">
 
     <pl.droidsonroids.gif.GifImageView
@@ -40,12 +40,12 @@
                     android:id="@+id/txt_CATEGORIAS"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="25dp"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:paddingStart="16dp"
-                    android:text="Categorías"
+                    android:text="Productos Destacados"
                     android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/image_slider">
 
@@ -56,6 +56,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="130dp"
                     app:iss_auto_cycle="true"
+                    app:iss_unselected_dot="@color/white"
+                    app:iss_selected_dot="@color/white"
                     app:iss_delay="0"
                     app:iss_title_background="@drawable/base_slider"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +68,7 @@
                 </com.denzcoskun.imageslider.ImageSlider>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerCategorias"
+                    android:id="@+id/recyclerProdDestacados"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -76,30 +78,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/txt_CATEGORIAS"
                     android:textAlignment="center"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerProdDestacados"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_Ofertas" />
-
-                <TextView
-                    android:id="@+id/txt_Ofertas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:paddingStart="16dp"
-                    android:text="Productos Destacados"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerCategorias" />
-
-                <TextView
+                    <TextView
                     android:id="@+id/txtCopyright"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

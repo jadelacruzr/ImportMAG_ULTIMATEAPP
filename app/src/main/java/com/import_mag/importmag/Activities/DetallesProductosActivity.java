@@ -107,7 +107,7 @@ public class DetallesProductosActivity extends AppCompatActivity {
 
 
         String url = "https://import-mag.com/rest/productdetail?product_id=" + id_product;
-        StringRequest postRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest getRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -163,23 +163,10 @@ public class DetallesProductosActivity extends AppCompatActivity {
                 Log.e("error: ", error.getMessage());
             }
         });
-        Volley.newRequestQueue(DetallesProductosActivity.this).add(postRequest);
+        Volley.newRequestQueue(DetallesProductosActivity.this).add(getRequest);
     }
 
     public static String html2text(String html) {
         return Jsoup.parse(html).wholeText();
     }
-
-    //MÉTODO QUE VERIFICA SI ESTÁ O NO INSTALADA UNA APLICACIÓN
-    private boolean appInstalledOrNot(String nombrePaquete, Context context) {
-
-        PackageManager pm = context.getPackageManager();
-        try {
-            pm.getPackageInfo(nombrePaquete, PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-    }
-
 }
