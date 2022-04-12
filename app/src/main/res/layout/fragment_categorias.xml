@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     android:background="#FAFAFA"
     tools:context=".Fragments.categorias.CategoriasFragment">
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/img_cargando2"
+        android:layout_width="199dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/no_name"
+        android:src="@drawable/cargando2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCategorias"

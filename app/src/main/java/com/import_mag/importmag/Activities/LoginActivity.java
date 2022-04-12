@@ -84,9 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                         final com.android.volley.Response.Listener<JSONObject> responseListener = new com.android.volley.Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                System.out.println(response.toString());
 
-                                startActivity(new Intent(LoginActivity.this, PerfilCliente.class));
                             }
                         };
                         final com.android.volley.Response.ErrorListener errorListener = new com.android.volley.Response.ErrorListener() {

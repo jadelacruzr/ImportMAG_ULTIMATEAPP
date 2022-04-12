@@ -6,7 +6,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -37,8 +40,11 @@ import com.android.volley.toolbox.Volley;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.import_mag.importmag.Adapters.ProductosDestacadosAdapter;
+import com.import_mag.importmag.Fragments.inicio.InicioFragment;
+import com.import_mag.importmag.MainActivity;
 import com.import_mag.importmag.Models.ProdsDestacado;
 import com.import_mag.importmag.Models.Slider;
+import com.import_mag.importmag.PersistentCookieStore;
 import com.import_mag.importmag.R;
 
 import org.json.JSONArray;
@@ -47,6 +53,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,10 +101,7 @@ public class RegistrarseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarse);
-
-        /**
-         * Asignación de los elementos a las variables locales.
-         */
+        //Asignación de los elementos a las variables locales.
 
         btnRegistro = findViewById(R.id.btnRegistrar);
         emailText = findViewById(R.id.emailText);
@@ -188,7 +194,12 @@ public class RegistrarseActivity extends AppCompatActivity {
                         && !passwordConfirm.isEmpty()) {
                     if (password.length() >= 9) {
                         if (passwordConfirm.equals(password)) {
-                            consumoApi(email, password, name, last_name, genderE);
+                                if (isOnlineNet() == true) {
+                                consumoApi(email, password, name, last_name, genderE);
+                            } else {
+                                Toast.makeText(RegistrarseActivity.this, "Revisa tu conexión a Internet", Toast.LENGTH_SHORT).show();
+                            }
+
                         } else {
                             Toast.makeText(RegistrarseActivity.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
                         }
@@ -215,13 +226,23 @@ public class RegistrarseActivity extends AppCompatActivity {
             jsonBody.put("firstName", name2);
             jsonBody.put("lastName", last_name2);
             jsonBody.put("gender", gender2);
-            final String mRequestBody = jsonBody.toString();
-
 
             final Response.Listener<JSONObject> responseListener = new com.android.volley.Response.Listener<JSONObject>() {
+                String mensaje = "";
+
                 @Override
                 public void onResponse(JSONObject response) {
-                    System.out.println(response.toString());
+
+                    try {
+                        String code = response.getString("code");
+                        if (code.equals("308")) {
+                            mensaje = "Usuario ya registrado con este correo electrónico";
+                            Toast.makeText(RegistrarseActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
 
                 }
@@ -230,13 +251,16 @@ public class RegistrarseActivity extends AppCompatActivity {
             final Response.ErrorListener errorListener = new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    String mensaje2 = "Usuario registrado correctamente";
+                    Toast.makeText(RegistrarseActivity.this, mensaje2, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegistrarseActivity.this, LoginActivity.class));
+                    finish();
 
-                    //Handle your errors
                 }
             };
 
             JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
-                    responseListener,errorListener) {
+                    responseListener, errorListener) {
             };
             Volley.newRequestQueue(RegistrarseActivity.this).add(request2);
 
@@ -246,8 +270,18 @@ public class RegistrarseActivity extends AppCompatActivity {
     }
 
 
-    private void apiRequest2(String email2, String password2, String name2, String last_name2, String gender2) {
+    public Boolean isOnlineNet() {
 
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
 
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

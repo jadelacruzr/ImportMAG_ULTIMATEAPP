@@ -16,8 +16,8 @@
         android:icon="@drawable/ic_categorias"
         />
     <item
-        android:title="Favoritos"
-        android:id="@+id/nav_prueba"
+        android:title="@string/menu_favs"
+        android:id="@+id/nav_favoritos"
         android:icon="@drawable/ic_iconcorazon"
         />
 

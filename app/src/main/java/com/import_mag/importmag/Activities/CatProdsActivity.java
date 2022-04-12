@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,7 +33,7 @@ public class CatProdsActivity extends AppCompatActivity {
     private RecyclerView recyclerProds;
     private ProductosAdapter productosAdapter;
     private List<ProdsDestacado> prodsEnconList;
-    private ImageView cerrar,cargando2;
+    private ImageView cerrar, cargando2;
     private String nameCat;
     private TextView txtName;
 
@@ -46,13 +47,11 @@ public class CatProdsActivity extends AppCompatActivity {
         recyclerProds = findViewById(R.id.recyclerProductosCat);
         setProductosRecycler(recyclerProds);
 
-        cargando2=findViewById(R.id.img_cargando2);
-        txtName=findViewById(R.id.txtCategoria);
+        cargando2 = findViewById(R.id.img_cargando2);
+        txtName = findViewById(R.id.txtCategoria);
         txtName.setText(nameCat);
 
         recyclerProds.setVisibility(View.INVISIBLE);
-
-
 
 
         cerrar = findViewById(R.id.salirCat);
@@ -72,11 +71,12 @@ public class CatProdsActivity extends AppCompatActivity {
      */
     private void setProductosRecycler(RecyclerView recyclerViewTodosProductos) {
         Intent i = getIntent();
-        String id_categoria =i.getStringExtra("id_categoria");
-        nameCat =i.getStringExtra("name_cat");
+        String id_categoria = i.getStringExtra("id_categoria");
+        nameCat = i.getStringExtra("name_cat");
 
-        String url = "https://import-mag.com/rest/categoryProducts?id_category="+id_categoria+"&resultsPerPage=1000";
-        StringRequest postRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        final String url = "https://import-mag.com/rest/categoryProducts?id_category=" + id_categoria + "&resultsPerPage=1000";
+
+        final Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -109,12 +109,19 @@ public class CatProdsActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }, new Response.ErrorListener() {
+        };
+
+        final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error: ", error.getMessage());
+                Toast.makeText(CatProdsActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
             }
-        });
-        Volley.newRequestQueue(CatProdsActivity.this).add(postRequest);
+        };
+
+        StringRequest request2 = new StringRequest(Request.Method.GET, url,
+                responseListener, errorListener) {
+        };
+        Volley.newRequestQueue(CatProdsActivity.this).add(request2);
+
     }
 }

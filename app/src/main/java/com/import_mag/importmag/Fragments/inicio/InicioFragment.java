@@ -2,9 +2,6 @@ package com.import_mag.importmag.Fragments.inicio;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,12 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.import_mag.importmag.Adapters.CategoriasAdapter;
-import com.import_mag.importmag.Adapters.ProductosAdapter;
 import com.import_mag.importmag.Adapters.ProductosDestacadosAdapter;
-import com.import_mag.importmag.Fragments.FavoritosFragment;
-import com.import_mag.importmag.Interfaces.GetServiceCategorias;
-import com.import_mag.importmag.Models.Categoria;
 import com.import_mag.importmag.Models.ProdsDestacado;
 import com.import_mag.importmag.databinding.FragmentInicioBinding;
 
@@ -47,7 +38,6 @@ import com.import_mag.importmag.Models.Slider;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,14 +64,18 @@ public class InicioFragment extends Fragment {
         try {
             binding = FragmentInicioBinding.inflate(inflater, container, false);
             View view = binding.getRoot();
+            if (isOnlineNet() == true) {
+                //IMPLEMENTACIÓN DEL SLIDER
+                slider = binding.imageSlider;
+                SliderView(slider);
 
-            //IMPLEMENTACIÓN DEL SLIDER
-            slider = binding.imageSlider;
-            SliderView(slider);
+                //IMPLEMENTACIÓN CARRUSEL PRODUCTOS DESTACADOS
+                recyclerViewProds = binding.recyclerProdDestacados;
+                setProductosDestacadosRecycler(recyclerViewProds);
+            }   else {
+                Toast.makeText(getActivity(), "Revisa tu conexión a Internet", Toast.LENGTH_SHORT).show();
+            }
 
-            //IMPLEMENTACIÓN CARRUSEL PRODUCTOS DESTACADOS
-            recyclerViewProds = binding.recyclerProdDestacados;
-            setProductosDestacadosRecycler(recyclerViewProds);
 
 
             ll_home = binding.llHome;
@@ -127,7 +121,7 @@ public class InicioFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Slider>> call, Throwable t) {
 
-                Toast.makeText(getActivity(), "Error al consumir api", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -139,7 +133,7 @@ public class InicioFragment extends Fragment {
     private void setProductosDestacadosRecycler(RecyclerView recyclerViewcprodDestacados) {
         String url = "https://import-mag.com/rest/featuredproducts";
 
-        StringRequest getRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        final Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -171,14 +165,34 @@ public class InicioFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-        }, new Response.ErrorListener() {
+        };
+
+        final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error: ", error.getMessage());
+                Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
-        });
-        Volley.newRequestQueue(getActivity()).add(getRequest);
+        };
 
+        StringRequest request2 = new StringRequest(Request.Method.GET, url,
+                responseListener, errorListener) {
+        };
+        Volley.newRequestQueue(getActivity()).add(request2);
+
+    }
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
@@ -187,10 +201,4 @@ public class InicioFragment extends Fragment {
         binding = null;
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-
-    }
 }

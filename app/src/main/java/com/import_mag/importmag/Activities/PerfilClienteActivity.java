@@ -2,21 +2,16 @@ package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.import_mag.importmag.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class PerfilCliente extends AppCompatActivity {
+public class PerfilClienteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +48,7 @@ public class PerfilCliente extends AppCompatActivity {
         StringRequest request2 = new StringRequest(Request.Method.GET, url,
                 responseListener,errorListener) {
         };
-        Volley.newRequestQueue(PerfilCliente.this).add(request2);
+        Volley.newRequestQueue(PerfilClienteActivity.this).add(request2);
 
 
     }

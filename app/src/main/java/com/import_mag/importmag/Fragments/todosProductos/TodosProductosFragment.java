@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.import_mag.importmag.Activities.RegistrarseActivity;
 import com.import_mag.importmag.Adapters.ProductosAdapter;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class TodosProductosFragment extends Fragment {
 
         recyclerAllProducts(recyclerViewcAllProds);
 
+
         return view;
     }
 
@@ -75,6 +77,7 @@ public class TodosProductosFragment extends Fragment {
                 .build();
         GetServiceProds getServiceProds = retrofit.create(GetServiceProds.class);
         Call<List<ProdAll>> call = getServiceProds.find();
+        if (isOnlineNet() == true) {
         call.enqueue(new Callback<List<ProdAll>>() {
 
             @Override
@@ -83,15 +86,14 @@ public class TodosProductosFragment extends Fragment {
                 //RECORRIDO DE LOS DATOS EXTRAIDOS DE LA API E INSERCIÓN EN EL VIEW SLIDER
                 for (ProdAll s : Prods) {
                     String nuevapalabra = "";
-                    System.out.println("PRODUCTO ESTÚTIPO: " + s.getName());
                     String name = s.getName();
                     if (name.contains("Ã¡") || name.contains("Ã©") || name.contains("Ã\u00AD") || name.contains("Ã³") || name.contains("Ãº")) {
                         nuevapalabra = name.replaceAll("Ã¡", "á").replaceAll("Ã©", "é").replaceAll
                                 ("Ã\u00AD", "í").replaceAll("Ã³", "ó").replaceAll
                                 ("Ãº", "ú");
 
-                    } else nuevapalabra=s.getName();
-                        prodsList.add(new ProdsDestacado(s.getId_product(), nuevapalabra, "https://import-mag.com/" + s.getId_image() + "-large_default/" + s.getLink_rewrite() + ".jpg"));
+                    } else nuevapalabra = s.getName();
+                    prodsList.add(new ProdsDestacado(s.getId_product(), nuevapalabra, "https://import-mag.com/" + s.getId_image() + "-large_default/" + s.getLink_rewrite() + ".jpg"));
                 }
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
                 recyclerViewcAllProds.setLayoutManager(layoutManager);
@@ -104,9 +106,27 @@ public class TodosProductosFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<ProdAll>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error al consumir api", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
+        } else {
+            Toast.makeText(getActivity(), "Revisa tu conexión a Internet", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

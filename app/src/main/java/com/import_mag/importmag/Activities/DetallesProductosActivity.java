@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -51,7 +52,7 @@ public class DetallesProductosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(DetallesProductosActivity.this,R.color.white));
+        getWindow().setStatusBarColor(ContextCompat.getColor(DetallesProductosActivity.this, R.color.white));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_productos);
@@ -66,8 +67,8 @@ public class DetallesProductosActivity extends AppCompatActivity {
         btnCotizar = findViewById(R.id.btnCotizar);
         crt = findViewById(R.id.clblu);
         cargando2 = findViewById(R.id.img_cargando2);
-        lin=findViewById(R.id.ll);
-        btnregresar=findViewById(R.id.btnCerrar);
+        lin = findViewById(R.id.ll);
+        btnregresar = findViewById(R.id.btnCerrar);
 
 
         nomb.setVisibility(View.INVISIBLE);
@@ -106,8 +107,10 @@ public class DetallesProductosActivity extends AppCompatActivity {
         Integer id_product = i.getIntExtra("id_product", 0);
 
 
-        String url = "https://import-mag.com/rest/productdetail?product_id=" + id_product;
-        StringRequest getRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        final String url = "https://import-mag.com/rest/productdetail?product_id=" + id_product;
+
+
+        final Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -150,20 +153,26 @@ public class DetallesProductosActivity extends AppCompatActivity {
                     btnregresar.setVisibility(View.VISIBLE);
                     crt.setVisibility(View.VISIBLE);
                     lin.setVisibility(View.VISIBLE);
-                    getWindow().setNavigationBarColor(ContextCompat.getColor(DetallesProductosActivity.this,R.color.azulIntenso));
+                    getWindow().setNavigationBarColor(ContextCompat.getColor(DetallesProductosActivity.this, R.color.azulIntenso));
 
                 } catch (
                         JSONException e) {
                     e.printStackTrace();
                 }
             }
-        }, new Response.ErrorListener() {
+        };
+
+        final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error: ", error.getMessage());
+                Toast.makeText(DetallesProductosActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
             }
-        });
-        Volley.newRequestQueue(DetallesProductosActivity.this).add(getRequest);
+        };
+
+        StringRequest request2 = new StringRequest(Request.Method.GET, url,
+                responseListener, errorListener) {
+        };
+        Volley.newRequestQueue(DetallesProductosActivity.this).add(request2);
     }
 
     public static String html2text(String html) {

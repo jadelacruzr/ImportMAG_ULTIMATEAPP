@@ -12,8 +12,15 @@
 
     <string name="menu_home">Inicio</string>
     <string name="menu_todoProductos">Todos los productos</string>
+    <string name="menu_favs">Favoritos</string>
     <string name="menu_detProductos">Detalles del Producto</string>
     <string name="menu_categorias">Categorías</string>
+
+    <string name="tituloeditlistfav">Renombrar lista de favoritos</string>
+    <string name="nomlistadefavs">Nombre de la lista de favoritos</string>
+
+    <string name="crearListFav">Crear lista de favoritos</string>
+
 
     <string name="title_activity_splash">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>

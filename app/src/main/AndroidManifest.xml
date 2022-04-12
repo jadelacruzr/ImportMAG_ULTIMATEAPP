@@ -3,6 +3,7 @@
     package="com.import_mag.importmag">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,18 @@
         android:theme="@style/Theme.ImportMAG"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Activities.PerfilCliente"
+            android:name=".Activities.NuevaListaActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ImportMAG.poput"/>
+        <activity
+            android:name=".Activities.EditarListFavsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ImportMAG.poput" />
+        <activity
+            android:name=".Activities.FavoritoDetallesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.PerfilClienteActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.DetallesProductosActivity"
@@ -41,7 +53,7 @@
             android:forceDarkAllowed="false"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.ImportMAG.NoActionBar"></activity>
+            android:theme="@style/Theme.ImportMAG.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:forceDarkAllowed="false"

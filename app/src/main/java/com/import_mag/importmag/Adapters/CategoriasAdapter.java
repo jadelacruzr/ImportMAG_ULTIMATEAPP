@@ -2,7 +2,6 @@ package com.import_mag.importmag.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +75,7 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
         public ViewHolderCat(@NonNull View itemView) {
             super(itemView);
 
-            txtNameCat = itemView.findViewById(R.id.txtCategorias);
+            txtNameCat = itemView.findViewById(R.id.txt_nombFav);
             imageCat= itemView.findViewById(R.id.imageCategorys);
 
         }
