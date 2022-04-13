@@ -4,10 +4,12 @@
 
     <color name="white">#FFFFFF</color>
     <color name="grisoscuro">#272626</color>
+    <color name= "azulobscuroimport">#07203A</color>
+    <color name= "azulclaroimport">#4ca2ca</color>
     <color name="griscsliders">#A2A2A2</color>
     <color name="grisclaro">#575757</color>
     <color name="reacoff">#D5D5D5</color>
-    <color name="azulIntenso">#0187FD</color>
+    <color name="azulIntenso">#1E91F6</color>
     <color name="colorPrimaryDark">#272626</color>
     <color name="negro">#000000</color>
     <color name="rojo">#C2185B</color>

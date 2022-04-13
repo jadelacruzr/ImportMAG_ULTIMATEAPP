@@ -1,4 +1,4 @@
-package com.import_mag.importmag.Fragments.categorias;
+package com.import_mag.importmag.Fragments;
 
 import android.os.Bundle;
 

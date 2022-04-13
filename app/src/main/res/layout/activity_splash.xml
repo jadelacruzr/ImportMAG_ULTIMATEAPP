@@ -4,31 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/azulIntenso"
+    android:background="@color/white"
     tools:context=".Activities.SplashActivity">
 
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="199dp"
-        android:layout_height="99dp"
-        android:layout_marginTop="125dp"
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/img_cargando2"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="184dp"
         android:contentDescription="@string/no_name"
-        android:src="@drawable/iconopartido1"
+        android:src="@drawable/splcart"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="197dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="232dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="96dp"
         android:contentDescription="@string/no_name"
         android:src="@drawable/iconoletras"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

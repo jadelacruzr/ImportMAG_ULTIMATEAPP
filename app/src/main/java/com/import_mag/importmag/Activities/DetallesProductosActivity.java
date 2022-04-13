@@ -8,6 +8,9 @@ import androidx.core.content.ContextCompat;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.ColorSpace;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,13 +42,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetallesProductosActivity extends AppCompatActivity {
-    ImageView img, btnregresar, cargando2;
+    ImageView btnregresar, cargando2,compartirBtn;
     TextView nomb, subnombre, desc;
-
+    ConstraintLayout clo;
     Button btnCotizar;
     String url_prod;
     LinearLayout lin;
-    ConstraintLayout crt;
 
 
     @RequiresApi(api = Build.VERSION_CODES.P)
@@ -65,19 +67,26 @@ public class DetallesProductosActivity extends AppCompatActivity {
         desc = findViewById(R.id.txtDetDescripcion);
         subnombre = findViewById(R.id.txtDesc_Short);
         btnCotizar = findViewById(R.id.btnCotizar);
-        crt = findViewById(R.id.clblu);
         cargando2 = findViewById(R.id.img_cargando2);
-        lin = findViewById(R.id.ll);
         btnregresar = findViewById(R.id.btnCerrar);
+        clo=findViewById(R.id.clo);
+        compartirBtn=findViewById(R.id.compartir_button);
+        clo.setVisibility(View.INVISIBLE);
+        cargando2.setVisibility(View.VISIBLE);
 
+        compartirBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        nomb.setVisibility(View.INVISIBLE);
-        desc.setVisibility(View.INVISIBLE);
-        subnombre.setVisibility(View.INVISIBLE);
-        btnCotizar.setVisibility(View.INVISIBLE);
-        crt.setVisibility(View.INVISIBLE);
-        lin.setVisibility(View.INVISIBLE);
+                Intent compartir = new Intent(android.content.Intent.ACTION_SEND);
+                compartir.setType("text/plain");
+                String mensaje = url_prod;
+                compartir.putExtra(android.content.Intent.EXTRA_SUBJECT, "Producto de ImporMAG");
+                compartir.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
+                startActivity(Intent.createChooser(compartir, "Compartir vía"));
 
+            }
+        });
 
         btnCotizar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,27 +143,16 @@ public class DetallesProductosActivity extends AppCompatActivity {
                         sliderList.add(new Slider(url));
                     }
                     ArrayList<SlideModel> remoteimages = new ArrayList();
-
                     for (Slider s : sliderList) {
                         remoteimages.add(new SlideModel(s.getImage(), ScaleTypes.CENTER_INSIDE));
-
                     }
                     slider.setImageList(remoteimages);
                     slider.stopSliding();
-
                     nomb.setText(name);
                     subnombre.setText(desc_sho);
                     desc.setText(descr);
                     cargando2.setVisibility(View.INVISIBLE);
-                    nomb.setVisibility(View.VISIBLE);
-                    desc.setVisibility(View.VISIBLE);
-                    subnombre.setVisibility(View.VISIBLE);
-                    btnCotizar.setVisibility(View.VISIBLE);
-                    btnregresar.setVisibility(View.VISIBLE);
-                    crt.setVisibility(View.VISIBLE);
-                    lin.setVisibility(View.VISIBLE);
-                    getWindow().setNavigationBarColor(ContextCompat.getColor(DetallesProductosActivity.this, R.color.azulIntenso));
-
+                    clo.setVisibility(View.VISIBLE);
                 } catch (
                         JSONException e) {
                     e.printStackTrace();

@@ -1,4 +1,4 @@
-package com.import_mag.importmag.Fragments.favoritos;
+package com.import_mag.importmag.Fragments;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 

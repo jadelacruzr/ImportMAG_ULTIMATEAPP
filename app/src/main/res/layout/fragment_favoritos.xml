@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.favoritos.FavoritosFragment">
+    tools:context=".Fragments.FavoritosFragment">
 
     <LinearLayout
         android:id="@+id/ll_home"
@@ -40,11 +40,11 @@
                     android:id="@+id/txtCrearLista"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:text="Crear nueva lista"
                     android:textSize="18dp"
                     android:textStyle="italic"
-                    android:textColor="@color/azulIntenso"
+                    android:textColor="@color/grisclaro"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +53,7 @@
                     android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="5dp"
                     android:src="@drawable/ic_add"
                     app:layout_constraintEnd_toStartOf="@+id/txtCrearLista"

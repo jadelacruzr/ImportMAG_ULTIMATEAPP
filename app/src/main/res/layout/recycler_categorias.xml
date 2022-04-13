@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="100dp"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
     android:paddingBottom="12dp"
@@ -39,8 +39,8 @@
             android:layout_gravity="center"
             android:paddingStart="20dp"
             android:id="@+id/imageCategorys"
-            android:layout_width="70dp"
-            android:layout_height="90dp"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
             app:srcCompat="@drawable/about_us" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:text="TextView"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:textSize="30dp"
+            android:textSize="22dp"
             android:textAlignment="center"
             android:textColor="@color/grisclaro"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -59,7 +59,7 @@
              app:dots_primary_color="@color/grisoscuro"
              app:dots_secondary_color="@color/grey_font"
              app:like_drawable="@drawable/ic_favorito_off"
-             app:unlike_drawable="@drawable/ic_favorito_on"
+             app:unlike_drawable="@drawable/ic_iconcorazon"
 
              app:layout_constraintBottom_toBottomOf="@+id/imageView7"
              app:layout_constraintEnd_toEndOf="@+id/imageView7"
@@ -77,6 +77,8 @@
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="center"
         android:text="TextView"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="11dp"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
-    tools:context=".Fragments.categorias.CategoriasFragment">
+    tools:context=".Fragments.CategoriasFragment">
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/img_cargando2"
         android:layout_width="199dp"

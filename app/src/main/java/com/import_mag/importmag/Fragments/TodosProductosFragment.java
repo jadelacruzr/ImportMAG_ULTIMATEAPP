@@ -1,4 +1,4 @@
-package com.import_mag.importmag.Fragments.todosProductos;
+package com.import_mag.importmag.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
