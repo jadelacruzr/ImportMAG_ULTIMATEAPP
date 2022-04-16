@@ -1,12 +1,19 @@
 package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -22,6 +29,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
+import com.import_mag.importmag.MainActivity;
 import com.import_mag.importmag.R;
 
 import org.json.JSONException;
@@ -40,6 +49,7 @@ public class RegistrarseActivity extends AppCompatActivity {
     private ImageView cerrar;
     private RadioButton radioButton;
     private RadioGroup radiogroup;
+    View viewmsg;
 
 
     /**
@@ -58,6 +68,7 @@ public class RegistrarseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarse);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         //Asignación de los elementos a las variables locales.
 
         btnRegistro = findViewById(R.id.btnRegistrar);
@@ -80,9 +91,13 @@ public class RegistrarseActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    int numbre = passwordTex.getSelectionEnd();
                     passwordTex.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordTex.setSelection(numbre);
                 } else {
+                    int numbre = passwordTex.getSelectionEnd();
                     passwordTex.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordTex.setSelection(numbre);
                 }
             }
         });
@@ -116,9 +131,13 @@ public class RegistrarseActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    int numbre = passwordconfirmText.getSelectionEnd();
                     passwordconfirmText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordconfirmText.setSelection(numbre);
                 } else {
+                    int numbre = passwordconfirmText.getSelectionEnd();
                     passwordconfirmText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordconfirmText.setSelection(numbre);
                 }
             }
         });
@@ -140,7 +159,7 @@ public class RegistrarseActivity extends AppCompatActivity {
                 gender = radioButton.getText().toString();
                 if (gender.equals("Sr.")) {
                     genderE = "1";
-                } else if (gender.equals("Sra.")) {
+                } else if (gender.equals("Sra./Srta.")) {
                     genderE = "2";
                 }
                 //Verifica si todos los campos están llenos, de no ser así verifica qué campo falta llenar
@@ -151,20 +170,36 @@ public class RegistrarseActivity extends AppCompatActivity {
                         && !passwordConfirm.isEmpty()) {
                     if (password.length() >= 9) {
                         if (passwordConfirm.equals(password)) {
-                                if (isOnlineNet() == true) {
+                            if (isOnlineNet() == true) {
                                 consumoApi(email, password, name, last_name, genderE);
                             } else {
-                                Toast.makeText(RegistrarseActivity.this, "Revisa tu conexión a Internet", Toast.LENGTH_SHORT).show();
+                                Snackbar snackbar = Snackbar.make(viewmsg, " ! Revisa tu conexión a Internet ", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null);
+                                View sbView = snackbar.getView();
+                                sbView.setBackgroundColor(ContextCompat.getColor(RegistrarseActivity.this, R.color.mensajeinfo));
+                                snackbar.show();
                             }
-
                         } else {
-                            Toast.makeText(RegistrarseActivity.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
+                            Snackbar snackbar = Snackbar.make(v, " ! Las contraseñas no coinciden", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null);
+                            View sbView = snackbar.getView();
+                            sbView.setBackgroundColor(ContextCompat.getColor(RegistrarseActivity.this, R.color.mensaerror));
+                            snackbar.show();
+
                         }
                     } else {
-                        Toast.makeText(RegistrarseActivity.this, "La contraseña debe tener al menos 9 caracteres.", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(v, " ! La contraseña debe contener almenos 9 caracteres", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null);
+                        View sbView = snackbar.getView();
+                        sbView.setBackgroundColor(ContextCompat.getColor(RegistrarseActivity.this, R.color.mensaerror));
+                        snackbar.show();
                     }
                 } else {
-                    Toast.makeText(RegistrarseActivity.this, "Debe completar todos los campos.", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(v, " ! Debe completar todos los campos", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(RegistrarseActivity.this, R.color.mensaerror));
+                    snackbar.show();
                 }
 
             }
@@ -192,9 +227,24 @@ public class RegistrarseActivity extends AppCompatActivity {
 
                     try {
                         String code = response.getString("code");
+
                         if (code.equals("308")) {
                             mensaje = "Usuario ya registrado con este correo electrónico";
-                            Toast.makeText(RegistrarseActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+                            Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), mensaje, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null);
+                            View sbView = snackbar.getView();
+                            sbView.setBackgroundColor(ContextCompat.getColor(RegistrarseActivity.this, R.color.mensaerror));
+                            snackbar.show();
+
+
+                        } else if (code.equals("302")) {
+                            mensaje = "Correo electrónico inválido";
+                            Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), mensaje, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null);
+                            View sbView = snackbar.getView();
+                            sbView.setBackgroundColor(ContextCompat.getColor(RegistrarseActivity.this, R.color.mensaerror));
+                            snackbar.show();
+
                         }
 
                     } catch (JSONException e) {
@@ -209,10 +259,20 @@ public class RegistrarseActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     String mensaje2 = "Usuario registrado correctamente";
-                    Toast.makeText(RegistrarseActivity.this, mensaje2, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RegistrarseActivity.this, LoginActivity.class));
-                    finish();
-
+                    Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Usuario registrado correctamente", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(RegistrarseActivity.this, R.color.mensajeok));
+                    snackbar.show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent data2 = new Intent();
+                            data2.setData(Uri.parse(email2));
+                            setResult(RESULT_OK, data2);
+                            finish();
+                        }
+                    }, 1500);
                 }
             };
 
@@ -226,13 +286,12 @@ public class RegistrarseActivity extends AppCompatActivity {
         }
     }
 
-
     public Boolean isOnlineNet() {
 
         try {
             Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
 
-            int val           = p.waitFor();
+            int val = p.waitFor();
             boolean reachable = (val == 0);
             return reachable;
 

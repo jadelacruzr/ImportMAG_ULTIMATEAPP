@@ -1,5 +1,6 @@
 package com.import_mag.importmag.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ public class ProductosDestacadosAdapter extends RecyclerView.Adapter<ProductosDe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ProductosDestacadosViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull ProductosDestacadosViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Picasso.get().load(ProductsList.get(position).getUrl_image()).resize(220,220).into(holder.imageProds);
         holder.txtNombre_T.setText(ProductsList.get(position).getName());
 

@@ -5,20 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.ColorSpace;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +25,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.import_mag.importmag.R;
 import com.import_mag.importmag.Models.Slider;
 
@@ -42,13 +41,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetallesProductosActivity extends AppCompatActivity {
-    ImageView btnregresar, cargando2,compartirBtn;
+    ImageView btnregresar, cargando2, compartirBtn, copiarBtn, btnmas, btnmenos;
     TextView nomb, subnombre, desc;
     ConstraintLayout clo;
-    Button btnCotizar;
+    EditText edtCantprod;
     String url_prod;
-    LinearLayout lin;
-
+    ExtendedFloatingActionButton btnCotizar;
+    Integer cantidIms;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -60,7 +59,6 @@ public class DetallesProductosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detalles_productos);
         //IMPLEMENTACIÓN DEL SLIDER
         ImageSlider slider = findViewById(R.id.image_sliderDetalles);
-
         consumoDetallesprods(slider);
 
         nomb = findViewById(R.id.txtDetNombre);
@@ -69,10 +67,60 @@ public class DetallesProductosActivity extends AppCompatActivity {
         btnCotizar = findViewById(R.id.btnCotizar);
         cargando2 = findViewById(R.id.img_cargando2);
         btnregresar = findViewById(R.id.btnCerrar);
-        clo=findViewById(R.id.clo);
-        compartirBtn=findViewById(R.id.compartir_button);
+        clo = findViewById(R.id.clo);
+        compartirBtn = findViewById(R.id.compartir_button);
+        copiarBtn = findViewById(R.id.copiar_buttom);
+        btnmas = findViewById(R.id.btnSumprod);
+        btnmenos = findViewById(R.id.btnrestProd);
+        edtCantprod = findViewById(R.id.edtCantProd);
+        btnCotizar.setVisibility(View.INVISIBLE);
         clo.setVisibility(View.INVISIBLE);
         cargando2.setVisibility(View.VISIBLE);
+
+
+        btnmas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cant = edtCantprod.getText().toString();
+                Integer canti = Integer.parseInt(cant);
+
+                canti += 1;
+                cant = canti.toString();
+                edtCantprod.setText(cant);
+            }
+        });
+        btnmenos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cant = edtCantprod.getText().toString();
+                Integer canti = Integer.parseInt(cant);
+                if (canti > 1) {
+                    canti -= 1;
+                    cant = canti.toString();
+                    edtCantprod.setText(cant);
+                } else {
+                    edtCantprod.setText("1");
+                }
+
+            }
+        });
+
+
+        copiarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("label", url_prod);
+                clipboard.setPrimaryClip(clip);
+                Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Enlace copiado al portapapeles", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                View sbView = snackbar.getView();
+                sbView.setBackgroundColor(ContextCompat.getColor(DetallesProductosActivity.this, R.color.mensajeinfo));
+                snackbar.show();
+
+
+            }
+        });
 
         compartirBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,11 +140,36 @@ public class DetallesProductosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                String cotizacion = "Saludos, Estoy interesado en cotizar este(s) producto(s): " + url_prod;
-                intent.setData(Uri.parse("https://wa.me/593994013402?text=" + cotizacion));
-                startActivity(intent);
+                String cant = edtCantprod.getText().toString();
+                if (!cant.isEmpty()) {
+                    Integer canti = Integer.parseInt(cant);
+                    if (canti >= 1) {
+                        String cotizacion = "Saludos, Estoy interesado en cotizar este producto:\n"
+                                + url_prod + "\n"
+                                + "Cantidad del producto: " + cant;
+                        intent.setData(Uri.parse("https://api.whatsapp.com/send?phone=593962589522&text=" + cotizacion));
+                        startActivity(intent);
+                    } else {
+                        Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "La cantidad no debe ser menor a 1", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null);
+                        View sbView = snackbar.getView();
+                        sbView.setBackgroundColor(ContextCompat.getColor(DetallesProductosActivity.this, R.color.mensaerror));
+                        snackbar.show();
+                        edtCantprod.setText("1");
+                    }
+                }else {
+                    Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "La cantidad no debe ser menor a 1", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(DetallesProductosActivity.this, R.color.mensaerror));
+                    snackbar.show();
+                    edtCantprod.setText("1");
+                }
+
             }
+
         });
+
 
         btnregresar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,22 +210,26 @@ public class DetallesProductosActivity extends AppCompatActivity {
 
                     JSONArray images = psdata.getJSONArray("images");
                     List<Slider> sliderList = new ArrayList();
-                    for (int i = 0; i < images.length(); i++) {
+                    Integer numImages = images.length();
+                    cantidIms = numImages;
+                    for (int i = 0; i < numImages; i++) {
                         JSONObject aux = images.getJSONObject(i);
                         String url = aux.getString("src");
                         sliderList.add(new Slider(url));
                     }
                     ArrayList<SlideModel> remoteimages = new ArrayList();
+
                     for (Slider s : sliderList) {
+
                         remoteimages.add(new SlideModel(s.getImage(), ScaleTypes.CENTER_INSIDE));
                     }
                     slider.setImageList(remoteimages);
-                    slider.stopSliding();
                     nomb.setText(name);
                     subnombre.setText(desc_sho);
                     desc.setText(descr);
                     cargando2.setVisibility(View.INVISIBLE);
                     clo.setVisibility(View.VISIBLE);
+                    btnCotizar.setVisibility(View.VISIBLE);
                 } catch (
                         JSONException e) {
                     e.printStackTrace();
@@ -163,7 +240,13 @@ public class DetallesProductosActivity extends AppCompatActivity {
         final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(DetallesProductosActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Error de conexíon con el servidor", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                View sbView = snackbar.getView();
+                sbView.setBackgroundColor(ContextCompat.getColor(DetallesProductosActivity.this, R.color.mensajeinfo));
+                snackbar.show();
+
+
             }
         };
 

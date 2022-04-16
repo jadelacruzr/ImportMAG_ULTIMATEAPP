@@ -2,6 +2,7 @@ package com.import_mag.importmag.Fragments;
 
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.import_mag.importmag.Activities.RegistrarseActivity;
 import com.import_mag.importmag.Adapters.CategoriasAdapter;
 import com.import_mag.importmag.Interfaces.GetServiceCategorias;
@@ -39,6 +41,7 @@ public class CategoriasFragment extends Fragment {
     CategoriasAdapter CatAdapter;
     List<Categoria> listCategoria = new ArrayList<>();
     RecyclerView recyclerViewCat;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,11 +107,21 @@ public class CategoriasFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<List<Categoria>> call, Throwable t) {
-                    Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Error de conexión con el servidor", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+                    snackbar.show();
+
                 }
             });
         } else {
-            Toast.makeText(getActivity(), "Revisa tu conexión a Internet", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Revisa tu conexión a Internet", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+            snackbar.show();
+
         }
     }
 

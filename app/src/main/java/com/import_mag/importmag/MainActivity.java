@@ -8,11 +8,16 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -27,6 +32,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.import_mag.importmag.Activities.BuscarProdsActivity;
+import com.import_mag.importmag.Activities.VentanaBuscarActivity;
 import com.import_mag.importmag.databinding.ActivityMainBinding;
 import com.import_mag.importmag.Activities.LoginActivity;
 
@@ -34,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    private String keybusqueda;
-
-    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,21 +102,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*/BOTÓN FLOTANTE WPP
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                        boolean instalado = appInstalledOrNot ("com.whatsapp");
-                        if(instalado){
-                            Intent intent = new Intent (Intent.ACTION_VIEW);
-                            String cotizacion ="Saludos, ";
-                            intent.setData(Uri.parse("https://wa.me/593994013402?text="+cotizacion));
-                            startActivity(intent);
-                        }else{
-                            Toast.makeText(MainActivity.this, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -121,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_inicio, R.id.nav_categorias, R.id.nav_todos_productos,R.id.nav_favoritos)
+                R.id.nav_inicio, R.id.nav_categorias, R.id.nav_todos_productos, R.id.nav_favoritos)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -135,24 +123,6 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        final MenuItem searchItem = menu.findItem(R.id.itm_buscar);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                keybusqueda = query;
-                Intent i = new Intent(MainActivity.this, BuscarProdsActivity.class);
-                i.putExtra("stringBusqueda", keybusqueda);
-                context = MainActivity.this;
-                context.startActivity(i);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newtext) {
-                return false;
-            }
-        });
 
         return true;
     }
@@ -160,9 +130,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.itm_opciones:
+            case R.id.itm_login:
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
+
+            case R.id.itm_buscar:
+                startActivity(new Intent(this, VentanaBuscarActivity.class));
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -174,20 +149,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-
-    //MÉTODO QUE VERIFICA SI ESTÁ O NO INSTALADA UNA APLICACIÓN
-    private boolean appInstalledOrNot(String url) {
-        PackageManager packageManager = getPackageManager();
-        boolean app_instaled;
-        try {
-            packageManager.getPackageInfo(url, PackageManager.GET_ACTIVITIES);
-            app_instaled = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            app_instaled = false;
-        }
-        return app_instaled;
     }
 
 }

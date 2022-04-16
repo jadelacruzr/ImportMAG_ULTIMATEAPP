@@ -4,14 +4,20 @@
 
     <color name="white">#FFFFFF</color>
     <color name="grisoscuro">#272626</color>
-    <color name= "azulobscuroimport">#07203A</color>
-    <color name= "azulclaroimport">#4ca2ca</color>
+    <color name="azulobscuroimport">#07203A</color>
+    <color name="azulclaroimport">#4ca2ca</color>
     <color name="griscsliders">#A2A2A2</color>
     <color name="grisclaro">#575757</color>
     <color name="reacoff">#D5D5D5</color>
     <color name="azulIntenso">#1E91F6</color>
+
+    <color name="mensajeok">#B34CA2CA</color>
+    <color name="mensaerror">#99D52664</color>
+    <color name="mensajeinfo">#992C2C2C</color>
+
+
     <color name="colorPrimaryDark">#272626</color>
     <color name="negro">#000000</color>
-    <color name="rojo">#C2185B</color>
+    <color name="rojo">#B3C31F60</color>
 
 </resources>

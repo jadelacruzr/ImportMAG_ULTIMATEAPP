@@ -1,14 +1,18 @@
 package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 import com.import_mag.importmag.R;
 
 public class PerfilClienteActivity extends AppCompatActivity {
@@ -50,6 +54,6 @@ public class PerfilClienteActivity extends AppCompatActivity {
         };
         Volley.newRequestQueue(PerfilClienteActivity.this).add(request2);
 
-
     }
+
 }

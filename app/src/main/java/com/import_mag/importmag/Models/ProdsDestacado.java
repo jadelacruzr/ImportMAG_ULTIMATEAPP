@@ -3,13 +3,18 @@ package com.import_mag.importmag.Models;
 public class ProdsDestacado {
 
     Integer id_product;
-    String name; // NombreProducto
-    String url_image;
-
+    String name,id_wish,url_image;
 
     public ProdsDestacado(Integer id_product, String name, String url_image) {
         this.id_product = id_product;
         this.name = name;
+        this.url_image = url_image;
+    }
+
+    public ProdsDestacado(Integer id_product, String name, String url_image,String id_wish) {
+        this.id_product = id_product;
+        this.name = name;
+        this.id_wish = id_wish;
         this.url_image = url_image;
     }
 
@@ -29,6 +34,14 @@ public class ProdsDestacado {
         this.name = name;
     }
 
+    public String getId_wish() {
+        return id_wish;
+    }
+
+    public void setId_wish(String id_wish) {
+        this.id_wish = id_wish;
+    }
+
     public String getUrl_image() {
         return url_image;
     }
@@ -36,5 +49,4 @@ public class ProdsDestacado {
     public void setUrl_image(String url_image) {
         this.url_image = url_image;
     }
-
 }

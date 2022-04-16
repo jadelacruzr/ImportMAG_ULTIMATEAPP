@@ -1,6 +1,7 @@
 package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.import_mag.importmag.R;
 import com.import_mag.importmag.Adapters.ProductosAdapter;
 import com.import_mag.importmag.Models.ProdsDestacado;
@@ -73,9 +76,11 @@ public class BuscarProdsActivity extends AppCompatActivity {
      * Método que genera un carrusel de Prods Encontrados
      */
     private void setProductosRecycler(RecyclerView recyclerViewTodosProductos) {
-        Intent i = getIntent();
-        strBusqueda = i.getStringExtra("stringBusqueda");
 
+        Intent i = getIntent();
+        String palabra;
+        palabra= i.getStringExtra("stringBusqueda");
+        strBusqueda=palabra;
         String url = "https://import-mag.com/rest/productSearch?s=" + strBusqueda + "&resultsPerPage=1000";
 
         final Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -112,13 +117,18 @@ public class BuscarProdsActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
         };
 
         final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(BuscarProdsActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Revisa tu conexión a Internet", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                View sbView = snackbar.getView();
+                sbView.setBackgroundColor(ContextCompat.getColor(BuscarProdsActivity.this, R.color.mensajeinfo));
+                snackbar.show();
             }
         };
 

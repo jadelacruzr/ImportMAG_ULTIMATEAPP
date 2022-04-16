@@ -5,6 +5,7 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,11 +24,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.import_mag.importmag.Activities.EditarListFavsActivity;
-import com.import_mag.importmag.Activities.FavoritoDetallesActivity;
-import com.import_mag.importmag.Activities.NuevaListaActivity;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.import_mag.importmag.Activities.VentanaNuevaListaActivity;
 import com.import_mag.importmag.Adapters.FavoritosAdapter;
 import com.import_mag.importmag.Models.Favoritos;
+import com.import_mag.importmag.R;
 import com.import_mag.importmag.databinding.FragmentFavoritosBinding;
 
 import org.json.JSONArray;
@@ -48,8 +50,8 @@ public class FavoritosFragment extends Fragment {
     RecyclerView recyclerViewcFavs;
     ImageView caragndo2;
     LinearLayout ll;
-    TextView crearNewList;
-
+    ExtendedFloatingActionButton crearNewList;
+    TextView none;
     //LISTA DE FAVORITOS
     ArrayList<Favoritos> favsList = new ArrayList();
 
@@ -62,12 +64,14 @@ public class FavoritosFragment extends Fragment {
             recyclerViewcFavs = binding.recyclerFavoritos;
             caragndo2 = binding.imgCargandoFav;
             ll = binding.llHome;
-
-            crearNewList=binding.txtCrearLista;
+            none = binding.txtnoneFavoritoslist;
+            crearNewList = binding.btnCraerList;
+            none.setVisibility(View.INVISIBLE);
+            crearNewList.setVisibility(View.INVISIBLE);
             crearNewList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(getActivity(), NuevaListaActivity.class);
+                    Intent i = new Intent(getActivity(), VentanaNuevaListaActivity.class);
                     startActivity(i);
 
                 }
@@ -79,9 +83,14 @@ public class FavoritosFragment extends Fragment {
 
             if (isOnlineNet() == true) {
                 consultaFavs(recyclerViewcFavs);
-            }   else {
-            Toast.makeText(getActivity(), "Revisa tu conexión a Internet", Toast.LENGTH_SHORT).show();
-        }
+            } else {
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Revisa tu conexión a Internet", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                View sbView = snackbar.getView();
+                sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+                snackbar.show();
+
+            }
 
 
             return view;
@@ -109,15 +118,13 @@ public class FavoritosFragment extends Fragment {
                         JSONObject psdata = jasonArray.getJSONObject(i);
                         String id_wish = psdata.getString("id_wishlist");
                         String name = psdata.getString("name");
-                        if(name.contains("My wishlist")){
-                            String nuevoName= name.replaceAll("My wishlist", "Mis favoritos");
-                            name=nuevoName;
-
-                        }
+                        /*if (name.contains("My wishlist")) {
+                            String nuevoName = name.replaceAll("My wishlist", "Mis favoritos");
+                            name = nuevoName;
+                        }*/
                         String cantList = psdata.getString("nbProducts");
                         System.out.println(id_wish + " " + name);
                         favsList.add(new Favoritos(id_wish, name, cantList));
-
                     }
 
                     favsAdapter = new FavoritosAdapter(getActivity(), favsList);
@@ -127,6 +134,8 @@ public class FavoritosFragment extends Fragment {
                     ll.setVisibility(View.VISIBLE);
                     caragndo2.setVisibility(View.GONE);
                     recyclerViewcFavs.setVisibility(View.VISIBLE);
+                    crearNewList.setVisibility(View.VISIBLE);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -137,8 +146,11 @@ public class FavoritosFragment extends Fragment {
         final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                caragndo2.setVisibility(View.INVISIBLE);
+                recyclerViewcFavs.setVisibility(View.INVISIBLE);
+                none.setVisibility(View.VISIBLE);
+                crearNewList.setVisibility(View.VISIBLE);
 
-                //Handle your errors
             }
         };
 
@@ -149,6 +161,7 @@ public class FavoritosFragment extends Fragment {
 
 
     }
+
     public Boolean isOnlineNet() {
 
         try {
@@ -163,27 +176,22 @@ public class FavoritosFragment extends Fragment {
         }
         return false;
     }
+
     @Override
     public void onResume() {
+
         super.onResume();
         try {
-
-            //IMPLEMENTACIÓN Y LLAMADO AL RECYCLERVIEW
-            recyclerViewcFavs = binding.recyclerFavoritos;
-            caragndo2 = binding.imgCargandoFav;
-            ll = binding.llHome;
-
-            caragndo2.setVisibility(View.VISIBLE);
-            recyclerViewcFavs.setVisibility(View.INVISIBLE);
-
-
             if (isOnlineNet() == true) {
                 consultaFavs(recyclerViewcFavs);
-            }   else {
-                Toast.makeText(getActivity(), "Revisa tu conexión a Internet", Toast.LENGTH_SHORT).show();
+            } else {
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Revisa tu conexión a Internet", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                View sbView = snackbar.getView();
+                sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+                snackbar.show();
+
             }
-
-
         } catch (Exception e) {
             Log.e(TAG, "onCreateView", e);
             throw e;

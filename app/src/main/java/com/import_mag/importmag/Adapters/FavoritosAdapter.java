@@ -1,5 +1,6 @@
 package com.import_mag.importmag.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<FavoritosAdapter.Favo
     Context context;
     List<Favoritos> favoritosList;
 
+
     public FavoritosAdapter(Context context, List<Favoritos> favoritosList) {
         this.context = context;
         this.favoritosList = favoritosList;
@@ -42,7 +44,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<FavoritosAdapter.Favo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull FavoritosViewHolder holder,int position) {
+    public void onBindViewHolder(@NonNull @NotNull FavoritosViewHolder holder, @SuppressLint("RecyclerView") int position) {
        String name = favoritosList.get(position).getWishlistName().toString();
         String cantidad= favoritosList.get(position).getNbProducts().toString();
 
@@ -55,7 +57,6 @@ public class FavoritosAdapter extends RecyclerView.Adapter<FavoritosAdapter.Favo
                 Intent i = new Intent(context, FavoritoDetallesActivity.class);
                 i.putExtra("id_wishlist", favoritosList.get(position).getId_wishlist());
                 i.putExtra("name_fav", favoritosList.get(position).getWishlistName());
-
                 context.startActivity(i);
             }
         });
@@ -79,30 +80,5 @@ public class FavoritosAdapter extends RecyclerView.Adapter<FavoritosAdapter.Favo
             cant=itemView.findViewById(R.id.txtcant);
 
         }
-    }
-    public void deleteFav (String idwish){
-        final String url = "https://import-mag/rest/wishlist?action=deleteWishlist&idWishList="+idwish;
-
-        final Response.Listener<String> responseListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println(response.toString());
-            }
-        };
-
-        final Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                //Handle your errors
-            }
-        };
-
-        StringRequest request2 = new StringRequest(Request.Method.GET, url,
-                responseListener,errorListener) {
-        };
-        Volley.newRequestQueue(context.getApplicationContext()).add(request2);
-
-
     }
 }

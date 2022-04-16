@@ -7,13 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.import_mag.importmag.Activities.RegistrarseActivity;
 import com.import_mag.importmag.Adapters.ProductosAdapter;
 
@@ -22,6 +25,7 @@ import java.util.List;
 
 //IMPORTACIONES DE SLIDER
 import com.import_mag.importmag.Models.ProdsDestacado;
+import com.import_mag.importmag.R;
 import com.import_mag.importmag.databinding.FragmentTodosproductosBinding;
 
 import com.import_mag.importmag.Interfaces.GetServiceProds;
@@ -42,6 +46,7 @@ public class TodosProductosFragment extends Fragment {
     ProductosAdapter productosAdapter;
     RecyclerView recyclerViewcAllProds;
     ImageView caragndo2;
+    View viewmsg;
 
     //LISTA DE PRODUCTOS
     ArrayList<ProdsDestacado> prodsList = new ArrayList();
@@ -78,39 +83,51 @@ public class TodosProductosFragment extends Fragment {
         GetServiceProds getServiceProds = retrofit.create(GetServiceProds.class);
         Call<List<ProdAll>> call = getServiceProds.find();
         if (isOnlineNet() == true) {
-        call.enqueue(new Callback<List<ProdAll>>() {
+            call.enqueue(new Callback<List<ProdAll>>() {
 
-            @Override
-            public void onResponse(Call<List<ProdAll>> call, retrofit2.Response<List<ProdAll>> response) {
-                List<ProdAll> Prods = response.body();
-                //RECORRIDO DE LOS DATOS EXTRAIDOS DE LA API E INSERCIÓN EN EL VIEW SLIDER
-                for (ProdAll s : Prods) {
-                    String nuevapalabra = "";
-                    String name = s.getName();
-                    if (name.contains("Ã¡") || name.contains("Ã©") || name.contains("Ã\u00AD") || name.contains("Ã³") || name.contains("Ãº")) {
-                        nuevapalabra = name.replaceAll("Ã¡", "á").replaceAll("Ã©", "é").replaceAll
-                                ("Ã\u00AD", "í").replaceAll("Ã³", "ó").replaceAll
-                                ("Ãº", "ú");
+                @Override
+                public void onResponse(Call<List<ProdAll>> call, retrofit2.Response<List<ProdAll>> response) {
+                    List<ProdAll> Prods = response.body();
+                    //RECORRIDO DE LOS DATOS EXTRAIDOS DE LA API E INSERCIÓN EN EL VIEW SLIDER
+                    for (ProdAll s : Prods) {
+                        String nuevapalabra = "";
+                        String name = s.getName();
+                        if (name.contains("Ã¡") || name.contains("Ã©") || name.contains("Ã\u00AD") || name.contains("Ã³") || name.contains("Ãº")) {
+                            nuevapalabra = name.replaceAll("Ã¡", "á").replaceAll("Ã©", "é").replaceAll
+                                    ("Ã\u00AD", "í").replaceAll("Ã³", "ó").replaceAll
+                                    ("Ãº", "ú");
 
-                    } else nuevapalabra = s.getName();
-                    prodsList.add(new ProdsDestacado(s.getId_product(), nuevapalabra, "https://import-mag.com/" + s.getId_image() + "-large_default/" + s.getLink_rewrite() + ".jpg"));
+                        } else nuevapalabra = s.getName();
+                        prodsList.add(new ProdsDestacado(s.getId_product(), nuevapalabra, "https://import-mag.com/" + s.getId_image() + "-large_default/" + s.getLink_rewrite() + ".jpg"));
+                    }
+                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+                    recyclerViewcAllProds.setLayoutManager(layoutManager);
+                    productosAdapter = new ProductosAdapter(getActivity(), prodsList);
+                    recyclerViewcAllProds.setAdapter(productosAdapter);
+
+                    recyclerViewcAllProds.setVisibility(View.VISIBLE);
+
+                    caragndo2.setVisibility(View.INVISIBLE);
                 }
-                RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-                recyclerViewcAllProds.setLayoutManager(layoutManager);
-                productosAdapter = new ProductosAdapter(getActivity(), prodsList);
-                recyclerViewcAllProds.setAdapter(productosAdapter);
 
-                recyclerViewcAllProds.setVisibility(View.VISIBLE);
-                caragndo2.setVisibility(View.INVISIBLE);
-            }
+                @Override
+                public void onFailure(Call<List<ProdAll>> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<List<ProdAll>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Error de conexión con el servidor", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+                    snackbar.show();
+
+                }
+            });
         } else {
-            Toast.makeText(getActivity(), "Revisa tu conexión a Internet", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Revisa tu conexión a Internet", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+            snackbar.show();
+
         }
     }
 

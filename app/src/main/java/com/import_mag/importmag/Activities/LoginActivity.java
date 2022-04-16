@@ -1,6 +1,7 @@
 package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -31,6 +33,8 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.Map;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.import_mag.importmag.PersistentCookieStore;
 import com.import_mag.importmag.R;
 
@@ -41,11 +45,13 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button btnLogin;
+    ExtendedFloatingActionButton btnLogin;
     EditText emailLogText, passwordLogText;
     TextView olvidarContraseña, btnRegistrar;
     CheckBox checkViewPass;
     private ImageView cerrar2;
+
+    private static final int CODIGO_ACTIVIDAD = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         CookieManager cookieManager = new CookieManager(new PersistentCookieStore(LoginActivity.this), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
         CookieHandler.setDefault(cookieManager);
 
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -123,7 +129,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 } else {
-                    Toast.makeText(LoginActivity.this, "Ingrese todos los campos requeridos.", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "LLene todos los campos", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.mensaerror));
+                    snackbar.show();
+
+
                 }
 
             }
@@ -146,14 +158,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegistrarseActivity.class));
-                finish();
+
             }
         });
 
         olvidarContraseña.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Aun no funciona", Toast.LENGTH_SHORT).show();
+
                 //startActivity(new Intent(LoginActivity.this, ResetPassword.class));
             }
         });
@@ -162,12 +174,37 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    int numbre = passwordLogText.getSelectionEnd();
+
                     passwordLogText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordLogText.setSelection(numbre);
+
+
                 } else {
+                    int numbre = passwordLogText.getSelectionEnd();
                     passwordLogText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordLogText.setSelection(numbre);
                 }
             }
         });
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if ((requestCode == CODIGO_ACTIVIDAD) && (resultCode == RESULT_OK)) {
+
+            emailLogText.setText(data.getDataString());
+            passwordLogText.setText("");
+
+            Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Ingrese su contraseña", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.mensajeok));
+            snackbar.show();
+        }
     }
 
 }

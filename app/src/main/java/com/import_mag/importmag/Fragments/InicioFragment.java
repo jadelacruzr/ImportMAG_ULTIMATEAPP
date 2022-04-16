@@ -4,15 +4,18 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +24,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.import_mag.importmag.Adapters.CategoriasAdapter;
+import com.import_mag.importmag.Adapters.CategoriasAdapterInicio;
 import com.import_mag.importmag.Adapters.ProductosDestacadosAdapter;
+import com.import_mag.importmag.Interfaces.GetServiceCategorias;
+import com.import_mag.importmag.Models.Categoria;
 import com.import_mag.importmag.Models.ProdsDestacado;
+import com.import_mag.importmag.R;
 import com.import_mag.importmag.databinding.FragmentInicioBinding;
 
 import java.util.ArrayList;
@@ -58,6 +68,10 @@ public class InicioFragment extends Fragment {
     ImageSlider slider;
     LinearLayout ll_home;
     ImageView img;
+    //RECYCLER PARA CATEGORIAS
+    CategoriasAdapterInicio CatAdapter;
+    List<Categoria> listCategoria = new ArrayList<>();
+    RecyclerView recyclerViewCat;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,15 +83,22 @@ public class InicioFragment extends Fragment {
                 slider = binding.imageSlider;
                 SliderView(slider);
 
+                ////IMPLEMENTACIÓN CARRUSEL DE PRODUCTOS
+                recyclerViewCat = binding.recyclerCategorias;
+                setCategoriasRecycler(recyclerViewCat);
+
                 //IMPLEMENTACIÓN CARRUSEL PRODUCTOS DESTACADOS
                 recyclerViewProds = binding.recyclerProdDestacados;
                 setProductosDestacadosRecycler(recyclerViewProds);
-            }   else {
-                Toast.makeText(getActivity(), "Revisa tu conexión a Internet", Toast.LENGTH_SHORT).show();
+            } else {
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Revisa tu conexión a Internet", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                View sbView = snackbar.getView();
+                sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+                snackbar.show();
+
+
             }
-
-
-
             ll_home = binding.llHome;
             img = binding.imgCargando2;
             ll_home.setVisibility(View.INVISIBLE);
@@ -87,6 +108,7 @@ public class InicioFragment extends Fragment {
             Log.e(TAG, "onCreateView", e);
             throw e;
         }
+
     }
 
     /**
@@ -112,7 +134,8 @@ public class InicioFragment extends Fragment {
                 List<Slider> sliderList = response.body();
                 //Recorrido de los datos extraidos de la api e inserción en el View Slider
                 for (Slider s : sliderList) {
-                    remoteimages.add(new SlideModel("https://www.import-mag.com/modules/ps_imageslider/images/" + s.getImage(), s.getLegend(), ScaleTypes.FIT));
+                    remoteimages.add(new SlideModel("https://www.import-mag.com/modules/ps_imageslider/images/"
+                            + s.getImage(), s.getLegend(), ScaleTypes.FIT));
                 }
                 slider.setImageList(remoteimages);
                 slider.startSliding(1500);
@@ -120,8 +143,12 @@ public class InicioFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Slider>> call, Throwable t) {
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Error de conexión con el servidor", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                View sbView = snackbar.getView();
+                sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+                snackbar.show();
 
-                Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -155,7 +182,8 @@ public class InicioFragment extends Fragment {
 
                     productosDestacadosAdapter = new ProductosDestacadosAdapter(getActivity(), featured_products);
                     recyclerViewcprodDestacados.setAdapter(productosDestacadosAdapter);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(),
+                            LinearLayoutManager.HORIZONTAL, false);
                     recyclerViewcprodDestacados.setLayoutManager(layoutManager);
 
 
@@ -170,7 +198,11 @@ public class InicioFragment extends Fragment {
         final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Error de conexión con el servidor", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                View sbView = snackbar.getView();
+                sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+                snackbar.show();
             }
         };
 
@@ -180,6 +212,65 @@ public class InicioFragment extends Fragment {
         Volley.newRequestQueue(getActivity()).add(request2);
 
     }
+
+    /**
+     * MÉTODO QUE GENERA UN RECYCLERVIEW DE CATEGORIAS
+     */
+    private void setCategoriasRecycler(RecyclerView recyclerViewcategorias) {
+
+        //CONSUMO DE LA API CATEGORIAS//
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://import-mag.com/getSlider/cat.php/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        GetServiceCategorias getServiceCategorias = retrofit.create(GetServiceCategorias.class);
+        Call<List<Categoria>> call = getServiceCategorias.find();
+
+        if (isOnlineNet() == true) {
+            call.enqueue(new Callback<List<Categoria>>() {
+                @Override
+                public void onResponse(Call<List<Categoria>> call, retrofit2.Response<List<Categoria>> response) {
+                    List<Categoria> categoriaList = response.body();
+
+                    for (Categoria s : categoriaList) {
+                        String link_r = s.getLink_rewwrite();
+                        String descr = s.getName().toString();
+                        String nuevapalabra = descr;
+                        if (descr.contains("Ã¡") || descr.contains("Ã©") || descr.contains("Ã\u00AD") || descr.contains("Ã³") || descr.contains("Ãº")) {
+                            nuevapalabra = descr.replaceAll("Ã¡", "á").replaceAll("Ã©", "é").replaceAll
+                                    ("Ã\u00AD", "í").replaceAll("Ã³", "ó").replaceAll
+                                    ("Ãº", "ú");
+                        }
+                        listCategoria.add(new Categoria(s.getId_category(), nuevapalabra, link_r));
+                    }
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(),
+                            LinearLayoutManager.HORIZONTAL, false);
+                    recyclerViewcategorias.setLayoutManager(layoutManager);
+                    CatAdapter = new CategoriasAdapterInicio(listCategoria, getActivity());
+                    recyclerViewcategorias.setAdapter(CatAdapter);
+                }
+
+                @Override
+                public void onFailure(Call<List<Categoria>> call, Throwable t) {
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Error de conexión con el servidor", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+                    snackbar.show();
+                }
+            });
+        } else {
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Revisa tu conexión a Internet", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mensajeinfo));
+            snackbar.show();
+        }
+    }
+
+    /**
+     * MÉTODO QUE VERIFICA CONECTIVIDAD DEL DISPOSITIVO
+     */
     public Boolean isOnlineNet() {
 
         try {
@@ -194,6 +285,7 @@ public class InicioFragment extends Fragment {
         }
         return false;
     }
+
 
     @Override
     public void onDestroyView() {

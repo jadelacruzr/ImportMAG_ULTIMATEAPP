@@ -1,6 +1,7 @@
 package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 import com.import_mag.importmag.Adapters.ProductosAdapter;
 import com.import_mag.importmag.Models.ProdsDestacado;
 import com.import_mag.importmag.R;
@@ -114,7 +116,13 @@ public class CatProdsActivity extends AppCompatActivity {
         final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(CatProdsActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Error de conexión con el servidor", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                View sbView = snackbar.getView();
+                sbView.setBackgroundColor(ContextCompat.getColor(CatProdsActivity.this, R.color.mensajeinfo));
+                snackbar.show();
+
+
             }
         };
 

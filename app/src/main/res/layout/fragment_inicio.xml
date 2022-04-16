@@ -37,17 +37,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/txt_CATEGORIAS"
+                    android:id="@+id/txt_prodsDestacados"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/istok_web"
                     android:paddingStart="16dp"
-                    android:text="Productos Destacados"
+                    android:text="Categorías"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/image_slider">
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerProdDestacados">
 
                 </TextView>
 
@@ -56,8 +56,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="130dp"
                     app:iss_auto_cycle="true"
-                    app:iss_unselected_dot="@color/white"
-                    app:iss_selected_dot="@color/white"
+                    app:iss_placeholder="@drawable/cargaslider"
+                    app:iss_unselected_dot="@drawable/shape_sliderinicio"
+                    app:iss_selected_dot="@drawable/shape_sliderinicio"
                     app:iss_delay="0"
                     app:iss_title_background="@drawable/base_slider"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -68,17 +69,37 @@
                 </com.denzcoskun.imageslider.ImageSlider>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerProdDestacados"
+                    android:id="@+id/recyclerCategorias"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_CATEGORIAS"
-                    android:textAlignment="center"/>
+                    app:layout_constraintTop_toBottomOf="@+id/txt_prodsDestacados" />
 
-                    <TextView
+                <TextView
+                    android:id="@+id/txt_categorias"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                   android:paddingStart="16dp"
+                    android:fontFamily="@font/istok_web"
+                    android:text="Productos destacados"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_slider"></TextView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerProdDestacados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_categorias" />
+
+                <TextView
                     android:id="@+id/txtCopyright"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,7 +124,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.501"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerProdDestacados" />
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerCategorias" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

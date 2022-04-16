@@ -4,7 +4,7 @@
 >
 
     <item
-        android:id="@+id/itm_opciones"
+        android:id="@+id/itm_login"
         android:orderInCategory="100"
         android:icon="@drawable/ic_login"
         android:title="@string/action_loggin"
@@ -15,8 +15,9 @@
         android:id="@+id/itm_buscar"
         android:title="Buscar"
         app:showAsAction="always"
-        app:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_buscar"
         />
+
 
 
     <!-->

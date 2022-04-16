@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Activities.EditarListFavsActivity">
+    tools:context=".Activities.VentanaEditarListFavsActivity">
 
     <TextView
         android:id="@+id/textView7"
@@ -38,7 +38,7 @@
         android:background="@drawable/forma_campotexto"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        android:text="Name"
+        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView8"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/azulIntenso"
+        android:backgroundTint="@color/azulclaroimport"
         android:contentDescription="@string/sinnombre"
         android:fontFamily="sans-serif-black"
         android:textColor="@color/white"

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CampoTextoPurpura" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/azulclaroimport</item>
+        <item name="colorControlActivated">#FFFFFF</item>
+        <item name="android:textColorHighlight">@color/griscsliders</item>
+    </style>
+    <!-- snackbar style in res/values -->
+
+</resources>

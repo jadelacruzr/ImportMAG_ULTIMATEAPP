@@ -19,13 +19,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.ViewHolderCat> {
+public class CategoriasAdapterInicio extends RecyclerView.Adapter<CategoriasAdapterInicio.ViewHolderCat> {
 
     private List<Categoria> listCategoria;
     private Context context;
 
 
-    public CategoriasAdapter(List<Categoria> listCategoria, Context context) {
+    public CategoriasAdapterInicio(List<Categoria> listCategoria, Context context) {
         this.listCategoria = listCategoria;
         this.context = context;
     }
@@ -33,7 +33,7 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
     @NonNull
     @Override
     public ViewHolderCat onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recycler_categorias, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recycler_categorias_inicio, parent, false);
         return new ViewHolderCat(view);
 
     }
@@ -41,10 +41,8 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolderCat holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.txtNameCat.setText(listCategoria.get(position).getName());
         String id =listCategoria.get(position).getId_category();
         String lnkf= listCategoria.get(position).getLink_rewwrite();
-
 
         Picasso.get().load("https://import-mag.com/c/"+id+"-category_default/"+lnkf+".jpg")
                 .resize(140,180).into(holder.imageCat);
@@ -58,7 +56,6 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
                 context.startActivity(i);
             }
         });
-
     }
 
 
@@ -69,15 +66,14 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
 
     public static class ViewHolderCat extends RecyclerView.ViewHolder {
 
-        private TextView txtNameCat;
         private ImageView imageCat;
 
 
         public ViewHolderCat(@NonNull View itemView) {
             super(itemView);
 
-            txtNameCat = itemView.findViewById(R.id.txt_nombFav);
-            imageCat= itemView.findViewById(R.id.imageCategorys);
+
+            imageCat= itemView.findViewById(R.id.imageCategorysInicio);
 
         }
     }

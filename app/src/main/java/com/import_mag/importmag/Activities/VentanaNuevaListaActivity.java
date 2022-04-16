@@ -1,11 +1,12 @@
 package com.import_mag.importmag.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,12 +16,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 import com.import_mag.importmag.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class NuevaListaActivity extends AppCompatActivity {
+public class VentanaNuevaListaActivity extends AppCompatActivity {
     EditText editName;
     Button cancelar, crearListFav;
 
@@ -28,12 +30,12 @@ public class NuevaListaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_lista);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         DisplayMetrics medidasVentana = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(medidasVentana);
         int ancho = medidasVentana.widthPixels;
         int alto = medidasVentana.heightPixels;
-        getWindow().setLayout((int) (ancho * 0.85), (int) (alto * 0.5));
+        getWindow().setLayout((int) (ancho * 0.85), (int) (alto * 0.4));
 
 
         editName = findViewById(R.id.edtxtCrearListFav);
@@ -62,11 +64,20 @@ public class NuevaListaActivity extends AppCompatActivity {
                             String mensaje =jsonObject.getString("message");
                             String code =jsonObject.getString("code");
                             if (code.equals("200")){
-                                Toast.makeText(NuevaListaActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+
+                                Snackbar snackbar = Snackbar.make(view, mensaje, Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null);
+                                View sbView = snackbar.getView();
+                                sbView.setBackgroundColor(ContextCompat.getColor(VentanaNuevaListaActivity.this, R.color.mensajeok));
+                                snackbar.show();
                                 finish();
 
                             }else{
-                                Toast.makeText(NuevaListaActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+                                Snackbar snackbar = Snackbar.make(view, mensaje, Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null);
+                                View sbView = snackbar.getView();
+                                sbView.setBackgroundColor(ContextCompat.getColor(VentanaNuevaListaActivity.this, R.color.mensaerror));
+                                snackbar.show();
                             }
 
                         } catch (JSONException e) {
@@ -78,14 +89,19 @@ public class NuevaListaActivity extends AppCompatActivity {
                 final Response.ErrorListener errorListener = new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(NuevaListaActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(view, " ! Error de conexión ", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null);
+                        View sbView = snackbar.getView();
+                        sbView.setBackgroundColor(ContextCompat.getColor(VentanaNuevaListaActivity.this, R.color.mensajeinfo));
+                        snackbar.show();
+                        finish();
                     }
                 };
 
                 StringRequest request2 = new StringRequest(Request.Method.GET, url,
                         responseListener,errorListener) {
                 };
-                Volley.newRequestQueue(NuevaListaActivity.this).add(request2);
+                Volley.newRequestQueue(VentanaNuevaListaActivity.this).add(request2);
             }
         });
 

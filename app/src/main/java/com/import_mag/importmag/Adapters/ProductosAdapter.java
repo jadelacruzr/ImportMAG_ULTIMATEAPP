@@ -70,7 +70,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         public ProductosViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             imageProds = itemView.findViewById(R.id.imgProdsTodos);
-            txtNombre_T = itemView.findViewById(R.id.txt_NombreProducto);
+            txtNombre_T = itemView.findViewById(R.id.txt_NombreProductoAll);
 
         }
     }
