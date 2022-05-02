@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,7 +24,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -64,7 +62,7 @@ public class DetallesProductosActivity extends AppCompatActivity {
         nomb = findViewById(R.id.txtDetNombre);
         desc = findViewById(R.id.txtDetDescripcion);
         subnombre = findViewById(R.id.txtDesc_Short);
-        btnCotizar = findViewById(R.id.btnCotizar);
+        btnCotizar = findViewById(R.id.btnWppMirianAnd);
         cargando2 = findViewById(R.id.img_cargando2);
         btnregresar = findViewById(R.id.btnCerrar);
         clo = findViewById(R.id.clo);

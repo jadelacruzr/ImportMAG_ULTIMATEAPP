@@ -18,7 +18,7 @@ public class VentanaBuscarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ventana_buscar);
 

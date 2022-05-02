@@ -1,5 +1,7 @@
 package com.import_mag.importmag.Adapters;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 
 import android.content.Intent;
@@ -10,11 +12,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.import_mag.importmag.Activities.DetallesProductosActivity;
 import com.import_mag.importmag.Models.ProdsDestacado;
 import com.import_mag.importmag.R;
+import com.import_mag.importmag.Activities.VentanaAgregarLike;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +46,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ProductosViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull ProductosViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Picasso.get().load(ProductsList.get(position).getUrl_image()).resize(220,220).into(holder.imageProds);
         String name =ProductsList.get(position).getName();
 
@@ -50,9 +57,23 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, DetallesProductosActivity.class);
-                i.putExtra("id_product",ProductsList.get(position).getId_product());
-
+                i.putExtra("id_product", ProductsList.get(position).getId_product());
                 context.startActivity(i);
+            }
+        });
+
+        holder.btnlike.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                Intent i = new Intent(context, VentanaAgregarLike.class);
+                i.putExtra("id_productoo", ProductsList.get(position).getId_product());
+                context.startActivity(i);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+
             }
         });
 
@@ -66,12 +87,17 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
     public static class ProductosViewHolder extends RecyclerView.ViewHolder {
         ImageView imageProds;
         TextView txtNombre_T;
+        LikeButton btnlike;
 
         public ProductosViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             imageProds = itemView.findViewById(R.id.imgProdsTodos);
             txtNombre_T = itemView.findViewById(R.id.txt_NombreProductoAll);
+            btnlike=itemView.findViewById(R.id.btn_like);
 
         }
+    }
+    public static void darlike(Boolean conf){
+
     }
 }

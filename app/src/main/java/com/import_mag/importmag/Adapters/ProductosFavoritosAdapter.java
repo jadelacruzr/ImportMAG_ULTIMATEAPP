@@ -56,7 +56,7 @@ public class ProductosFavoritosAdapter extends RecyclerView.Adapter<ProductosFav
         Picasso.get().load(ProductsList.get(position).getUrl_image()).resize(220, 220).into(holder.imageProds);
         String name = ProductsList.get(position).getName();
 
-
+        holder.none.setVisibility(View.INVISIBLE);
         holder.txtNombre_T.setText(name);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +97,7 @@ public class ProductosFavoritosAdapter extends RecyclerView.Adapter<ProductosFav
                                                 snackbar.show();
                                                 ProductsList.remove(position);
                                                 notifyDataSetChanged();
+
                                             } else {
                                                 Snackbar snackbar = Snackbar.make(view, mensaje, Snackbar.LENGTH_LONG)
                                                         .setAction("Action", null);
@@ -152,16 +153,17 @@ public class ProductosFavoritosAdapter extends RecyclerView.Adapter<ProductosFav
 
     public static class ProductosFavoritosViewHolder extends RecyclerView.ViewHolder {
         ImageView imageProds, btnEliminarProd;
-        TextView txtNombre_T;
+        TextView txtNombre_T, none;
 
         public ProductosFavoritosViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             imageProds = itemView.findViewById(R.id.imgProdsTodos);
             txtNombre_T = itemView.findViewById(R.id.txtNombre_T);
             btnEliminarProd = itemView.findViewById(R.id.btn_eliminarPF);
+            none = itemView.findViewById(R.id.txtNoneProdListR);
 
         }
-        
+
     }
 
 }

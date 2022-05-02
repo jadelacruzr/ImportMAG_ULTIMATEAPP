@@ -4,26 +4,30 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.view.MenuItemCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -31,7 +35,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.import_mag.importmag.Activities.BuscarProdsActivity;
+import com.google.android.material.snackbar.Snackbar;
+import com.import_mag.importmag.Activities.PerfilClienteActivity;
+import com.import_mag.importmag.Activities.SobrenosActivity;
 import com.import_mag.importmag.Activities.VentanaBuscarActivity;
 import com.import_mag.importmag.databinding.ActivityMainBinding;
 import com.import_mag.importmag.Activities.LoginActivity;
@@ -40,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +57,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        //IMPLEMENTACION BOTONES REDES SOCIALES
+        //Obteniendo datos del shared preferences
+        String email_nn = getFromSharedPreferences(MainActivity.this, "email");
+        String last_name = getFromSharedPreferences(MainActivity.this, "last_name");
+        String first_name = getFromSharedPreferences(MainActivity.this, "first_name");
+
+        // Mandando datos al header del drawer
+        TextView emailTxt, nombre, apellido;
+        final View vistaheader = binding.navView.getHeaderView(0);
+        emailTxt = vistaheader.findViewById(R.id.txtEmailUser);
+        nombre = vistaheader.findViewById(R.id.txtSlogan1);
+        apellido = vistaheader.findViewById(R.id.txtNumTelf1);
+        emailTxt.setText(email_nn);
+        nombre.setText(first_name);
+        apellido.setText(last_name);
+
+        // Implementación de botones de redes sociales
         ImageView ins, wpp, fb;
         ins = binding.imgINSicono;
         wpp = binding.imgWPPicono;
@@ -104,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
-        BottomNavigationView navView = findViewById(R.id.nav_view2);
+        NavigationView drawerNavView = binding.navView;
+        BottomNavigationView bottomNavView = findViewById(R.id.nav_view2);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -114,8 +136,27 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-        NavigationUI.setupWithNavController(navView, navController);
+        NavigationUI.setupWithNavController(drawerNavView, navController);
+        NavigationUI.setupWithNavController(bottomNavView, navController);
+
+
+        drawerNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.navMicuenta) {
+                    Intent i = new Intent(MainActivity.this, PerfilClienteActivity.class);
+                    startActivity(i);
+                }
+                if (item.getItemId() == R.id.nav_SobreNos) {
+                    Intent i = new Intent(MainActivity.this, SobrenosActivity.class);
+                    startActivity(i);
+                     }
+                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -130,8 +171,44 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.itm_login:
-                startActivity(new Intent(this, LoginActivity.class));
+            case R.id.itm_login_out:
+
+                final String url = "https://import-mag.com/rest/logout";
+
+                final Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                };
+
+                final Response.ErrorListener errorListener = new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                };
+
+                StringRequest request2 = new StringRequest(Request.Method.GET, url,
+                        responseListener, errorListener) {
+                };
+                Volley.newRequestQueue(MainActivity.this).add(request2);
+                Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Cerrando sesión", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                View sbView = snackbar.getView();
+                sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.mensajeok));
+                snackbar.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                }, 1500);
+
+                SharedPreferences.Editor editor = getSharedPreferences("logvalidate", MODE_PRIVATE).edit();
+                editor.clear().apply();
+
                 return true;
 
             case R.id.itm_buscar:
@@ -143,6 +220,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    public static String getFromSharedPreferences(Context context, String key) {
+        SharedPreferences sharedPref = context.getSharedPreferences("logvalidate", Context.MODE_PRIVATE);
+        return sharedPref.getString(key, "");
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {

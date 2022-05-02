@@ -3,7 +3,9 @@ package com.import_mag.importmag.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -35,10 +37,12 @@ import java.util.Map;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.import_mag.importmag.MainActivity;
 import com.import_mag.importmag.PersistentCookieStore;
 import com.import_mag.importmag.R;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,8 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     ExtendedFloatingActionButton btnLogin;
     EditText emailLogText, passwordLogText;
     TextView olvidarContraseña, btnRegistrar;
-    CheckBox checkViewPass;
-    private ImageView cerrar2;
+
 
     private static final int CODIGO_ACTIVIDAD = 1;
 
@@ -69,10 +72,10 @@ public class LoginActivity extends AppCompatActivity {
         emailLogText = findViewById(R.id.emailLogText);
         passwordLogText = findViewById(R.id.passwordLogText);
 
-        checkViewPass = findViewById(R.id.checkViewPass);
+
 
         olvidarContraseña = findViewById(R.id.olvidarContraseñaView);
-        cerrar2 = findViewById(R.id.salirInicioSesion);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,32 +93,57 @@ public class LoginActivity extends AppCompatActivity {
                         final com.android.volley.Response.Listener<JSONObject> responseListener = new com.android.volley.Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
+                                try {
 
+                                    String codigo = response.getString("code");
+
+                                    if (codigo.equals("200")) {
+                                        JSONObject psdata = response.getJSONObject("psdata");
+                                        String mensaje = psdata.getString("message");
+                                        String cust_id = psdata.getString("customer_id");
+                                        JSONObject user = psdata.getJSONObject("user");
+                                        String lastname = user.getString("lastname");
+                                        String firstname = user.getString("firstname");
+                                        String gendern = user.getString("id_gender");
+
+
+                                        Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Ingresando..", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null);
+                                        View sbView = snackbar.getView();
+                                        sbView.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.mensajeok));
+                                        snackbar.show();
+                                        saveLoginSharedPreference(emailTxt,passTxt,cust_id,lastname,firstname,gendern);
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        String mensajeerr = response.getString("psdata");
+                                        Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), mensajeerr, Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null);
+                                        View sbView = snackbar.getView();
+                                        sbView.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.mensaerror));
+                                        snackbar.show();
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         };
                         final com.android.volley.Response.ErrorListener errorListener = new com.android.volley.Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                //Handle your errors
+                                Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Error de conexión con el servidor", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null);
+                                View sbView = snackbar.getView();
+                                sbView.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.mensajeinfo));
+                                snackbar.show();
                             }
                         };
 
                         JsonObjectRequest request2 = new JsonObjectRequest(com.android.volley.Request.Method.POST, url, jsonBody,
                                 responseListener, errorListener) {
 
-
-                            @Override
-                            protected com.android.volley.Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                                // since we don't know which of the two underlying network vehicles
-                                // will Volley use, we have to handle and store session cookies manually
-                                Log.i("response", response.headers.toString());
-                                Map<String, String> responseHeaders = response.headers;
-                                String rawCookies = responseHeaders.get("Set-Cookie");
-                                Log.i("cookies", rawCookies);
-
-
-                                return super.parseNetworkResponse(response);
-                            }
 
                         };
 
@@ -145,13 +173,6 @@ public class LoginActivity extends AppCompatActivity {
         /**
          * Método que cierra la actividad de Registro
          */
-        cerrar2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-
-            }
-        });
 
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
@@ -170,41 +191,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        checkViewPass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    int numbre = passwordLogText.getSelectionEnd();
-
-                    passwordLogText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    passwordLogText.setSelection(numbre);
-
-
-                } else {
-                    int numbre = passwordLogText.getSelectionEnd();
-                    passwordLogText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    passwordLogText.setSelection(numbre);
-                }
-            }
-        });
-
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    private void saveLoginSharedPreference(String emailTxt, String passTxt,String cus_id,String last_n,String first_n,String gender) {
 
-        // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == CODIGO_ACTIVIDAD) && (resultCode == RESULT_OK)) {
-
-            emailLogText.setText(data.getDataString());
-            passwordLogText.setText("");
-
-            Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Ingrese su contraseña", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null);
-            View sbView = snackbar.getView();
-            sbView.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.mensajeok));
-            snackbar.show();
-        }
+        SharedPreferences sharedPref = getSharedPreferences("logvalidate",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("email",emailTxt);
+        editor.putString("psswd",passTxt);
+        editor.putString("cust_id",cus_id);
+        editor.putString("last_name",last_n);
+        editor.putString("first_name",first_n);
+        editor.putString("gender",gender);
+        editor.apply();
     }
+
 
 }

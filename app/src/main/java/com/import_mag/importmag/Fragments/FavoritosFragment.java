@@ -2,7 +2,10 @@ package com.import_mag.importmag.Fragments;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -123,7 +126,6 @@ public class FavoritosFragment extends Fragment {
                             name = nuevoName;
                         }*/
                         String cantList = psdata.getString("nbProducts");
-                        System.out.println(id_wish + " " + name);
                         favsList.add(new Favoritos(id_wish, name, cantList));
                     }
 
@@ -164,19 +166,14 @@ public class FavoritosFragment extends Fragment {
 
     public Boolean isOnlineNet() {
 
-        try {
-            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+        ConnectivityManager cm =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-            int val = p.waitFor();
-            boolean reachable = (val == 0);
-            return reachable;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
-
     @Override
     public void onResume() {
 

@@ -2,6 +2,9 @@ package com.import_mag.importmag.Fragments;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -72,6 +75,7 @@ public class InicioFragment extends Fragment {
     CategoriasAdapterInicio CatAdapter;
     List<Categoria> listCategoria = new ArrayList<>();
     RecyclerView recyclerViewCat;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -185,8 +189,6 @@ public class InicioFragment extends Fragment {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(),
                             LinearLayoutManager.HORIZONTAL, false);
                     recyclerViewcprodDestacados.setLayoutManager(layoutManager);
-
-
                     ll_home.setVisibility(View.VISIBLE);
                     img.setVisibility(View.GONE);
                 } catch (JSONException e) {
@@ -273,17 +275,13 @@ public class InicioFragment extends Fragment {
      */
     public Boolean isOnlineNet() {
 
-        try {
-            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+        ConnectivityManager cm =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-            int val = p.waitFor();
-            boolean reachable = (val == 0);
-            return reachable;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 
 

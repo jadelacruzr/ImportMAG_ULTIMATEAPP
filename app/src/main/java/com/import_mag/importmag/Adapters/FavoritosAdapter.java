@@ -57,8 +57,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<FavoritosAdapter.Favo
                 Intent i = new Intent(context, FavoritoDetallesActivity.class);
                 i.putExtra("id_wishlist", favoritosList.get(position).getId_wishlist());
                 i.putExtra("name_fav", favoritosList.get(position).getWishlistName());
-                context.startActivity(i);
-            }
+                context.startActivity(i);            }
         });
 
     }
@@ -76,9 +75,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<FavoritosAdapter.Favo
             super(itemView);
             imagelistFavs = itemView.findViewById(R.id.imgListFavs);
             txtNombreFavs = itemView.findViewById(R.id.txt_nombFav);
-
             cant=itemView.findViewById(R.id.txtcant);
-
         }
     }
 }

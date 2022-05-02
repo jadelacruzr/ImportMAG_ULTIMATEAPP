@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,8 +28,8 @@ public class VentanaNuevaListaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nueva_lista);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        setContentView(R.layout.activity_ventana_nueva_lista);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         DisplayMetrics medidasVentana = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(medidasVentana);
         int ancho = medidasVentana.widthPixels;
@@ -70,6 +69,7 @@ public class VentanaNuevaListaActivity extends AppCompatActivity {
                                 View sbView = snackbar.getView();
                                 sbView.setBackgroundColor(ContextCompat.getColor(VentanaNuevaListaActivity.this, R.color.mensajeok));
                                 snackbar.show();
+                                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                                 finish();
 
                             }else{

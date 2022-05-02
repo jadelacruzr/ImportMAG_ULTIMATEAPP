@@ -11,20 +11,14 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
 import com.import_mag.importmag.R;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,8 +30,8 @@ public class VentanaEditarListFavsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editar_list_favs);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        setContentView(R.layout.activity_ventana_editar_list_favs);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         DisplayMetrics medidasVentana = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(medidasVentana);
         int ancho = medidasVentana.widthPixels;

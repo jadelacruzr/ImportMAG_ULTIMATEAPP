@@ -1,5 +1,8 @@
 package com.import_mag.importmag.Fragments;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -127,17 +130,13 @@ public class CategoriasFragment extends Fragment {
 
     public Boolean isOnlineNet() {
 
-        try {
-            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+        ConnectivityManager cm =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-            int val = p.waitFor();
-            boolean reachable = (val == 0);
-            return reachable;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 
     @Override

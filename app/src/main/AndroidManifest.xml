@@ -7,7 +7,6 @@
 
     <application
         android:allowBackup="true"
-
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -15,43 +14,59 @@
         android:theme="@style/Theme.ImportMAG"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activities.SobrenosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.EditarPerfilActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.VentanaAgregarLike"
+            android:exported="false"
+            android:forceDarkAllowed="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.poput" />
+        <activity
             android:name=".Activities.VentanaBuscarActivity"
             android:exported="false"
-            android:theme="@style/Theme.ImportMAG.poput"
             android:forceDarkAllowed="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.poput" />
         <activity
             android:name=".Activities.VentanaNuevaListaActivity"
             android:exported="false"
-            android:theme="@style/Theme.ImportMAG.poput"
             android:forceDarkAllowed="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.poput" />
         <activity
             android:name=".Activities.VentanaEditarListFavsActivity"
             android:exported="false"
-            android:theme="@style/Theme.ImportMAG.poput"
             android:forceDarkAllowed="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.poput" />
         <activity
             android:name=".Activities.FavoritoDetallesActivity"
             android:exported="false"
             android:forceDarkAllowed="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.NoActionBar" />
         <activity
             android:name=".Activities.PerfilClienteActivity"
             android:exported="false"
             android:forceDarkAllowed="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.NoActionBar" />
         <activity
             android:name=".Activities.DetallesProductosActivity"
             android:exported="false"
             android:forceDarkAllowed="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.NoActionBar" />
         <activity
             android:name=".Activities.BuscarProdsActivity"
             android:exported="false"
             android:forceDarkAllowed="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.NoActionBar" />
         <activity
             android:name=".Activities.SplashActivity"
             android:forceDarkAllowed="false"
@@ -59,6 +74,7 @@
             android:theme="@style/Theme.ImportMAG">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -70,18 +86,25 @@
             android:theme="@style/Theme.ImportMAG.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.ImportMAG.NoActionBar"
             android:forceDarkAllowed="false"
-            android:screenOrientation="portrait"/>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.NoActionBar" />
         <activity
             android:name=".Activities.RegistrarseActivity"
             android:forceDarkAllowed="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.NoActionBar" />
         <activity
             android:name=".Activities.LoginActivity"
             android:forceDarkAllowed="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.NoActionBar" />
+        <activity
+            android:name=".Activities.LoginValidateActivity"
+            android:forceDarkAllowed="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ImportMAG.NoActionBar" />
     </application>
 
 </manifest>

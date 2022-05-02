@@ -3,7 +3,10 @@ package com.import_mag.importmag.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,7 +47,6 @@ public class RegistrarseActivity extends AppCompatActivity {
      */
     private Button btnRegistro;
     private EditText emailText, passwordTex, nameText, apellidosText, efecha, passwordconfirmText;
-    private CheckBox checkRegisterViewPass, checkRegisterConfirmViewPass;
     private TextView enlace_IniciarSesion;
     private ImageView cerrar;
     private RadioButton radioButton;
@@ -74,33 +76,15 @@ public class RegistrarseActivity extends AppCompatActivity {
         btnRegistro = findViewById(R.id.btnRegistrar);
         emailText = findViewById(R.id.emailText);
         passwordTex = findViewById(R.id.passwordText);
-        checkRegisterViewPass = findViewById(R.id.checkRegisterViewPass);
+
         passwordconfirmText = findViewById(R.id.passwordConfirmText);
-        checkRegisterConfirmViewPass = findViewById(R.id.checkRegisterConfirmViewPass);
+
         nameText = findViewById(R.id.nameText);
         apellidosText = findViewById(R.id.nickText);
         enlace_IniciarSesion = findViewById(R.id.enlace_IniciarSesion);
         cerrar = findViewById(R.id.salirRegistro);
         radiogroup = findViewById(R.id.rdGrupo);
 
-
-        /**
-         * Acción para mostrar contraseña al usuario en el campo contraseña.
-         */
-        checkRegisterViewPass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    int numbre = passwordTex.getSelectionEnd();
-                    passwordTex.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    passwordTex.setSelection(numbre);
-                } else {
-                    int numbre = passwordTex.getSelectionEnd();
-                    passwordTex.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    passwordTex.setSelection(numbre);
-                }
-            }
-        });
         /**
          * Método que redirige a la actividad de inicio de sesion
          */
@@ -127,20 +111,6 @@ public class RegistrarseActivity extends AppCompatActivity {
         /**
          * Acción para mostrar contraseña al usuario en el campo confirmar contraseña.
          */
-        checkRegisterConfirmViewPass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    int numbre = passwordconfirmText.getSelectionEnd();
-                    passwordconfirmText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    passwordconfirmText.setSelection(numbre);
-                } else {
-                    int numbre = passwordconfirmText.getSelectionEnd();
-                    passwordconfirmText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    passwordconfirmText.setSelection(numbre);
-                }
-            }
-        });
 
         /**
          * Acción del botón registrar, que obtiene los datos de la vista y verifica si están llenos
@@ -154,6 +124,7 @@ public class RegistrarseActivity extends AppCompatActivity {
                 passwordConfirm = passwordconfirmText.getText().toString();
                 name = nameText.getText().toString();
                 last_name = apellidosText.getText().toString();
+
                 int radioID = radiogroup.getCheckedRadioButtonId();
                 radioButton = findViewById(radioID);
                 gender = radioButton.getText().toString();
@@ -258,7 +229,7 @@ public class RegistrarseActivity extends AppCompatActivity {
             final Response.ErrorListener errorListener = new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    String mensaje2 = "Usuario registrado correctamente";
+
                     Snackbar snackbar = Snackbar.make(getWindow().findViewById(android.R.id.content), "Usuario registrado correctamente", Snackbar.LENGTH_LONG)
                             .setAction("Action", null);
                     View sbView = snackbar.getView();
@@ -267,9 +238,6 @@ public class RegistrarseActivity extends AppCompatActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent data2 = new Intent();
-                            data2.setData(Uri.parse(email2));
-                            setResult(RESULT_OK, data2);
                             finish();
                         }
                     }, 1500);
@@ -288,16 +256,12 @@ public class RegistrarseActivity extends AppCompatActivity {
 
     public Boolean isOnlineNet() {
 
-        try {
-            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+        ConnectivityManager cm =
+                (ConnectivityManager) RegistrarseActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-            int val = p.waitFor();
-            boolean reachable = (val == 0);
-            return reachable;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 }
